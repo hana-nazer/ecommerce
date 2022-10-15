@@ -112,11 +112,20 @@
                                         </div>                                           
                                     </div>
                                 </li>     -->
-                                <li class="dropdown"><a href="#">Account</a>
+                                <li class="dropdown"><a href="#">
+                                    <% if(name){ %>
+                                        <%= name.userName %>
+                                        <% }else{ %>
+                                            Account
+                                            <% } %>
+                                </a>
                                     <ul>
-                                        <li><a href="/login">Login/Register</a></li>
-                                        <!-- <li><a href="blog-2.html">Blog 02</a></li>
-                                        <li><a href="blog-3.html">Blog 03</a></li>
+                                        <% if (name){ %>
+                                        <li><a href="/logout">Logout</a></li>
+                                        <% }else{ %>
+                                        <li><a href="/login">Login</a></li>
+                                        <% } %>
+                                      <!-- <li><a href="blog-3.html">Blog 03</a></li>
                                         <li><a href="blog-4.html">Blog 04</a></li>
                                         <li><a href="blog-5.html">Blog 05</a></li>
                                         <li><a href="blog-details.html">Blog Details 01</a></li>
