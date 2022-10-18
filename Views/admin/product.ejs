@@ -22,7 +22,7 @@
             <% product.forEach(function(product){ %>
             <tr>
               <th scope="row">1</th>
-              <td><img src="/" alt="image not found" style="width:40px;height:40px"></td>
+              <td><img src="/productImages/<%=product.image[0]%>" alt="image not found" style="width:40px;height:40px"></td>
               <td><%=product.name %></td>
               <td><%=product.category %></td>
               <td><%=product.price %></td>

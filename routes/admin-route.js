@@ -33,4 +33,13 @@ router.get('/category',adminController.getCategory)
 //logout
 router.get('/logout',adminController.adminLogout)
 
+//block user
+router.get('/blockUser/:id',adminController.blockUser)
+
+//unblock user
+router.get('/unBlockUser/:id',adminController.unBlock)
+
+
+
+
 module.exports=router

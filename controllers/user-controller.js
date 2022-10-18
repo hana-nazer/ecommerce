@@ -31,7 +31,8 @@ module.exports = {
                     userName: userName,
                     userEmail: userEmail,
                     mobile: mobile,
-                    password: password
+                    password: password,
+                    status:"true"
                 })
                 console.log(user)
                 user.save()
@@ -59,9 +60,12 @@ module.exports = {
               res.redirect('/')
         }else{
             let user = req.session.usr
+           
             // console.log(user);
             
-        res.render('user/login',{user})
+        res.render('user/login',{user,"loginErr":req.session.loginErr})
+         req.session.loginErr = false 
+        
         }
        
        
@@ -70,23 +74,37 @@ module.exports = {
     postLogin: async (req, res) => {
         let user = await userModel.findOne({ userEmail: req.body.email })
         // console.log(user)
-        if (user) {
-            bcrypt.compare(req.body.password, user.password).then((data) => {
+        if(user.status==="true"){
+            if (user) {
+                bcrypt.compare(req.body.password, user.password).then((data) => {
                  if (data) {
                     req.session.userloggedIn = true
                     req.session.usr = user
                    res.redirect('/')
                    }
                     else{
+                        req.session.loginErr = "Invalid  password"
                     console.log("login failed");
                     res.redirect('/login')
                 }
             })
-        }
-        else{
+        }else{
+            req.session.loginErr = "Invalid Email "
             console.log("login failed");
             res.redirect('/login')
         }
+        }else{
+            req.session.loginErr = "you are blocked by the Admin"
+            res.redirect('/login')
+        }
+               
+        
+       
+        // else{
+        //     req.session.loginErr = "Invalid username "
+        //     console.log("login failed");
+        //     res.redirect('/login')
+        // }
      },
 
     //  ----------------------user info ----------------------//
@@ -100,6 +118,7 @@ module.exports = {
     getLogout:(req,res)=>{
         req.session.usr=null
         req.session.userloggedIn= false
+        req.session.loginErr=false
             res.redirect('/')
     }
 }

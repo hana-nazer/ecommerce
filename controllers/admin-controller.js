@@ -73,6 +73,8 @@ module.exports = {
         if(req.session.admin){
             // req.session.adminLoggedIn = true;
             productSchema.find({},function(err,product){
+                console.log(product);
+
                 if(err){
                     res.send(err)
                 }
@@ -95,16 +97,21 @@ module.exports = {
      //post add product
     //to get added products
     product:(req,res)=>{
-        const {name,category,price,quantity,description}=req.body
+        const imageName = [];
+        for(file of req.files){
+            imageName.push(file.filename);
+        }
+        const {img,name,category,price,quantity,description}=req.body
         const product = new productSchema({
+            image : imageName,
             name,
             category,
             price,
             quantity,
             description
         })
-           product.save()
-           res.render('/admin/product')
+           product.save();
+           res.redirect('/admin/product')
     },
 
 
@@ -112,6 +119,33 @@ module.exports = {
     getCategory:(req,res)=>{
         res.render('admin/category')
     },
+
+
+    //blockUser
+    blockUser:async(req,res)=>{
+       console.log(req.params.id); 
+       let userId = req.params.id
+      await userModel.updateOne({_id:userId},{
+        $set : {
+            status:"false"
+        }
+      })
+      res.redirect('/admin/user-option')
+    },
+
+    //unblock 
+    unBlock:async(req,res)=>{
+        console.log(req.params.id); 
+        let userId = req.params.id
+       await userModel.updateOne({_id:userId},{
+         $set : {
+             status:"true"
+         }
+       })
+       res.redirect('/admin/user-option')
+    },
+
+
 
     adminLogout:(req,res)=>{
         req.session.adminLoggedIn= false

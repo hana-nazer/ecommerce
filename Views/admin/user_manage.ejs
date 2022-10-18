@@ -41,7 +41,12 @@
                             <tr>
                                 <td><%=data.userName%></td>
                                 <td><%=data.mobile%></td>
-                                <td><a href="">block</a></td>
+                               <td><% if(data.status==="true"){%> 
+                                <a href="/admin/blockUser/<%=data._id%>" style="text-decoration: none;">block</a>
+                                <%}else{%>
+                                  <a href="/admin/unBlockUser/<%=data._id%>" style="text-decoration: none;">Unblock</a>
+                                <%}%>
+                              </td>
                               </tr>
                        <%})%>
                        
