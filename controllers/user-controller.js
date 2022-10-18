@@ -5,13 +5,15 @@ const bcrypt = require('bcrypt')
 
 module.exports = {
     getHome: (req, res) => {
-        res.render('user/home',{name:req.session.user})
+        let user =req.session.usr
+        console.log(user)
+        res.render('user/home',{user})
     },
 
     // -------------------------------------signup--------------------------------------------------//
 
     getSignup: (req, res) => {
-        res.render('user/login',{name:req.session.user})
+        res.render('user/login')
     },
 
     postSignup: (req, res, next) => {
@@ -35,6 +37,8 @@ module.exports = {
                 user.save()
                     .then(result => {
                         console.log(result);
+                        req.session.userloggedIn = true
+                        req.session.usr=user
                         res.redirect('/')
                     })
                     .catch(err => {
@@ -50,22 +54,30 @@ module.exports = {
     //  ------------------------------------------Login--------------------------------------------------//
 
     getLogin: (req, res) => {
-        res.render('user/login',{name:req.session.user})
+
+        if(req.session.usr){
+              res.redirect('/')
+        }else{
+            let user = req.session.usr
+            // console.log(user);
+            
+        res.render('user/login',{user})
+        }
+       
+       
     },
     
     postLogin: async (req, res) => {
         let user = await userModel.findOne({ userEmail: req.body.email })
-        console.log(user)
+        // console.log(user)
         if (user) {
             bcrypt.compare(req.body.password, user.password).then((data) => {
-                req.session.user=user
-                if (data) {
-                   
-                        res.redirect('/')
-                  
-                    }
-                   
-                else{
+                 if (data) {
+                    req.session.userloggedIn = true
+                    req.session.usr = user
+                   res.redirect('/')
+                   }
+                    else{
                     console.log("login failed");
                     res.redirect('/login')
                 }
@@ -77,11 +89,17 @@ module.exports = {
         }
      },
 
+    //  ----------------------user info ----------------------//
+    userInfo:(req,res)=>{
+        let user =req.session.usr
+        console.log(user);
+            res.render('user/userInfo',{user})
+    },
+
     //  --------------------logout----------------------------//
     getLogout:(req,res)=>{
-        req.session.destroy(function(error){
-            console.log("Session Destroyed")
-        })
+        req.session.usr=null
+        req.session.userloggedIn= false
             res.redirect('/')
     }
 }

@@ -113,14 +113,14 @@
                                     </div>
                                 </li>     -->
                                 <li class="dropdown"><a href="#">
-                                    <% if(name){ %>
-                                        <%= name.userName %>
+                                    <% if(user){ %>
+                                        <%= user.userName %>
                                         <% }else{ %>
                                             Account
                                             <% } %>
-                                </a>
+                                        </a>
                                     <ul>
-                                        <% if (name){ %>
+                                        <% if (user){ %>
                                         <li><a href="/logout">Logout</a></li>
                                         <% }else{ %>
                                         <li><a href="/login">Login</a></li>
@@ -145,8 +145,16 @@
                             <button type="button" class="search-toggler"><i class="flaticon-search"></i></button>
                         </div>
                     </li>
-                    <li><a href="index.html"><i class="flaticon-like"></i></a></li>
-                    <li><a href="index.html"><i class="flaticon-user"></i></a></li>
+                    <!-- <li><a href="index.html"><i class="flaticon-like"></i></a></li> -->
+                   
+                    <li> <% if (user) {%>
+                        <a href="/userInfo"><i class="flaticon-user"></i></a>
+                         <% } else {%>
+                        <a href="/login"><i class="flaticon-user"></i></a> <%}%>
+                    </li>
+                   
+                  
+                   
                     <li class="shop-cart">
                         <a href="shop.html"><i class="flaticon-shopping-cart-1"></i><span>3</span></a>
                     </li>

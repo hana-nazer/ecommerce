@@ -19,6 +19,9 @@ router.get('/login',userController.getLogin)
 //login page post
 router.post('/login',userController.postLogin)
 
+//user_info
+router.get('/userInfo',userController.userInfo)
+
 //logout
 router.get('/logout',userController.getLogout)
 
