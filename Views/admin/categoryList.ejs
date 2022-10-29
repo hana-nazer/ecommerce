@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Skydash Admin</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="../vendors/feather/feather.css">
+  <link rel="stylesheet" href="../vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="../vendors/css/vendor.bundle.base.css">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <link rel="stylesheet" href="../vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+  <link rel="stylesheet" href="../vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" type="text/css" href="../js/select.dataTables.min.css">
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="../css/vertical-layout-light/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="images/favicon.png" />
+   <!-- sweetalert -->
+   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+
+
+<body>
+
+  <body>
+    <div class="container-scroller">
+      <!-- partial:../../partials/_navbar.html -->
+      
+      <!-- navbar on top -->
+<div class="container-scroller">
+  <!-- partial:partials/_navbar.html -->
+  <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+    <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+      <a class="navbar-brand brand-logo mr-5" href="/admin">
+        <h2>BeYou</h2>
+      </a>
+      <a class="navbar-brand brand-logo-mini" href="/admin"><img src="images/logo-mini.svg" alt="logo" /></a>
+    </div>
+    <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+      <ul class="navbar-nav mr-lg-2">
+        <li class="nav-item nav-search d-none d-lg-block">
+          <div class="input-group">
+            <div class="input-group-prepend hover-cursor" id="navbar-search-icon">
+              <span class="input-group-text" id="search">
+                <i class="icon-search"></i>
+              </span>
+            </div>
+            <input type="text" class="form-control" id="navbar-search-input" placeholder="Search now"
+              aria-label="search" aria-describedby="search">
+          </div>
+      </ul>
+      <ul class="navbar-nav navbar-nav-right">
+        <li class="nav-item nav-profile dropdown">
+          <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+            <img src="/admin/images/faces/face28.jpg" alt="profile" />
+          </a>
+          <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+            <a class="dropdown-item" href="/admin/logout">
+              <i class="ti-power-off text-primary"></i>
+              Logout
+            </a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+<!-- navbar top ends -->
+
+
+
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+
+
+
+
+
+          <%- include('./includes/side-nav')%>
+            <!-- partial:../../partials/_sidebar.html -->
+
+
+
+
+            <!-- partial -->
+            <div class="main-panel">
+              <div class="content-wrapper">
+                <div class="row">
+                  <div class="">
+                    <div class="card">
+                      <div class="card-body">
+                        <h4 class="card-title">Products</h4>
+
+                        <div class="">
+                          <table class="table table-bordered">
+                            <thead>
+                              <tr>
+                                <th scope="col">No:</th>
+                                <th scope="col">Image</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">category</th>
+                                <th scope="col">price</th>
+                                <th scope="col">quantity</th>
+                                <th scope="col">description</th>
+                                <th scope="col">options</th>
+
+                                
+
+
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <% selectedProducts.forEach(function(selectedProducts,index){ %>
+                                <tr>
+                                  <th scope="row"><%=index+1%></th>
+                                  <td><img src="/productImages/<%=selectedProducts.image[0]%>" alt="image not found"
+                                      style="width:40px;height:40px"></td>
+                                  <td>
+                                    <%=selectedProducts.name %>
+                                  </td>
+                                  <td>
+                                    <%=selectedProducts.category %>
+                                  </td>
+                                  <td>
+                                    <%=selectedProducts.price %>
+                                  </td>
+                                  <td>
+                                    <%=selectedProducts.quantity %>
+                                  </td>
+                                  <td>
+                                    <%=selectedProducts.description %>
+                                  </td>
+                                  <td><a href="/admin/edit-product/<%=selectedProducts._id%>" class="btn  btn-primary">Edit</a>
+                                    <% if(selectedProducts.active===true){%>
+                                      <button class="btn btn-danger"
+                                        onclick="productDelete('<%=selectedProducts._id%>')">Hide</button>
+                                      <%}else{%>
+                                        <button class="btn btn-success"
+                                          onclick="productDelete('<%=selectedProducts._id%>')">Unhide</button>
+                                        <%}%>
+                                  </td>
+                                  
+                                <%})%>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- content-wrapper ends -->
+              <!-- partial:../../partials/_footer.html -->
+              <%- include('./includes/admin-footer')%>
+                <!-- partial -->
+            </div>
+            <!-- main-panel ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <script>
+      function productDelete(productId) {
+        console.log(productId);
+        Swal.fire({
+          title: "Are you sure",
+          text: "you can revert whenever you need",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#3085d6',
+          confirmButtonText: 'Yes!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // console.log(('hoihoi'));
+            $.ajax({
+              url: '/admin/delete-product/' + productId,
+              method: 'post',
+              success: (response) => {
+                if (response.status) {
+                  swal.fire({
+                    icon: 'success',
+                    title: 'Hided the product successfully',
+                    showConfirmButton: false,
+                  }).then(() => {
+                    setTimeout(() => {
+                      location.reload()
+                    }, 500)
+                  })
+                } else {
+                  swal.fire({
+                    icon: 'success',
+                    title: 'Unhided the product successfully',
+                    showConfirmButton: false,
+                  }).then(() => {
+                    setTimeout(() => {
+                      location.reload()
+                    }, 500)
+                  })
+                }
+              }
+            })
+          }
+        }
+        )
+      }
+    </script>
+    
+    <%- include('./includes/script')%>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <title>Be You</title>
+
+    <!-- Fav Icon -->
+    <link rel="icon" href="/user/images/title-icon.ico" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link href="/user/user-css/font-awesome-all.css" rel="stylesheet">
+    <link href="/user/user-css/flaticon.css" rel="stylesheet">
+    <link href="/user/user-css/owl.css" rel="stylesheet">
+    <link href="/user/user-css/bootstrap.css" rel="stylesheet">
+    <link href="/user/user-css/jquery.fancybox.min.css" rel="stylesheet">
+    <link href="/user/user-css/animate.css" rel="stylesheet">
+    <link href="/user/user-css/style.css" rel="stylesheet">
+    <link href="/user/user-css/responsive.css" rel="stylesheet">
+
+
+
+</head>
+
+<body>
+    <%- include('./includes/user-navbar')%>
+
+        <!-- <div class="conatiner"> -->
+        <!-- <div class="row"> -->
+
+        <!-- product-details -->
+        <section class="product-details product-details-1">
+            <div class="auto-container">
+                <div class="product-details-content">
+                    <div class="row clearfix">
+                        <div class="col-lg-6 col-md-12 col-sm-12 image-column">
+                            <figure class="product-image">
+                                <img src="/productImages/<%=product.image[0]%>" style="height:700px;width:650px" alt="">
+                                <a href="/productImages/<%=product.image[0]%>" class="lightbox-image"><i
+                                        class="flaticon-search-2"></i></a>
+                            </figure>
+                        </div>
+
+
+                        <div class="col-lg-6 col-md-12 col-sm-12 content-column">
+                            <div class="product-info">
+                                <h3>
+                                    <%=product.name%>
+                                </h3>
+                                <div class="customer-review clearfix">
+                                    <ul class="rating-box clearfix">
+                                        <li><i class="flaticon-star"></i></li>
+                                        <li><i class="flaticon-star"></i></li>
+                                        <li><i class="flaticon-star"></i></li>
+                                        <li><i class="flaticon-star"></i></li>
+                                        <li><i class="flaticon-star"></i></li>
+                                    </ul>
+                                    <div class="reviews"><a href="product-single.html">(5 Reviews)</a></div>
+                                </div>
+                                <span class="item-price">
+                                    <%=product.price%>
+                                </span>
+                                <div class="text">
+                                    <p>
+                                        <%=product.description%>
+                                    </p>
+
+
+
+                                </div>
+                                <div class="othre-options clearfix">
+                                    <div class="item-quantity">
+                                        <input class="quantity-spinner" type="text" value="1" name="quantity">
+
+                                    </div>
+                                    <div class="btn-box"><button type="button" class="theme-btn-two">Add to
+                                            cart</button></div>
+                                    <ul class="info clearfix">
+                                        <li><a href="product-details.html"><i class="flaticon-heart"></i></a></li>
+                                        <li><a href="product-details.html"><i class="flaticon-search"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="other-links">
+                                    <ul class="clearfix">
+
+                                        <li>Category: <a href="product-details.html">
+                                                <%=product.category%>
+                                            </a></li>
+
+                                    </ul>
+                                </div>
+                                <ul class="share-option clearfix">
+                                    <li>
+                                        <h5>Follow Us:</h5>
+                                    </li>
+                                    <li><a href="shop-details.html"><i class="fab fa-facebook-f"></i></a></li>
+                                    <li><a href="shop-details.html"><i class="fab fa-twitter"></i></a></li>
+                                    <li><a href="shop-details.html"><i class="fab fa-vimeo-v"></i></a></li>
+                                    <li><a href="shop-details.html"><i class="fab fa-google-plus-g"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <div class="related-product">
+                    <div class="sec-title style-two">
+                        <h2>Related Products</h2>
+                        <p>There are some product that we featured for choose your best</p>
+                        <span class="separator"
+                            style="background-image: url(assets/images/icons/separator-2.png);"></span>
+                    </div>
+
+                    <div class="row clearfix">
+                        <% relatedProducts.forEach(function(relatedProducts){%>
+
+                            <div class="col-lg-3 col-md-6 col-sm-12 shop-block">
+                                <div class="shop-block-one">
+                                    <div class="inner-box">
+                                        <figure class="image-box">
+                                            <img src="/productImages/<%=relatedProducts.image[0]%>"
+                                                style="height:350px;width:300px" alt="Image not found">
+                                            <ul class="info-list clearfix">
+                                                <li><a href="index.html"><i class="flaticon-heart"></i></a></li>
+                                                <li><a href="product-details.html">Add to cart</a></li>
+                                                <li><a href="assets/images/resource/shop/shop-1.jpg"
+                                                        class="lightbox-image" data-fancybox="gallery"><i
+                                                            class="flaticon-search"></i></a></li>
+                                            </ul>
+                                        </figure>
+                                        <div class="lower-content">
+                                            <a href="product-details.html">
+                                                <%=relatedProducts.name%>
+                                            </a>
+                                            <span class="price">
+                                                <%=relatedProducts.price%>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <%})%>
+                        </div>
+                            
+
+
+
+</body>
+
+</html>
+
+<%- include('./includes/script')%>

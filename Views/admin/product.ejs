@@ -1,40 +1,140 @@
-<html>
-    <body>
-        <section>
-            <div class="container">
-               
-                <table class="table mt-5">
-          <thead>
-            <tr>
-              <th scope="col">No:</th>
-              <th scope="col">Image</th>
-              <th scope="col">Name</th>
-              <th scope="col">category</th>
-              <th scope="col">price</th>
-              <th scope="col">quantity</th>
-              <th scope="col">description</th>
-              <th scope="col">Options</th>
-              
-              
-            </tr>
-          </thead>
-          <tbody>
-            <% product.forEach(function(product){ %>
-            <tr>
-              <th scope="row">1</th>
-              <td><img src="/productImages/<%=product.image[0]%>" alt="image not found" style="width:40px;height:40px"></td>
-              <td><%=product.name %></td>
-              <td><%=product.category %></td>
-              <td><%=product.price %></td>
-              <td><%=product.quantity %></td>
-              <td><%=product.description %></td>
-              <td><a href="/" class="btn  btn-primary">Edit</a>
-              <a href="/" class="btn btn-danger" onclick=" return confirm ('Are you want to delete')">Delete</a></td>
-            </tr>
-           <%})%>
-          </tbody>
-        </table>
+<%- include('./includes/admin-header')%>
+
+  <body>
+    <div class="container-scroller">
+      <!-- partial:../../partials/_navbar.html -->
+      <%- include('./includes/admin-navbar')%>
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+
+
+
+
+
+          <%- include('./includes/side-nav')%>
+            <!-- partial:../../partials/_sidebar.html -->
+
+
+
+
+            <!-- partial -->
+            <div class="main-panel">
+              <div class="content-wrapper">
+                <div class="row">
+                  <div class="">
+                    <div class="card">
+                      <div class="card-body">
+                        <h4 class="card-title">Products</h4>
+
+                        <div class="">
+                          <table class="table table-bordered">
+                            <thead>
+                              <tr>
+                                <th scope="col">No:</th>
+                                <th scope="col">Image</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">category</th>
+                                <th scope="col">price</th>
+                                <th scope="col">quantity</th>
+                                <th scope="col">description</th>
+                                <th scope="col">Options</th>
+
+
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <% product.forEach(function(product,index){ %>
+                                <tr>
+                                  <th scope="row"><%=index+1%></th>
+                                  <td><img src="/productImages/<%=product.image[0]%>" alt="image not found"
+                                      style="width:40px;height:40px"></td>
+                                  <td>
+                                    <%=product.name %>
+                                  </td>
+                                  <td>
+                                    <%=product.category %>
+                                  </td>
+                                  <td>
+                                    <%=product.price %>
+                                  </td>
+                                  <td>
+                                    <%=product.quantity %>
+                                  </td>
+                                  <td>
+                                    <%=product.description %>
+                                  </td>
+                                  <td><a href="/admin/edit-product/<%=product._id%>" class="btn  btn-primary">Edit</a>
+                                    <% if(product.active===true){%>
+                                      <button class="btn btn-danger"
+                                        onclick="productDelete('<%=product._id%>')">Hide</button>
+                                      <%}else{%>
+                                        <button class="btn btn-success"
+                                          onclick="productDelete('<%=product._id%>')">Unhide</button>
+                                        <%}%>
+                                  </td>
+                                </tr>
+                                <%})%>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- content-wrapper ends -->
+              <!-- partial:../../partials/_footer.html -->
+              <%- include('./includes/admin-footer')%>
+                <!-- partial -->
             </div>
-        </section>
-    </body>
-</html>
+            <!-- main-panel ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <script>
+      function productDelete(productId) {
+        Swal.fire({
+          title: "Are you sure",
+          text: "you can revert whenever you need",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#3085d6',
+          confirmButtonText: 'Yes!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // console.log(('hoihoi'));
+            $.ajax({
+              url: '/admin/delete-product/' + productId,
+              method: 'post',
+              success: (response) => {
+                if (response.status) {
+                  swal.fire({
+                    icon: 'success',
+                    title: 'Hided the product successfully',
+                    showConfirmButton: false,
+                  }).then(() => {
+                    setTimeout(() => {
+                      location.reload()
+                    }, 500)
+                  })
+                } else {
+                  swal.fire({
+                    icon: 'success',
+                    title: 'Unhided the product successfully',
+                    showConfirmButton: false,
+                  }).then(() => {
+                    setTimeout(() => {
+                      location.reload()
+                    }, 500)
+                  })
+                }
+              }
+            })
+          }
+        }
+        )
+      }
+    </script>
+    <%- include('./includes/script')%>

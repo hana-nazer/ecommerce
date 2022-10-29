@@ -26,6 +26,11 @@ const productSchema =new Schema({
     image:{
       type:Array,
       required:true
+    },
+    active:{
+        type:Boolean,
+        default:true
     }
+
 })
 module.exports = mongoose.model(collection.productCollection,productSchema)

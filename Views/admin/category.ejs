@@ -1,63 +1,121 @@
 <%- include('./includes/admin-header')%>
 
-<body>
-  <div class="container-scroller">
-    <!-- partial:../../partials/_navbar.html -->
-    <%- include('./includes/admin-navbar')%>
-    <!-- partial -->
-    <div class="container-fluid page-body-wrapper">
-      
-    
-
-
-
-      <%- include('./includes/side-nav')%>
-      <!-- partial:../../partials/_sidebar.html -->
-     
-
-
-
-      <!-- partial -->
-      
-      <div class="main-panel">
-        <div class="content-wrapper"><button>Add Category</button><br><br>
-          <div class="row">
-            <div class="col-lg-6 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">category</h4>
-                  
-                  <div class="table-responsive">
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th>Product Name</th>
-                          <th>option</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Jacob</td>
-                          <td>53275531</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        
-        </div>
-        <!-- content-wrapper ends -->
-        <!-- partial:../../partials/_footer.html -->
-        <%- include('./includes/admin-footer')%>
+  <body>
+    <div class="container-scroller">
+      <!-- partial:../../partials/_navbar.html -->
+      <%- include('./includes/admin-navbar')%>
         <!-- partial -->
-      </div>
-      <!-- main-panel ends -->
+        <div class="container-fluid page-body-wrapper">
+          <%- include('./includes/side-nav')%>
+            <!-- partial:../../partials/_sidebar.html -->
+
+            <!-- partial -->
+            <div class="main-panel">
+              <div class="content-wrapper">
+                <!--------Add category------>
+                <form method="post" action="/admin/add-category">
+                  <input type="text" name="category">
+                  <button type="submit" class="btn btn-primary">Add category</button><br><br>
+                </form>
+                <% if(categoryError){%>
+                  <p style="color:red">
+                    <%=categoryError%>
+                  </p>
+
+                  <%}%>
+                    <!----Add category ends----->
+                    <div class="row">
+                      <div class="col-lg-6 grid-margin stretch-card">
+                        <div class="card">
+                          <div class="card-body">
+                            <h4 class="card-title">category</h4>
+                            <div class="table-responsive">
+
+
+                              <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th>Product Name</th>
+                                    <th>products</th>
+                                    <th>option</th>
+                                  </tr>
+                                </thead>
+
+
+                                <tbody>
+                                  <% answer.forEach(function(answer){ %>
+                                    <tr>
+                                      <td>
+                                        <%=answer.category %>
+                                      </td>
+                                      <td><a href="/admin/categoryList/<%=answer.category%>"
+                                          class="btn btn-primary">show products</button></td>
+                                      <td><button class="btn btn-danger"
+                                          onclick="categoryDelete('<%=answer._id%>')">Delete</button></td>
+                                    </tr>
+                                    <%})%>
+                                </tbody>
+                              </table>
+
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+              </div>
+              <!-- content-wrapper ends -->
+            </div>
+            <!-- main-panel ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
     </div>
-    <!-- page-body-wrapper ends -->
-  </div>
-  <!-- container-scroller -->
-  <%- include('./includes/script')%>
-  
+    <!-- container-scroller -->
+
+    <script>
+      function categoryDelete(categoryId) {
+        Swal.fire({
+          title: "Are you sure",
+          text: "you won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#3085d6',
+          confirmButtonText: 'yes,Delete!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+              url: '/admin/delete-category/' + categoryId,
+              method: 'post',
+              success: (response) => {
+                if (response.status) {
+                  swal.fire({
+                    icon: 'success',
+                    title: 'Deleted successfully',
+                    showConfirmButton: false,
+                  }).then(() => {
+                    setTimeout(() => {
+                      location.reload()
+                    }, 800)
+                  })
+                }
+                else{
+                  swal.fire({
+                    icon: 'warning',
+                    title: 'Try to delete an empty category',
+                    showConfirmButton: false,
+                  }).then(() => {
+                    setTimeout(() => {
+                      location.reload()
+                    }, 800)
+                  })
+                }
+              }
+            })
+          }
+        }
+        )
+      }
+    </script>
+    <%- include('./includes/script')%>

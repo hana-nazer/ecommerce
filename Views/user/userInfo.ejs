@@ -1,17 +1,23 @@
 <%- include('./includes/user-header')%>
 <%- include('./includes/user-navbar')%>
-<section>
-     <ul>
-        <li>
-           Name : <%= user.userName %>
-        </li>
-        <li>
-            Email : <%= user.userEmail %>
-         </li>
-         <li>
-            Mobile : <%= user.mobile %>
-         </li>
-     </ul>
+<section style="padding: 10% 30%">
+
+       <div style="background-color:burlywood;padding: 5%;" class="container">
+         <ul>
+         <h1 style="text-align:center">User Info</h1>
+       <div class="d-flex justify-content-center mt-4"> <img src="/user/images/free-user-icon-3296-thumb.png" style="height:110px;width:110px"></div>
+            <li class="text-center mt-4">
+               Name : <%= userData.userName %>
+            </li>
+            <li class="text-center">
+                Email : <%= userData.userEmail %>
+             </li>
+             <li class="text-center">
+                Mobile : <%= userData.mobile %>
+             </li>
+      </ul>
+   </div>
+     
 
 </section>
 

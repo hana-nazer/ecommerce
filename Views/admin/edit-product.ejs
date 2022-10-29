@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Skydash Admin</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="../vendors/feather/feather.css">
+  <link rel="stylesheet" href="../vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="../vendors/css/vendor.bundle.base.css">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <link rel="stylesheet" href="../vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+  <link rel="stylesheet" href="../vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" type="text/css" href="../js/select.dataTables.min.css">
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="../css/vertical-layout-light/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="images/favicon.png" />
+</head>
+
+
+<body>
+  <div class="container-scroller">
+    <!-- partial:../../partials/_navbar.html -->
+    <%- include('./includes/admin-navbar')%>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+      
+    
+
+
+
+      <%- include('./includes/side-nav')%>
+      <!-- partial:../../partials/_sidebar.html -->
+     
+
+
+
+      <!-- partial -->
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="row">
+            <div class="col-lg-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                    <div class="col-12 grid-margin stretch-card">
+                        <div class="card">
+                          
+                            <form class="forms-sample" method="post" action="/admin/edit-product/<%=productId.id%>" enctype="multipart/form-data">
+                                <h2>Edit  Product</h2>
+                                <br>
+                              <div class="form-group">
+                                <label for="exampleInputName1">Name</label>
+                                <input type="text" class="form-control" name="name" id="exampleInputName1" placeholder="Name" value="<%=productId.name%>">
+                              </div>
+                              <div class="form-group">
+                                <label for="exampleInputEmail3">Category</label>
+                                <select name="category" id ="category">
+                                  <% category.forEach(function(category){ %>
+                                    <option><%= category.category%></option>
+                                    <%})%>
+                                </select>
+                              </div>
+                              <div class="form-group">
+                                <label for="exampleInputPassword4">quantity</label>
+                                <input type="number" name="quantity" class="form-control" id="exampleInputPassword4" placeholder="quantity" value="<%=productId.quantity%>">
+                              </div>
+
+
+
+                             
+                              <div class="form-group">
+                                <label for="formFile" class="form-label">Image</label>
+                                <img src="/productImages/<%=productId.image[0]%>" style="height:30px;width:30px" id="imgView"><br>
+                                <input type="file" name="productImage" class=" form-control" id="formFile" onchange="viewImage(event)" multiple>
+                                <!-- <div class="input-group col-xs-12">
+                                  <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
+                                  <span class="input-group-append">
+                                    <button class="file-upload-browse btn btn-primary" type="button">upload</button>
+                                  </span>
+                                </div> -->
+                              </div>
+
+
+
+
+                              <div class="form-group">
+                                <label for="exampleInputCity1">price</label>
+                                <input type="text" class="form-control" name="price" id="exampleInputCity1" placeholder="price" value="<%=productId.price%>">
+                              </div>
+                              <div class="form-group">
+                                <label for="exampleTextarea1">Description</label>
+                                <input type="text" class="form-control" id="exampleTextarea1" name="description" rows="4" value="<%=productId.description%>">
+                              </div>
+                              <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                              <button class="btn btn-light">Cancel</button>
+                            </form>
+                          </div>
+                          
+                      </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:../../partials/_footer.html -->
+        <%- include('./includes/admin-footer')%>
+        <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+  <script>
+    function viewImage(event){
+      document.getElementById('imgView').src=URL.createObjectURL(event.target.files[0])
+    }
+  </script>
+  <%- include('./includes/script')%>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
