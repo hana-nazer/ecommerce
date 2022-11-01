@@ -162,16 +162,16 @@
                             <% product.forEach(function(product){%>
 
                                 <div
-                                    class="col-lg-3 col-md-6 col-sm-12 shop-block masonry-item small-column best_seller new_arraivals top_rate">
-                                    <div class="shop-block-one">
-                                        <div class="inner-box">
+                                    class="col-lg-3 col-md-6 col-sm-12 shop-block masonry-item small-column best_seller new_arraivals top_rate ">
+                                    <div class="shop-block-one ">
+                                        <div class="inner-box ">
                                             <figure class="image-box zoom">
                                                 <a href="/productView/<%=product._id%>/<%=product.category%>"><img
                                                         src="/productImages/<%=product.image[0]%>"
                                                         style="height: 320px;width:700px;" alt="Image not found"></a>
                                                 <ul class="info-list clearfix">
                                                     <li><a href="index.html"><i class="flaticon-heart"></i></a></li>
-                                                    <li><a href="product-details.html">Add to cart</a></li>
+                                                    <li><a href="/addToCart/<%=product._id%>">Add to cart</a></li>
                                                     <li><a href="user/images/resource/shop/shop-1.jpg"
                                                             class="lightbox-image" data-fancybox="gallery"><i
                                                                 class="flaticon-search"></i></a></li>

@@ -1,4 +1,5 @@
 const express = require('express');
+const { TaskRouterGrant } = require('twilio/lib/jwt/AccessToken');
 const app = require('../app');
 const adminController = require('../controllers/admin-controller');
 var router = express.Router();
@@ -32,6 +33,14 @@ router.get('/productView/:id/:category',userController.productView)
 
 //single category
 router.get('/singleCategory',userController.singleCategory)
+
+//add to cart
+router.get('/addToCart/:id',userController.addToCart)
+//Viewcart
+router.get('/cart',userController.viewCart)
+
+//quantityInc
+router.post('/increment/:id',userController.quantityInc)
 
 //logout
 router.get('/logout',userController.getLogout)
