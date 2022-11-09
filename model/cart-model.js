@@ -8,7 +8,7 @@ const cartSchema = new Schema({
         require:true
     },
     cartProducts:[{
-        products:{
+        productId:{
             type:mongoose.Schema.Types.ObjectId,
             ref:'product'
         
@@ -20,9 +20,10 @@ const cartSchema = new Schema({
         name:String,
         price:Number
     }],
-    subtotal:{
+    total:{
         type:Number,
-        require:true
+        default:0
+        
     }
     
     

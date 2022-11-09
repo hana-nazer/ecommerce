@@ -1,9 +1,5 @@
-<!-- head section -->
 <%- include('./includes/user-header')%>
-    <!-- head section end -->
-
-
-    <div class="boxed_wrapper">
+ <div class="boxed_wrapper">
         <!-- navbar  -->
         <%- include('./includes/user-navbar')%>
             <!-- navbar end -->
@@ -42,7 +38,7 @@
 
             <!-- banner-section -->
             <section class="banner-style-one">
-                <div class="pattern-layer" style="background-image: url(user/images/shape/shape-1.png);"></div>
+                <div class="pattern-layer" style="background-image: url(/bannerImages/<%=banner[0].image[0]%>);"></div>
                 <div class="banner-carousel owl-theme owl-carousel">
                     <div class="slide-item">
                         <div class="auto-container">
@@ -50,58 +46,27 @@
                                 <div class="content-box">
                                     <h1>Up To <br /><span>50%</span> Discount</h1>
                                     <h3>Summer Lookbook - 2020</h3>
-                                    <p>New Modern Stylist Fashionable Men's Wear Jeans Shirt.</p>
+                                    <p><%=banner[0].description%></p>
                                     <div class="btn-box">
-                                        <a href="index.html" class="theme-btn-one">Explore Now<i
+                                        <a href="/" class="theme-btn-one">Explore Now<i
                                                 class="flaticon-right-1"></i></a>
                                     </div>
                                 </div>
-                                <figure class="image-box image-1"><img src="user/images/banner/banner-image-1.png"
+                                <% console.log(banner)%>
+                                <figure class="image-box image-1"><img src="/bannerImages/<%=banner[1].image[0]%>"
                                         alt=""></figure>
                             </div>
                         </div>
                     </div>
-                    <div class="slide-item">
-                        <div class="auto-container">
-                            <div class="content-inner">
-                                <div class="content-box">
-                                    <h1>Up To <br /><span>50%</span> Discount</h1>
-                                    <h3>Summer Lookbook - 2020</h3>
-                                    <p>New Modern Stylist Fashionable Men's Wear Jeans Shirt.</p>
-                                    <div class="btn-box">
-                                        <a href="index.html" class="theme-btn-one">Explore Now<i
-                                                class="flaticon-right-1"></i></a>
-                                    </div>
-                                </div>
-                                <figure class="image-box image-2"><img src="user/images/banner/banner-image-2.png"
-                                        alt=""></figure>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="slide-item">
-                        <div class="auto-container">
-                            <div class="content-inner">
-                                <div class="content-box">
-                                    <h1>Up To <br /><span>50%</span> Discount</h1>
-                                    <h3>Summer Lookbook - 2020</h3>
-                                    <p>New Modern Stylist Fashionable Men's Wear Jeans Shirt.</p>
-                                    <div class="btn-box">
-                                        <a href="index.html" class="theme-btn-one">Explore Now<i
-                                                class="flaticon-right-1"></i></a>
-                                    </div>
-                                </div>
-                                <figure class="image-box imgae-3"><img src="user/images/banner/banner-image-3.png"
-                                        alt=""></figure>
-                            </div>
-                        </div>
-                    </div>
+                    
+                   
                 </div>
             </section>
             <!-- banner-section end -->
 
 
             <!-- topcategory-section -->
-            <section class="topcategory-section centred">
+            <!-- <section class="topcategory-section centred">
                 <div class="auto-container">
                     <div class="sec-title">
                         <h2>Top Category</h2>
@@ -113,7 +78,8 @@
                         <div class="col-lg-3 col-md-6 col-sm-12 category-block">
                             <div class="category-block-one wow fadeInUp animated animated" data-wow-delay="00ms"
                                 data-wow-duration="1500ms">
-                                <figure class="image-box"><a href=""><img src="user/images/resource/category-1.png" alt=""></a>
+                                <figure class="image-box"><a href=""><img src="user/images/resource/category-1.png"
+                                            alt=""></a>
                                 </figure>
                                 <h5><a href="/singleCategory">Women Collections</a></h5>
                             </div>
@@ -121,7 +87,8 @@
                         <div class="col-lg-3 col-md-6 col-sm-12 category-block">
                             <div class="category-block-one wow fadeInUp animated animated" data-wow-delay="200ms"
                                 data-wow-duration="1500ms">
-                                <figure class="image-box"><a href=""><img src="user/images/resource/category-2.png" alt=""></a>
+                                <figure class="image-box"><a href=""><img src="user/images/resource/category-2.png"
+                                            alt=""></a>
                                 </figure>
                                 <h5><a href="/singleCategory">Kids Collections</a></h5>
                             </div>
@@ -130,34 +97,35 @@
                         <div class="col-lg-3 col-md-6 col-sm-12 category-block">
                             <div class="category-block-one wow fadeInUp animated animated" data-wow-delay="600ms"
                                 data-wow-duration="1500ms">
-                                <figure class="image-box"><a href=""><img src="user/images/resource/category-4.png" alt=""></a>
+                                <figure class="image-box"><a href=""><img src="user/images/resource/category-4.png"
+                                            alt=""></a>
                                 </figure>
                                 <h5><a href="/singlecategory">Gents Collections</a></h5>
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
+            </section> -->
             <!-- topcategory-section end -->
 
-         <br>
+            <br>
             <!-- shop-section -->
             <section class="shop-section">
                 <div class="auto-container">
                     <div class="sec-title">
-                        <h2>Our Top Collection</h2>
-                        <p>There are some product that we featured for choose your best</p>
+                        <!-- <h2>Our Top Collection</h2>
+                        <p>There are some product that we featured for choose your best</p> -->
                         <span class="separator"
                             style="background-image: url(user/images/icons/separator-1.png);"></span>
                     </div>
-                    <div class="sortable-masonry">
+                    <!-- <div class="sortable-masonry">
                         <div class="filters">
                             <ul class="filter-tabs filter-btns centred clearfix">
-                                <li class="active filter" data-role="button" data-filter=".best_seller">Best Seller</li>
+                                <li class="active filter" data-role="button" data-filter=".best_seller">Best Seller</li> -->
                                 <!-- <li class="filter" data-role="button" data-filter=".new_arraivals">New Arraivals</li> -->
                                 <!-- <li class="filter" data-role="button" data-filter=".top_rate">Top Rate</li> -->
-                            </ul>
-                        </div>
+                            <!-- </ul> -->
+                        <!-- </div> -->
                         <div class="items-container row clearfix">
                             <% product.forEach(function(product){%>
 
@@ -170,8 +138,9 @@
                                                         src="/productImages/<%=product.image[0]%>"
                                                         style="height: 320px;width:700px;" alt="Image not found"></a>
                                                 <ul class="info-list clearfix">
-                                                    <li><a href="index.html"><i class="flaticon-heart"></i></a></li>
-                                                    <li><a href="/addToCart/<%=product._id%>">Add to cart</a></li>
+                                                    <li><a href="/wishList/<%=product._id%>"><i
+                                                                class="flaticon-heart"></i></a></li>
+                                                    <li><a onclick="addToCart('<%=product._id%>')">Add to cart</a></li>
                                                     <li><a href="user/images/resource/shop/shop-1.jpg"
                                                             class="lightbox-image" data-fancybox="gallery"><i
                                                                 class="flaticon-search"></i></a></li>
@@ -191,6 +160,21 @@
                                 <%})%>
                         </div>
                     </div>
+                    <nav aria-label="...">
+                        <ul class="pagination pagination-sm">
+                            <%for (let i=1;i<=pages;i++){%>
+                                <%if(i==currentPage){%>
+                                    <li class="page-item"><a class="page-link active" href="/?page=<%=i%>">
+                                            <%=i%>
+                                        </a></li>
+                                    <%} else{%>
+                                        <li class="page-item"><a class="page-link " href="/?page=<%=i%>">
+                                                <%=i%>
+                                            </a></li>
+                                        <%}%>
+                                            <%}%>
+                        </ul>
+                    </nav>
                     <!-- <div class="more-btn centred"><a href="shop.html" class="theme-btn-one">View All Products<i
                                 class="flaticon-right-1"></i></a></div>
                 </div> -->
@@ -199,7 +183,7 @@
 
 
             <!-- cta-section -->
-            <section class="cta-section">
+            <!-- <section class="cta-section">
                 <div class="image-layer" style="background-image: url(user/images/background/cta-bg-1.jpg);"></div>
                 <div class="auto-container">
                     <div class="cta-inner centred">
@@ -213,11 +197,11 @@
                         <a href="shop.html" class="theme-btn-one">Shop Now<i class="flaticon-right-1"></i></a>
                     </div>
                 </div>
-            </section>
+            </section> -->
             <!-- cta-section end -->
 
 
-           
+
 
 
             <!-- service-section -->
@@ -268,13 +252,48 @@
             <!-- service-section end -->
 
 
-           
+
 
 
             <!-- footer section -->
             <%- include('./includes/user-footer')%>
                 <!-- footer end -->
+                <script>
+                    function addToCart(productId) {
+                        // Swal.fire({
+                        //     position: 'top-end',
+                        //     icon: 'success',
+                        //     title: 'Item added to cart',
+                        //     showCancellationButton: false,
 
+                        // }).then((result) => {
+                        //     if (result.isConfirmed) {
+                        console.log(productId);
+                        console.log("hiii");
+                        $.ajax({
+                            url: '/addToCart/' + productId,
+                            method: 'get',
+                            success: (response) => {
+                                if (response.status) {
+                                    swal.fire({
+                                        icon: 'success',
+                                        title: 'Added Succesfully',
+                                        showConfirmButton: false,
+                                    })
+                                    // .then(() => {
+
+                                    //     location.reload()
+
+                                    // })
+                                }
+
+                            }
+                        })
+                    }
+                        // }
+                        // )
+                    // }
+                </script>
                 <!-- script section -->
                 <%- include('./includes/script')%>
                     <!-- script end -->

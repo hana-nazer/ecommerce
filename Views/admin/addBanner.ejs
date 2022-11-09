@@ -1,0 +1,50 @@
+<%- include('./includes/admin-header')%>
+    <div class="container-scroller">
+        <%- include('./includes/admin-navbar')%>
+            <div class="container-fluid page-body-wrapper">
+                <%- include('./includes/side-nav')%>
+                    <div class="main-panel">
+                        <div class="content-wrapper">
+                            <div class="row">
+                                <div class="col-lg-6 grid-margin stretch-card">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="col-12 grid-margin stretch-card">
+                                                <div class="card">
+                                                    <form class="forms-sample" method="post" action="/admin/addBanner"
+                                                        enctype="multipart/form-data">
+                                                        <h2>Add Banner</h2>
+                                                        <br>
+                                                    <div class="form-group">
+                                                            <label for="formFile" class="form-label">Image</label>
+                                                            <input type="file" name="bannerImage" class=" form-control"
+                                                                id="formFile" multiple required>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleTextarea1">Title</label>
+                                                            <input type="text" class="form-control"
+                                                                id="exampleTextarea1" name="bannertitle"
+                                                                rows="4"></textarea>
+                                                        </div>
+                                                          <div class="form-group">
+                                                            <label for="exampleTextarea1">Description</label>
+                                                            <input type="text" class="form-control"
+                                                                id="exampleTextarea1" name="bannerdescription"
+                                                                rows="4"></textarea>
+                                                        </div>
+                                                        <button type="submit"
+                                                            class="btn btn-primary mr-2">Submit</button>
+                                                        <button class="btn btn-light">Cancel</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <%- include('./includes/admin-footer')%>
+                    </div>
+            </div>
+    </div>
+    <%- include('./includes/script')%>

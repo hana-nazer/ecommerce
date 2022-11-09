@@ -4,6 +4,9 @@ const userModel = require('../model/user-model')
 const productSchema = require('../model/product-model')
 const bcrypt = require('bcrypt')
 const categoryModel = require('../model/category-model')
+const bannerModel = require('../model/banner-model')
+const orderModel = require('../model/order-model')
+
 
 
 let categoryError;
@@ -172,6 +175,7 @@ module.exports = {
                     category: req.body.category,
                     description: req.body.description
                 })
+                console.log(req.body.name);
                 res.redirect('/admin/product')
             }
         }
@@ -211,7 +215,7 @@ module.exports = {
     //-----Add category------//
     addCategory: (req, res) => {
         try {
-         const caseCategory=req.body.category.toUpperCase()
+            const caseCategory = req.body.category.toUpperCase()
             categoryModel.find({ category: caseCategory }, (err, data) => {
                 if (data.length === 0) {
                     const category = new categoryModel({
@@ -257,11 +261,12 @@ module.exports = {
     },
 
 
-    // -----------single category---//
+    //-----------single category---//
     categoryList: async (req, res) => {
         try {
             if (req.params.category) {
                 categoryChoosen = req.params.category
+                console.log(categoryChoosen);
                 let selectedProducts = await productSchema.find({ category: categoryChoosen })
                 res.render('admin/categoryList', { selectedProducts, categoryChoosen })
             }
@@ -270,12 +275,13 @@ module.exports = {
             }
         } catch (error) {
             console.log(error);
+
         }
     },
 
 
     //---------delete category------------//
-    hideOrUnhideCategory: async (req, res) => {
+    deleteCategory: async (req, res) => {
         try {
             const categoryId = req.params.id
             const categoryList = await categoryModel.findById(categoryId)
@@ -328,6 +334,256 @@ module.exports = {
         }
     },
 
+    //---Banner page---//
+    getBannerList: (req, res) => {
+        try {
+            bannerModel.find({}, function (err, banner) {
+                if (err) {
+                    res.send(err)
+                }
+                else {
+                    res.render('admin/viewBanner', { banner })
+                }
+            })
+        }
+        catch (error) {
+            console.log(error);
+        }
+    },
+
+    //Add banner----//
+    addBanner: async (req, res) => {
+        try {
+            res.render('admin/addBanner')
+        }
+        catch (error) {
+            console.log(error);
+        }
+    },
+    //add banner post---//
+    postAddBanner: async (req, res) => {
+        try {
+            const imageName = [];
+            for (file of req.files) {
+                imageName.push(file.filename);
+            }
+            // const { bannertitle, bannerdescription } = req.body
+            const banner = new bannerModel({
+                image: imageName,
+                title: req.body.bannertitle,
+                description: req.body.bannerdescription
+            })
+            banner.save();
+            res.redirect('/admin/banner')
+        }
+        catch (error) {
+            console.log(error);
+        }
+    },
+
+
+    //----edit banner---//
+    editBanner: async (req, res) => {
+        try {
+            let bannerId = await bannerModel.findOne({ _id: req.params.id })
+
+            res.render('admin/editBanner', { bannerId })
+        }
+        catch (error) {
+            console.log(error);
+        }
+    },
+
+    //----postEdit banner---//
+    postEditBanner: async (req, res) => {
+        try {
+            const bannerId = req.params.id
+            console.log(req.files);
+            const images = [];
+            for (file of req.files) {
+                images.push(file.filename)
+            }
+            bannerModel.find({ id: bannerId }, async (err, data) => {
+                if (data.length !== 0) {
+                    await bannerModel.updateOne({ _id: bannerId }, {
+                        $set: {
+                            title: req.body.title,
+                            description: req.body.description,
+                            image: images
+                        }
+                    })
+                }
+            })
+
+
+
+
+            //  if(files){
+            //     for(i=0;i<req.files.length;i++){
+            //         images[i]=files[i].filename
+            //     }
+            //  }
+
+
+            //   req.body.image=images
+            //   await bannerModel.updateOne({_id:bannerId},{
+            //     title:req.body.title,
+            //     description:req.body.description,
+            //     image:images
+            //   })
+            //   console.log(req.body.title);
+            res.redirect('/admin/banner')
+        }
+        catch (error) {
+            console.log(error);
+        }
+    },
+
+
+    bannerHideUnhide: (req, res) => {
+        try {
+            let bannerId = req.params.id
+            bannerModel.findOne({ _id: bannerId }).then((data) => {
+                if (data.show) {
+                    bannerModel.updateOne({ _id: bannerId },
+                        { $set: { show: false } }).then(() => {
+                            res.json({ status: true })
+                        })
+                }
+                else {
+                    bannerModel.updateOne({ _id: bannerId },
+                        { $set: { show: true } }).then(() => {
+                            res.json({ status: false })
+                        })
+                }
+            }).catch((err) => {
+                console.log(err);
+            })
+        }
+        catch (error) {
+            console.log(error);
+        }
+    },
+
+
+    //--------order Management----------//
+    viewOrder: (req, res) => {
+        try {
+            orderModel.find().then((orders) => {
+                res.render('admin/viewOrders', { orders })
+
+            })
+        } catch (error) {
+
+        }
+    },
+
+
+    viewOrderDetails: async (req, res) => {
+        try {
+            orderId = req.params.id
+            let order = await orderModel.findById({ _id: orderId }).populate('order.productId').exec()
+            let products = order.order
+            console.log(products);
+            res.render('admin/orderDetails', { order, products })
+        } catch (error) {
+
+        }
+
+    },
+
+    approveOrders: async (req, res) => {
+        try {
+            let orderId = req.params.id
+            console.log("orderId is ertyuijhgfd");
+            console.log(orderId);
+            await orderModel.updateOne({ _id: orderId }, {
+                $set: { orderStatus: "Approved" }
+            }).then(() => {
+                res.redirect(`/admin/orderDetails/${orderId}`)
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    },
+
+    dispatchedOrders: async (req, res) => {
+        try {
+            let orderId = req.params.id
+            console.log("orderId is ertyuijhgfd");
+            console.log(orderId);
+            await orderModel.updateOne({ _id: orderId }, {
+                $set: { orderStatus: "Dispatched" }
+            }).then(() => {
+                res.redirect(`/admin/orderDetails/${orderId}`)
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    },
+
+    deliveredOrders: async (req, res) => {
+        try {
+            let orderId = req.params.id
+            console.log("orderId is ertyuijhgfd");
+            console.log(orderId);
+            await orderModel.updateOne({ _id: orderId }, {
+                $set: {
+                    orderStatus: "Delivered",
+                    paymentStatus: "completed"
+                }
+            }).then(() => {
+                res.redirect(`/admin/orderDetails/${orderId}`)
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    },
+
+    cancelledOrders: async (req, res) => {
+        try {
+            let orderId = req.params.id
+            console.log("orderId is ertyuijhgfd");
+            console.log(orderId);
+            await orderModel.updateOne({ _id: orderId }, {
+                $set: {
+                    orderStatus: "Cancelled",
+                    paymentStatus: "order is cancelled"
+                }
+            }).then(() => {
+                res.redirect(`/admin/orderDetails/${orderId}`)
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    },
+
+    viewPendingOrders: async (req, res) => {
+        try {
+            orderModel.find({ orderStatus: "pending" }).then((orders) => {
+                res.render('admin/pendingOrders', { orders })
+            })
+        } catch (error) {
+
+        }
+
+    },
+
+    viewApprovedOrders: (req, res) => {
+        res.render('admin/approvedOrders')
+    },
+
+    viewDispatchedOrders: (req, res) => {
+        res.render('admin/dispatchedOrders')
+    },
+
+    viewDeliveredOrders: (req, res) => {
+        res.render('admin/deliveredOrders')
+    },
+
+    viewCancelledOrders: (req, res) => {
+        res.render('admin/cancelledOrders')
+    },
 
     //-----------------logout-------------------//
     adminLogout: (req, res) => {

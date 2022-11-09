@@ -1,0 +1,207 @@
+<%- include('./includes/user-header')%>
+    <%- include('./includes/user-navbar')%>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+
+
+
+        <!-- page-title -->
+        <section class="page-title centred">
+            <div class="pattern-layer" style="background-image: url(assets/images/background/page-title.jpg);"></div>
+            <div class="auto-container">
+                <div class="content-box">
+                    <h1>Checkout Page</h1>
+                    <ul class="bread-crumb clearfix">
+                        <li><i class="flaticon-home-1"></i><a href="index.html">Home</a></li>
+                        <li>Checkout Page</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <!-- page-title end -->
+
+
+        <!-- checkout-section -->
+        <section class="checkout-section">
+            <div class="container">
+
+                <!-- <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 upper-column">
+                        <div class="upper-box">
+                            <div class="customer single-box">Returning Customer? <a href="#">Click here to Login</a></div>
+                            <div class="coupon single-box">Have a Coupon? <a href="#">Click here to enter your code</a></div>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="row">
+                    <form action="" method="" class="billing-form" id="checkoutform">
+
+
+                        <div class="col-lg-6 col-md-12 col-sm-12 left-column">
+                            <div class="inner-box">
+                                <div class="billing-info">
+                                    <h4 class="sub-title">Billing Details</h4>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+                                            <label> Name*</label>
+                                            <div class="field-input">
+                                                <input type="text" name="name" id="name">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+                                            <label>Phone Number*</label>
+                                            <div class="field-input">
+                                                <input type="text" name="phone" id="phone">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                                            <label>Address*</label>
+                                            <div class="field-input">
+                                                <input type="text" name="address" class="address" id="address">
+                                                <!-- <input type="text" name="address" id="addres"> -->
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                                            <label>Town/City*</label>
+                                            <div class="field-input">
+                                                <input type="text" name="town_city" id="city">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+                                            <label>State*</label>
+                                            <div class="select-column select-box">
+                                                <select class="selectmenu" id="select" id="ui-id-2" name="state">
+                                                    <option selected="selected" value="0">Select Option</option>
+                                                    <option>kerala</option>
+                                                    <option>Tamilnadu</option>
+                                                    <option>Karnataka</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+                                            <label>Zip Code*</label>
+                                            <div class="field-input">
+                                                <input type="text" name="zip" id="zip">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!-- </form> -->
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12 col-sm-12 right-column">
+                            <div class="inner-box">
+
+                                <div class="payment-info">
+                                    <h4 class="sub-title">Payment Proccess</h4>
+                                    <div class="payment-inner" id="">
+                                        <!-- <form action="/checkout" method="post" id="payment"> -->
+                                        <div class="option-block">
+                                            <div class="custom-controls-stacked">
+                                                <label class="custom-control radio-inline">
+                                                    <input type="radio" name="paymentMethod" id="netbanking"
+                                                        value="netbanking" class="material-control-input">
+                                                    <span class="material-control-indicator"></span>
+                                                    <span class="description">netbanking</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="option-block" id="inner">
+                                            <div class="custom-controls-stacked">
+                                                <label class="custom-control radio-inline">
+                                                    <input type="radio" name="paymentMethod" value="cod" id="cod"
+                                                        class="material-control-input" checked>
+                                                    <span class="material-control-indicator"></span>
+                                                    <span class="description">Cash on delivery</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <!-- </form> -->
+                                        <div class="btn-box">
+                                            <button type="button" onclick="checkout()" class="theme-btn-two">Place Your
+                                                Order<i class="flaticon-right-1"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </section>
+        <!-- checkout-section end -->
+
+
+        <%- include('./includes/user-footer')%>
+            <script>
+                function checkout() {
+                    console.log("hrjnfj");
+                    const error = document.getElementById('errorMsg')
+                    const name = document.getElementById('name')
+                    const phone = document.getElementById('phone')
+                    const addres = document.getElementById('address')
+                    const city = document.getElementById('city')
+                    const zip = document.getElementById('zip')
+                    const select = document.getElementById('select')
+                    const cod = document.getElementById('cod')
+                    const netbanking = document.getElementById('netbanking')
+                    if (name.value == '' || name.value == null) {
+                        $('#name').after(`<span class="error text-danger">Please fill this form</span>`)
+                    } else if (phone.value == '' || phone.value == null || phone.value == isNaN) {
+
+                        $('#phone').after(`<span class="error text-danger">Please fill this form/enter valid number</span>`)
+                    } else if (address.value == '' || address.value == null) {
+                        $('#address').after(`<span class="error text-danger">Please fill this form</span>`)
+
+                    }
+                    else if (zip.value == '' || zip.value == null || zip.value == isNaN) {
+                        $('#zip').after(`<span class="error text-danger">Please fill this form/enter valid pincode</span>`)
+
+                    } else if (city.value == '' || city.value == null) {
+                        $('#city').after(`<span class="error text-danger">Please fill this form</span>`)
+                    } else if (select.value == "0") {
+                        $('#select').after(`<span class="error text-danger">Please choose one</span>`)
+
+                    } else if (!cod.checked && !netbanking.checked) {
+                        $('#inner').after(`<span class="error text-danger">Please choose one</span>`)
+
+                    }
+                    else {
+                        console.log("hello");
+                        $.ajax(
+                            {
+                                url: '/checkout',
+                                method: 'post',
+                                data: $('#checkoutform').serialize(),
+                                success: (response) => {
+                                    if (response.status) {
+                                        swal.fire({
+                                            icon: 'success',
+                                            title: 'order has been placed Succesfully',
+                                            showClass: {
+                                                popup: 'animate__animated animate__fadeInDown'
+                                            },
+                                            hideClass: {
+                                                popup: 'animate__animated animate__fadeOutUp'
+                                            },
+                                        showConfirmButton: true,
+                                        }).then(() => {
+                                            window.location.href = "/";
+                                        })
+                                    }
+                                }
+                            })
+                    }
+
+
+                    // })
+                }
+
+            </script>
+
+            <%- include('./includes/script')%>

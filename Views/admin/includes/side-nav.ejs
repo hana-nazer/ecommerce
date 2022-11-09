@@ -54,7 +54,7 @@
         <ul class="nav flex-column sub-menu">
           <li class="nav-item"> <a class="nav-link" href="/admin/product">product list</a></li>
           <li class="nav-item"> <a class="nav-link" href="/admin/add-product">Add product</a></li>
-          <li class="nav-item"> <a class="nav-link" href="/admin/edit-product">Edit product</a></li>
+          <li class="nav-item"> <a class="nav-link" href="#">Edit product</a></li>
 
         </ul>
       </div>
@@ -62,20 +62,43 @@
     <!-- --------product ends-------->
 
 
-     <!-- error pages  -->
-    <!-- <li class="nav-item">
+     <!-- Banner  -->
+    <li class="nav-item">
         <a class="nav-link" data-toggle="collapse" href="#error" aria-expanded="false" aria-controls="error">
-          <i class="icon-ban menu-icon"></i>
-          <span class="menu-title">Error pages</span>
+          <span class="menu-title">Banner Management</span>
           <i class="menu-arrow"></i>
         </a>
         <div class="collapse" id="error">
           <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="pages/samples/error-404.html"> 404 </a></li>
-            <li class="nav-item"> <a class="nav-link" href="pages/samples/error-500.html"> 500 </a></li>
+            <li class="nav-item"> <a class="nav-link" href="/admin/banner"> Show Banners </a></li>
+            <li class="nav-item"> <a class="nav-link" href="/admin/addBanner"> Add Banner </a></li>
+            <li class="nav-item"> <a class="nav-link" href="#"> Edit Banner </a></li>
           </ul>
         </div>
-      </li> -->
-    <!-- -----error ends -->
+      </li>
+    <!-- -----Banner ends -->
+
+    <!-- order Management -->
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+        <span class="menu-title">Order Management</span>
+        <i class="menu-arrow"></i>
+      </a>
+      <div class="collapse" id="auth">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="/admin/viewOrder"> View orders</a></li>
+          <li class="nav-item"> <a class="nav-link" href="/admin/pendingOrders"> pending  </a></li>
+          <li class="nav-item"> <a class="nav-link" href="/admin/approvedOrders"> Approved  </a></li>
+          <li class="nav-item"> <a class="nav-link" href="/admin/dispatchedOrders"> Dispatched  </a></li>
+          <li class="nav-item"> <a class="nav-link" href="/admin/deliveredOrders"> Delievered  </a></li>
+          <li class="nav-item"> <a class="nav-link" href="/admin/cancelledOrders"> Cancelled  </a></li>
+
+
+
+
+        </ul>
+      </div>
+    </li>
+    <!-- order Management ends -->
   </ul>
 </nav>

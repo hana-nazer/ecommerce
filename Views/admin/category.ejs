@@ -13,9 +13,10 @@
             <div class="main-panel">
               <div class="content-wrapper">
                 <!--------Add category------>
-                <form method="post" action="/admin/add-category">
-                  <input type="text" name="category">
+                <form method="post" action="/admin/add-category" id="form">
+                  <input type="text" name="category" id="addCategory">
                   <button type="submit" class="btn btn-primary">Add category</button><br><br>
+                  <span id="errMsg"></span>
                 </form>
                 <% if(categoryError){%>
                   <p style="color:red">
@@ -50,7 +51,7 @@
                                       </td>
                                       <td><a href="/admin/categoryList/<%=answer.category%>"
                                           class="btn btn-primary">show products</button></td>
-                                      <td><button class="btn btn-danger"
+                                      <td><button class="btn btn-danger" id="btn"
                                           onclick="categoryDelete('<%=answer._id%>')">Delete</button></td>
                                     </tr>
                                     <%})%>
@@ -74,6 +75,25 @@
     <!-- container-scroller -->
 
     <script>
+      const form = document.getElementById('form')
+      form.addEventListener('submit', (e) => {
+        const validateCat = document.getElementById('addCategory')
+        const err = document.getElementById('errMsg')
+        if (validateCat.value == '' || validateCat.value == null) {
+          e.preventDefault()
+           err.innerHTML='please fill this'
+          // $('#form').after(`<span class="error text-danger">Please fill this</span>`)
+          setTimeout(() => {
+            console.log("hiii");
+          err.innerHTML=''
+          }, 500)
+
+        }
+      })
+      // function validate(){
+      //   }
+
+
       function categoryDelete(categoryId) {
         Swal.fire({
           title: "Are you sure",
@@ -100,7 +120,7 @@
                     }, 800)
                   })
                 }
-                else{
+                else {
                   swal.fire({
                     icon: 'warning',
                     title: 'Try to delete an empty category',

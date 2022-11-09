@@ -1,0 +1,143 @@
+<%- include('./includes/user-header')%>
+    <%- include('./includes/user-navbar')%>
+
+
+        <!-- page-title -->
+        <section class="page-title centred">
+            <div class="pattern-layer" style="background-image: url(assets/images/background/page-title.jpg);"></div>
+            <div class="auto-container">
+                <div class="content-box">
+                    <h1>WishList</h1>
+                    <ul class="bread-crumb clearfix">
+                        <li><i class="flaticon-home-1"></i><a href="index.html">Home</a></li>
+                        <li>Wishlist</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <!-- page-title end -->
+
+
+
+        <section class="cart-section cart-page">
+            <div class="auto-container">
+                <div class="row clearfix">
+                    <div class="col-lg-12 col-md-12 col-sm-12 table-column">
+                        <div class="table-outer">
+                            <table class="cart-table">
+                                <thead class="cart-header">
+                                    <tr>
+                                        <th>option</th>
+                                        <th>Image</th>
+
+                                        <th class="prod-column">Product Name</th>
+                                        <th class="price">Price</th>
+
+                                        <th class="quantity">Option</th>
+                                       
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <%products.forEach(function(products){%>
+                                    <tr>
+                                        <!-- <td colspan="2" class="prod-column"> -->
+                                            <!-- <div class="column-box"> -->
+                                                <td colspan="1" class="prod-column">
+                                                    <div class="remove-btn"
+                                                            onclick="removeItem('<%=products.products._id%>')">
+                                                            <i class="flaticon-close"></i>
+                                                        </div>
+                                                </td>
+                                                <!-- <div class="prod-thumb">
+                                                    <a href="#"> <img src="/"
+                                                            style="height:60px;width:60px;" alt=""></a>
+                                                </div> -->
+                                                <!-- <div class="prod-title">
+                                                    bnm
+                                                </div> -->
+                                            <!-- </div> -->
+                                        <!-- </td> -->
+                                        <td class="prod-thumb"><a href="#"> <img src="/productImages/<%=products.products.image%>"
+                                            style="height:60px;width:60px;" alt=""></a></td>
+                                            <td class="prod-title">  <%=products.products.name%></td>
+                                        <td class="price">
+                                            <%=products.products.price%>
+                                        </td>
+                                        <td class="sub-total">
+                                            <div class="btn-box"><a onclick="addToCart('<%=products.products._id%>')" class="theme-btn-two">Add to
+                                                cart</a></div>
+                                             </td>
+                                    </tr>
+                                    <%})%>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <%- include('./includes/user-footer')%>
+        <script>
+        function addToCart(productId) {
+           
+                console.log(productId);
+            $.ajax({
+                url: '/addToCartWishlist/' + productId,
+                method: 'get',
+                success: (response) => {
+                    if (response.status) {
+                        swal.fire({
+                            icon: 'success',
+                            title: 'Added Succesfully',
+                            showConfirmButton: false,
+                        })
+                        setTimeout(function(){
+                            location.reload()
+                        },1000)
+                        
+                      
+                    }
+
+                }
+            })
+        }
+
+        function removeItem(productId) {
+        Swal.fire({
+          title: "Are you sure to remove this",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#3085d6',
+          confirmButtonText: 'remove'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+              url: '/removeWishList/' + productId,
+              method: 'get',
+              success: (response) => {
+                if (response.status) {
+                  swal.fire({
+                    icon: 'success',
+                    title: 'Removed Succesfully',
+                    showConfirmButton: false,
+                  }).then(() => {
+                    setTimeout(() => {
+                      location.reload()
+                    }, 800)
+                  })
+                }
+                
+              }
+            })
+          }
+        }
+        )
+      }
+           
+    </script>
+
+
+            <%- include('./includes/script')%>

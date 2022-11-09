@@ -18,80 +18,7 @@
         <!-- page-title end -->
 
 
-        <!-- cart section -->
-        <!-- <section class="cart-section cart-page">
-            <div class="auto-container">
-                <div class="row clearfix">
-                    <div class="col-lg-12 col-md-12 col-sm-12 table-column">
-                        <div class="table-outer">
-                            <table class="cart-table">
-                                <thead class="cart-header">
-                                    <tr>
-                                        <th>&nbsp;</th>
-                                        <th class="prod-column">Product Name</th>
-                                        <th>&nbsp;</th>
-                                        <th>&nbsp;</th>
-                                        <th class="price">Price</th>
-                                        <th class="quantity">Quantity</th>
-                                        <th>Subtotal</th>
-                                    </tr>    
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td colspan="4" class="prod-column">
-                                            <div class="column-box">
-                                                <div class="remove-btn">
-                                                    <i class="flaticon-close"></i>
-                                                </div>
-                                                <div class="prod-thumb">
-                                                    <a href="#"><img src="assets/images/resource/shop/cart-1.jpg" alt=""></a>
-                                                </div>
-                                                <div class="prod-title">
-                                                    Black Boys Shirt
-                                                </div>    
-                                            </div>
-                                        </td>
-                                        <td class="price">$50.00</td>
-                                        <td class="qty">
-                                            <div class="item-quantity">
-                                                <input class="quantity-spinner" type="text" value="1" name="quantity">
-                                            </div>
-                                        </td>
-                                        <td class="sub-total">$50.00</td>
-                                    </tr>
-                                    
-                                  
-                                </tbody>    
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="othre-content clearfix">
-                    <div class="coupon-box pull-left clearfix">
-                        <input type="text" placeholder="Enter coupon code...">
-                        <button type="submit" class="theme-btn-two">Apply coupon<i class="flaticon-right-1"></i></button>
-                    </div>
-                    <div class="update-btn pull-right">
-                        <button type="submit" class="theme-btn-one">Update Cart<i class="flaticon-right-1"></i></button>
-                    </div>
-                </div>
-                <div class="cart-total">
-                    <div class="row">
-                        <div class="col-xl-5 col-lg-12 col-md-12 offset-xl-7 cart-column">
-                            <div class="total-cart-box clearfix">
-                                <h4>Cart Totals</h4>
-                                <ul class="list clearfix">
-                                    <li>Subtotal:<span>$150</span></li>
-                                    <li>Order Total:<span>$150</span></li>
-                                </ul>
-                                <a href="cart.html" class="theme-btn-two">Proceed to Checkout<i class="flaticon-right-1"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section> -->
-        <!-- cart section end -->
+       
         <section class="cart-section cart-page">
             <div class="auto-container">
                 <div class="row clearfix">
@@ -113,42 +40,46 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <%products.forEach(function(products){%>
-                                        <tr>
-
+                                    
+                                    <%products.forEach(function(product){%>
+                                        <tr> 
+                                           
                                             <td colspan="4" class="prod-column">
                                                 <div class="column-box">
-                                                    <div class="remove-btn">
+                                                    <div class="remove-btn" onclick="removeItem('<%=product.productId._id%>')">
                                                         <i class="flaticon-close"></i>
                                                     </div>
                                                     <div class="prod-thumb">
                                                         <a href="#"> <img
-                                                                src="/productImages/<%=products.products.image%>"
+                                                                src="/productImages/<%=product.productId.image%>"
                                                                 style="height:60px;width:60px;" alt=""></a>
                                                     </div>
                                                     <div class="prod-title">
 
-                                                        <%=products.products.name%>
+                                                        <%=product.productId.name%>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td class="price">
-                                                <%=products.products.price%>
+                                                <%=product.productId.price%>
                                             </td>
                                             <td class="qty">
                                                 <div class="item-quantity"
                                                 
-                                                    onclick="quantityChange('<%=products.products._id%>')">
+                                                    onclick="quantityChange('<%=product.productId._id%>')">
                                                     <input class="quantity-spinner"
-                                                        id="<%=products.products._id%>quantity" type="text"
-                                                        value="<%=products.quantity%>" name="quantity">
+                                                        id="<%=product.productId._id%>quantity" type="text"
+                                                        value="<%=product.quantity%>" name="quantity">
                                                 </div>
                                             </td>
                                             <td class="sub-total">
-                                                <%=products.products.price*products.quantity%>
+                                                <%=product.productId.price*product.quantity%>
                                             </td>
                                         </tr>
+                                   
                                         <%})%>
+
+                                       
 
                                 </tbody>
                             </table>
@@ -161,9 +92,10 @@
                         <button type="submit" class="theme-btn-two">Apply coupon<i
                                 class="flaticon-right-1"></i></button>
                     </div>
-                    <div class="update-btn pull-right">
+                    
+                    <!-- <div class="update-btn pull-right">
                         <button type="submit" class="theme-btn-one">Update Cart<i class="flaticon-right-1"></i></button>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="cart-total">
                     <div class="row">
@@ -172,9 +104,10 @@
                                 <h4>Cart Totals</h4>
                                 <ul class="list clearfix">
                                     <li>Subtotal:<span>$150</span></li>
-                                    <li>Order Total:<span>$150</span></li>
+                                    
+                                    <li>Order Total:<span id="totalPrice"><%=total%></span></li>
                                 </ul>
-                                <a href="cart.html" class="theme-btn-two">Proceed to Checkout<i
+                                <a href="/checkout" class="theme-btn-two">Proceed to Checkout<i
                                         class="flaticon-right-1"></i></a>
                             </div>
                         </div>
@@ -187,10 +120,12 @@
         <%- include('./includes/user-footer')%>
             <script>
                 function quantityChange(productId) {
+                    console.log("fghjkkgf");
                     console.log(productId);
                     let quantity = document.getElementById(`${productId}quantity`).value
                     console.log(quantity);
                     $.ajax({
+                        // /increment/897s67d9786873246876/7
                         url: '/increment/' + productId + "t" + quantity,
                         method: 'post',
                         success: (response) => {
@@ -202,6 +137,53 @@
 
                 }
             </script>
+            <script>
+                 
+      function removeItem(productId) {
+        Swal.fire({
+          title: "Are you sure to remove this",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#3085d6',
+          confirmButtonText: 'remove'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+              url: '/remove/' + productId,
+              method: 'post',
+              success: (response) => {
+                if (response.status) {
+                  swal.fire({
+                    icon: 'success',
+                    title: 'Removed Succesfully',
+                    showConfirmButton: false,
+                  }).then(() => {
+                    setTimeout(() => {
+                      location.reload()
+                    }, 800)
+                  })
+                }
+                
+              }
+            })
+          }
+        }
+        )
+      }
+      
+    </script>
+    <!-- <script>
+        function totalprice(){
+            let total = document.getElementById('totalPrice').innerHTML
+            $.ajax({
+                url:'/totalBill/'+total,
+                method:'post',
+
+            })
+        }
+    </script> -->
+            
 
         <%- include('./includes/script')%>
 

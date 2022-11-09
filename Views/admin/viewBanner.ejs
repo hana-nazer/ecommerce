@@ -1,0 +1,106 @@
+<%- include('./includes/admin-header')%>
+    <div class="container-scroller">
+        <%- include('./includes/admin-navbar')%>
+            <div class="container-fluid page-body-wrapper">
+                <%- include('./includes/side-nav')%>
+                    <div class="main-panel">
+                        <div class="content-wrapper">
+                            <div class="row">
+                                <div class="">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Products</h4>
+                                            <div class="">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">No:</th>
+                                                            <th scope="col">Image</th>
+                                                            <th scope="col">Title</th>
+                                                            <th scope="col">description</th>
+                                                            <th scope="col">Options</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                              <% banner.forEach(function(banner,index){ %>
+
+                                                        <tr>
+                                                            <th scope="row"><%=index+1%></th>
+                                                            <td><img src="/bannerImages/<%=banner.image[0]%>" alt="image not found"
+                                                                    style="width:40px;height:40px"></td>
+                                                            <td>
+                                                                <%=banner.title %>
+                                                            </td>
+                                                            <td>
+                                                                <%=banner.description %>
+                                                            </td>
+                                                            <td><a href="/admin/editBanner/<%=banner._id%>" class="btn  btn-primary">Edit</a>
+                                                                <% if(banner.show===true){%>
+                                                                    <button class="btn btn-danger"
+                                                                      onclick="bannerHide('<%=banner._id%>')">Hide</button>
+                                                                    <%}else{%>
+                                                                      <button class="btn btn-success"
+                                                                        onclick="bannerHide('<%=banner._id%>')">Unhide</button>
+                                                                      <%}%>
+                                                                <!-- <button class="btn btn-success">Unhide</button> -->
+                                                            </td>
+                                                        </tr>
+                                                        <%})%>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <%- include('./includes/admin-footer')%>
+                    </div>
+            </div>
+    </div>
+    <script>
+        function bannerHide(bannerId) {
+          Swal.fire({
+            title: "Are you sure",
+            text: "you can revert whenever you need",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes!'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              // console.log(('hoihoi'));
+              $.ajax({
+                url: '/admin/hideUnhideBanner/' + bannerId,
+                method: 'post',
+                success: (response) => {
+                  if (response.status) {
+                    swal.fire({
+                      icon: 'success',
+                      title: 'Hided the Banner successfully',
+                      showConfirmButton: false,
+                    }).then(() => {
+                      setTimeout(() => {
+                        location.reload()
+                      }, 500)
+                    })
+                  } else {
+                    swal.fire({
+                      icon: 'success',
+                      title: 'Unhided the Banner successfully',
+                      showConfirmButton: false,
+                    }).then(() => {
+                      setTimeout(() => {
+                        location.reload()
+                      }, 500)
+                    })
+                  }
+                }
+              })
+            }
+          }
+          )
+        }
+      </script>
+    <%- include('./includes/script')%>

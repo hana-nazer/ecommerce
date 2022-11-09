@@ -1,0 +1,84 @@
+<%- include('./includes/admin-header')%>
+
+  <body>
+    <div class="container-scroller">
+      <!-- partial:../../partials/_navbar.html -->
+      <%- include('./includes/admin-navbar')%>
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+
+
+
+
+
+          <%- include('./includes/side-nav')%>
+            <!-- partial:../../partials/_sidebar.html -->
+
+
+
+
+            <!-- partial -->
+            <div class="main-panel">
+              <div class="content-wrapper">
+                <div class="row">
+                  <div class="">
+                    <div class="card">
+                      <div class="card-body">
+                        <h4 class="card-title">Orders</h4>
+
+                        <div class="">
+                          <table class="table table-bordered">
+                            <thead>
+                              <tr>
+                                <th scope="col">No:</th>
+                                <th scope="col">orderId</th>
+                                <th scope="col">order Status</th>
+                                <th scope="col">Payment Status</th>
+                                <th scope="col">Details</th>
+                              
+
+
+                              </tr>
+                            </thead>
+                            <tbody>
+                                    <%orders.forEach(function(order,index){ %>
+
+                                <tr>
+                                  <th scope="row"><%=index+1%></th>
+                            
+                                  <td>
+                                    <%=order._id%>
+                                    
+                                  </td>
+                                  <td>
+                                    <%=order.orderStatus%>
+                                  </td>
+                                  <td>
+                                    <%=order.paymentStatus%>
+                                  </td>
+                                  <td>
+                                    <a href="/admin/orderDetails/<%=order._id%>" class="btn  btn-primary">Details</a>
+                                  </td>
+                                  
+                                </tr>
+                                <%})%>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- content-wrapper ends -->
+              <!-- partial:../../partials/_footer.html -->
+              <%- include('./includes/admin-footer')%>
+                <!-- partial -->
+            </div>
+            <!-- main-panel ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+   
+    <%- include('./includes/script')%>

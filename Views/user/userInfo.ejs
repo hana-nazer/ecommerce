@@ -1,25 +1,51 @@
 <%- include('./includes/user-header')%>
-<%- include('./includes/user-navbar')%>
-<section style="padding: 10% 30%">
+   <%- include('./includes/user-navbar')%>
+      <section>
+         <div class="container rounded bg-white mt-5 mb-5">
+            <div class="row">
+               <div class="col-md-3 border-right">
+                  <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img
+                        class="rounded-circle mt-5" width="150px"
+                        src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
+                     <span class="font-weight-bold">
+                        <%= userData.userName %>
+                     </span><span> <a class="btn btn-dark text-white" href="/orderTrack">Orders</a></span>
+                  </div>
+               </div>
+               <div class="col-md-5 border-right">
+                  <div class="p-3 py-5">
+                     <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="text-right">Profile Settings</h4>
+                     </div>
+                     <ul>
+                        <div class="row mt-2">
+                           <div class="col-md-6"><label class="labels">Name</label>
+                              <li class="form-control">
+                                 <%= userData.userName %>
+                              </li>
+                           </div>
+                        </div>
+                        <div class="row mt-3">
+                           <div class="col-md-12"><label class="labels">Mobile Number</label>
+                              <li class="form-control">
+                                 <%= userData.mobile %>
+                              </li>
+                           </div>
+                           <div class="col-md-12"><label class="labels">Email ID</label>
+                              <li class="form-control">
+                                 <%= userData.userEmail %>
+                              </li>
+                           </div>
+                        </div>
+                     </ul>
 
-       <div style="background-color:burlywood;padding: 5%;" class="container">
-         <ul>
-         <h1 style="text-align:center">User Info</h1>
-       <div class="d-flex justify-content-center mt-4"> <img src="/user/images/free-user-icon-3296-thumb.png" style="height:110px;width:110px"></div>
-            <li class="text-center mt-4">
-               Name : <%= userData.userName %>
-            </li>
-            <li class="text-center">
-                Email : <%= userData.userEmail %>
-             </li>
-             <li class="text-center">
-                Mobile : <%= userData.mobile %>
-             </li>
-      </ul>
-   </div>
-     
+                     <!-- <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div> -->
+                  </div>
+               </div>
 
-</section>
-
-
+            </div>
+         </div>
+         </div>
+         </div>
+      </section>
 <%- include('./includes/script')%>
