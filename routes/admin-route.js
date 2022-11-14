@@ -3,7 +3,7 @@ const app = require('../app');
 const router = express.Router();
 const adminController = require('../controllers/admin-controller')
 const upload = require('../multer/multer')
-const storeBanner = require('../multer/multer')
+const storeBanner = require('../multer/multer-banner')
 const sessionAdmin = require('../middleware/admin-session')
 
 

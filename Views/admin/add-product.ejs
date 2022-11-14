@@ -1,119 +1,126 @@
 <%- include('./includes/admin-header')%>
 
-<body>
-  <div class="container-scroller">
-    <!-- partial:../../partials/_navbar.html -->
-    <%- include('./includes/admin-navbar')%>
-    <!-- partial -->
-    <div class="container-fluid page-body-wrapper">
-      
-    
-
-
-
-      <%- include('./includes/side-nav')%>
-      <!-- partial:../../partials/_sidebar.html -->
-     
-
-
-
-      <!-- partial -->
-      <div class="main-panel">
-        <div class="content-wrapper">
-          <div class="row">
-            <div class="col-lg-6 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                    <div class="col-12 grid-margin stretch-card">
-                        <div class="card">
-                          
-                            <form class="forms-sample" method="post" action="/admin/add-product" enctype="multipart/form-data">
-                                <h2>Add Product</h2>
-                                <br>
+  <body>
+    <div class="container-scroller">
+      <%- include('./includes/admin-navbar')%>
+        <div class="container-fluid page-body-wrapper">
+          <%- include('./includes/side-nav')%>
+            <div class="main-panel">
+              <div class="content-wrapper">
+                <div class="row">
+                  <div class="col-lg-6 grid-margin stretch-card">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="col-12 grid-margin stretch-card">
+                          <div class="card">
+                            <form class="forms-sample" method="post" action="/admin/add-product"
+                              enctype="multipart/form-data" id="add">
+                              <h2>Add Product</h2>
+                              <br>
                               <div class="form-group">
-                                <label for="exampleInputName1">Name</label>
-                                <input type="text" class="form-control" name="name" id="exampleInputName1" placeholder="Name">
+                                <label for="productName">Name</label>
+                                <input type="text" class="form-control" name="name" id="productName" placeholder="Name">
+                                <span id="errMsg" style="color: red;"></span>
                               </div>
                               <div class="form-group">
-                                <label for="exampleInputEmail3">Category</label>
-                                <select name="category" id ="category">
+                                <label for="category">Category</label>
+                                <select name="category" id="category" class="required">
+
                                   <% category.forEach(function(category){ %>
-                                  <option><%= category.category%></option>
-                                  <%})%>
+                                    <option>
+                                      <%= category.category%>
+                                    </option>
+                                    <%})%>
                                 </select>
+                                <span id="errMsg1" style="color: red;"></span>
                               </div>
                               <div class="form-group">
-                                <label for="exampleInputPassword4">quantity</label>
-                                <input type="number" name="quantity" class="form-control" id="exampleInputPassword4" placeholder="quantity">
+                                <label for="quantity">quantity</label>
+                                <input type="number" name="quantity" class="form-control" id="quantity"
+                                  placeholder="quantity">
+                                <span id="errMsg2" style="color: red;"></span>
                               </div>
-
-
-
-                             
                               <div class="form-group">
-                                <label for="formFile" class="form-label">Image</label>
-                                <input type="file" name="productImage" class=" form-control" id="formFile" multiple>
-                                <!-- <div class="input-group col-xs-12">
-                                  <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
-                                  <span class="input-group-append">
-                                    <button class="file-upload-browse btn btn-primary" type="button">upload</button>
+                                <label for="image" class="form-label">Image</label>
+                                <input type="file" name="productImage" accept="image/png, image/gif, image/jpeg"
+                                  class=" form-control" id="image" multiple>
+                                <!-- <span id="errMsg3" style="color: red;"></span> -->
+                                <%if(message.length>0){%>
+                                  <span class="alert" style="color:red;">
+                                    <%=message%>
                                   </span>
-                                </div> -->
-                              </div>
+                                  <%}%>
 
-
-
-
-                              <div class="form-group">
-                                <label for="exampleInputCity1">price</label>
-                                <input type="text" class="form-control" name="price" id="exampleInputCity1" placeholder="price">
                               </div>
                               <div class="form-group">
-                                <label for="exampleTextarea1">Description</label>
-                                <input type="text" class="form-control" id="exampleTextarea1" name="description" rows="4"></textarea>
+                                <label for="price">price</label>
+                                <input type="text" class="form-control" name="price" id="price" placeholder="price">
+                                <span id="errMsg4" style="color: red;"></span>
+                              </div>
+                              <div class="form-group">
+                                <label for="description">Description</label>
+                                <input type="text" class="form-control" id="description" name="description"
+                                  rows="4"></textarea>
+                                <span id="errMsg5" style="color: red;"></span>
                               </div>
                               <button type="submit" class="btn btn-primary mr-2">Submit</button>
                               <button class="btn btn-light">Cancel</button>
                             </form>
                           </div>
-                          
+                        </div>
                       </div>
+                    </div>
+                  </div>
                 </div>
               </div>
+              <%- include('./includes/admin-footer')%>
             </div>
-          </div>
         </div>
-        <!-- content-wrapper ends -->
-        <!-- partial:../../partials/_footer.html -->
-        <%- include('./includes/admin-footer')%>
-        <!-- partial -->
-      </div>
-      <!-- main-panel ends -->
     </div>
-    <!-- page-body-wrapper ends -->
-  </div>
-  <!-- container-scroller -->
-  <%- include('./includes/script')%>
-  
+    <!-- validation -->
+    <script>
+      const form = document.getElementById('add')
+      form.addEventListener('submit', (e) => {
+        console.log("hiiiii");
+        const productName = document.getElementById('productName')
+        const category = document.getElementById('category')
+        const quantity = document.getElementById('quantity')
+        const price = document.getElementById('price')
+        const description = document.getElementById('description')
+        const err = document.getElementById('errMsg')
+        const err1 = document.getElementById('errMsg1')
+        const err2 = document.getElementById('errMsg2')
+        const err3 = document.getElementById('errMsg3')
+        const err4 = document.getElementById('errMsg4')
+        const err5 = document.getElementById('errMsg5')
 
+        err.innerHTML = ''
+        err1.innerHTML = ''
+        err2.innerHTML = ''
+        err4.innerHTML = ''
+        err5.innerHTML = ''
+        if (productName.value == '' || productName.value == null) {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+          e.preventDefault()
+          err.innerHTML = 'Enter product name'
+        }
+        else if (category.value == '' || category.value == null) {
+          e.preventDefault(
+            err1.innerHTML = 'Choose category'
+          )
+        }
+        else if (quantity.value == '' || quantity.value == null || quantity == NaN) {
+          e.preventDefault(
+            errMsg2.innerHTML = 'Enter quantity'
+          )
+        }
+        else if (price.value == '' || price.value == null || price.value == NaN) {
+          e.preventDefault()
+          err4.innerHTML = 'Enter proper price'
+        } else if (description.value == '' || description.value == null) {
+          e.preventDefault()
+          err5.innerHTML = 'Give description'
+        }
+      })
+    </script>
+    <%- include('./includes/script')%>

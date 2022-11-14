@@ -41,7 +41,8 @@ module.exports = {
                 res.redirect('/admin/')
             } else {
                 let admin = req.session.admin
-                res.render('admin/admin-login', { admin })
+                res.render('admin/admin-login', { admin, adminloginErr: req.session.adminloginErr })
+                // adminloginErr = null
             }
         }
         catch (err) {
@@ -61,10 +62,12 @@ module.exports = {
                             res.redirect('/admin/')
                         }
                         else {
+                            req.session.adminloginErr = "Invalid password"
                             res.redirect('/admin/admin-login')
                         }
                     })
                 } else {
+                    req.session.adminloginErr = "Invalid Email"
                     res.redirect('/admin/admin-login')
                 }
             })
@@ -109,7 +112,7 @@ module.exports = {
     addProduct: async (req, res) => {
         try {
             let category = await categoryModel.find()
-            res.render('admin/add-product', { category })
+            res.render('admin/add-product', { category ,message: req.flash('error')})
         }
         catch (error) {
             console.log(error);
@@ -122,21 +125,29 @@ module.exports = {
     //-------------to get added products---------//
     product: (req, res) => {
         try {
-            const imageName = [];
-            for (file of req.files) {
-                imageName.push(file.filename);
+            if (req.files.length == 0) {
+                productId = req.params.id
+                req.flash('error','insert an image')
+                res.redirect('/admin/add-product')
             }
-            const { name, category, price, quantity, description } = req.body
-            const product = new productSchema({
-                image: imageName,
-                name,
-                category,
-                price,
-                quantity,
-                description
-            })
-            product.save();
-            res.redirect('/admin/product')
+            else {
+                console.log(req.files);
+                const imageName = [];
+                for (file of req.files) {
+                    imageName.push(file.filename);
+                }
+                const { name, category, price, quantity, description } = req.body
+                const product = new productSchema({
+                    image: imageName,
+                    name,
+                    category,
+                    price,
+                    quantity,
+                    description
+                })
+                product.save();
+                res.redirect('/admin/product')
+            }
         }
         catch (error) {
             console.log(error);
@@ -149,7 +160,8 @@ module.exports = {
         try {
             let productId = await productSchema.findOne({ _id: req.params.id })
             let category = await categoryModel.find()
-            res.render('admin/edit-product', { productId, category })
+            res.render('admin/edit-product', { productId, category,message: req.flash('error')})
+
         }
         catch (error) {
             console.log(error);
@@ -160,25 +172,34 @@ module.exports = {
     //-------------post edit--------//
     postEditProduct: async (req, res) => {
         try {
-            const productId = req.params.id
-            const files = req.files
-            let image = []
-            if (files) {
-                for (i = 0; i < req.files.length; i++) {
-                    image[i] = files[i].filename
+            if (req.files.length == 0) {
+                productId = req.params.id
+                req.flash('error','insert an image')
+                res.redirect(`/admin/edit-product/${productId}`)
+
+            } else {
+
+                const productId = req.params.id
+                const files = req.files
+                let image = []
+                if (files) {
+                    for (i = 0; i < req.files.length; i++) {
+                        image[i] = files[i].filename
+                    }
+                    req.body.image = image
+                    await productSchema.updateOne({ _id: productId }, {
+                        name: req.body.name,
+                        image: image,
+                        price: req.body.price,
+                        quantity: req.body.quantity,
+                        category: req.body.category,
+                        description: req.body.description
+                    })
+                    console.log(req.body.name);
+                    res.redirect('/admin/product')
                 }
-                req.body.image = image
-                await productSchema.updateOne({ _id: productId }, {
-                    name: req.body.name,
-                    image: image,
-                    price: req.body.price,
-                    quantity: req.body.quantity,
-                    category: req.body.category,
-                    description: req.body.description
-                })
-                console.log(req.body.name);
-                res.redirect('/admin/product')
             }
+
         }
         catch (error) {
             console.log(error);
@@ -355,7 +376,7 @@ module.exports = {
     //Add banner----//
     addBanner: async (req, res) => {
         try {
-            res.render('admin/addBanner')
+            res.render('admin/addBanner',{bannerMessage:req.flash('error')})
         }
         catch (error) {
             console.log(error);
@@ -364,6 +385,12 @@ module.exports = {
     //add banner post---//
     postAddBanner: async (req, res) => {
         try {
+            if(req.files.length===0){
+                req.flash("error",'Insert banner image')
+                res.redirect('/admin/addBanner')
+            }else{
+
+            }
             const imageName = [];
             for (file of req.files) {
                 imageName.push(file.filename);
@@ -388,7 +415,7 @@ module.exports = {
         try {
             let bannerId = await bannerModel.findOne({ _id: req.params.id })
 
-            res.render('admin/editBanner', { bannerId })
+            res.render('admin/editBanner', { bannerId,bannerMessage:req.flash('error')})
         }
         catch (error) {
             console.log(error);
@@ -398,6 +425,10 @@ module.exports = {
     //----postEdit banner---//
     postEditBanner: async (req, res) => {
         try {
+            if(req.files.length===0){
+                req.flash("error",'Insert banner image')
+                res.redirect('/admin/editBanner')
+            }
             const bannerId = req.params.id
             // console.log(req.files);
             const images = [];

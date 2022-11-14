@@ -12,25 +12,33 @@
                                             <div class="col-12 grid-margin stretch-card">
                                                 <div class="card">
                                                     <form class="forms-sample" method="post" action="/admin/addBanner"
-                                                        enctype="multipart/form-data">
+                                                        enctype="multipart/form-data" id="banner">
                                                         <h2>Add Banner</h2>
                                                         <br>
-                                                    <div class="form-group">
+                                                        <div class="form-group">
                                                             <label for="formFile" class="form-label">Image</label>
                                                             <input type="file" name="bannerImage" class=" form-control"
-                                                                id="formFile" multiple required>
+                                                                id="formFile" multiple>
+                                                                <%if(bannerMessage.length>0){%>
+                                                                    <span class="alert" style="color:red;">
+                                                                      <%=bannerMessage%>
+                                                                    </span>
+                                                                    <%}%>
+                                  
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="exampleTextarea1">Title</label>
-                                                            <input type="text" class="form-control"
-                                                                id="exampleTextarea1" name="bannertitle"
-                                                                rows="4"></textarea>
+                                                            <label for="title">Title</label>
+                                                            <input type="text" class="form-control" id="title"
+                                                                name="bannertitle" rows="4"></textarea>
+                                                            <span id="errMsg" style="color: red;"></span>
+
                                                         </div>
-                                                          <div class="form-group">
-                                                            <label for="exampleTextarea1">Description</label>
-                                                            <input type="text" class="form-control"
-                                                                id="exampleTextarea1" name="bannerdescription"
-                                                                rows="4"></textarea>
+                                                        <div class="form-group">
+                                                            <label for="description">Description</label>
+                                                            <input type="text" class="form-control" id="description"
+                                                                name="bannerdescription" rows="4"></textarea>
+                                                            <span id="errMsg1" style="color: red;"></span>
+
                                                         </div>
                                                         <button type="submit"
                                                             class="btn btn-primary mr-2">Submit</button>
@@ -47,4 +55,26 @@
                     </div>
             </div>
     </div>
+    
     <%- include('./includes/script')%>
+    <script>
+        const form = document.getElementById('banner')
+        form.addEventListener('submit', (e) => {
+            console.log("hiiiii");
+            const bannerTitle = document.getElementById('title')
+            const bannerDescription = document.getElementById('description')
+            const err = document.getElementById('errMsg')
+            const err1 = document.getElementById('errMsg1')
+
+            err.innerHTML = ''
+            err1.innerHTML = ''
+
+            if (bannerTitle.value == '' || bannerTitle.value == null) {
+                e.preventDefault()
+                err.innerHTML = 'Enter bannerTitle'
+            } else if (bannerDescription.value == '' || bannerDescription.value == null) {
+                e.preventDefault()
+                err1.innerHTML = 'Give banner description'
+            }
+        })
+    </script>

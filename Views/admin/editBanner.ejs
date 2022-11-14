@@ -37,25 +37,35 @@
                                             <div class="col-12 grid-margin stretch-card">
                                                 <div class="card">
                                                     <form class="forms-sample" method="post" action="/admin/editBanner/<%=bannerId.id%>"
-                                                        enctype="multipart/form-data">
+                                                        enctype="multipart/form-data" id="editBanner">
                                                         <h2>Edit Banner</h2>
                                                         <br>
                                                     <div class="form-group">
                                                             <label for="formFile" class="form-label">Image</label>
                                                             <input type="file" name="bannerImage" class=" form-control"
-                                                                id="formFile" multiple required>
+                                                                id="formFile" multiple >
+                                                                <%if(bannerMessage.length>0){%>
+                                                                    <span class="alert" style="color:red;">
+                                                                      <%=bannerMessage%>
+                                                                    </span>
+                                                                    <%}%>
+                                  
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="exampleTextarea1">Title</label>
+                                                            <label for="title">Title</label>
                                                             <input type="text" class="form-control"
-                                                                id="exampleTextarea1" name="title" value="<%=bannerId.title%>"
+                                                                id="title" name="title" value="<%=bannerId.title%>"
                                                                 rows="4"></textarea>
+                                                            <span id="errMsg" style="color: red;"></span>
+
                                                         </div>
                                                           <div class="form-group">
-                                                            <label for="exampleTextarea1">Description</label>
+                                                            <label for="description">Description</label>
                                                             <input type="text" class="form-control"  value="<%=bannerId.description%>"
-                                                                id="exampleTextarea1" name="description"
+                                                                id="description" name="description"
                                                                 rows="4"></textarea>
+                                                            <span id="errMsg1" style="color: red;"></span>
+
                                                         </div>
                                                         <button type="submit"
                                                             class="btn btn-primary mr-2">Submit</button>
@@ -73,3 +83,24 @@
             </div>
     </div>
     <%- include('./includes/script')%>
+    <script>
+        const form = document.getElementById('editBanner')
+        form.addEventListener('submit', (e) => {
+            console.log("hiiiii");
+            const bannerTitle = document.getElementById('title')
+            const bannerDescription = document.getElementById('description')
+            const err = document.getElementById('errMsg')
+            const err1 = document.getElementById('errMsg1')
+
+            err.innerHTML = ''
+            err1.innerHTML = ''
+
+            if (bannerTitle.value == '' || bannerTitle.value == null) {
+                e.preventDefault()
+                err.innerHTML = 'Enter bannerTitle'
+            } else if (bannerDescription.value == '' || bannerDescription.value == null) {
+                e.preventDefault()
+                err1.innerHTML = 'Give banner description'
+            }
+        })
+    </script>

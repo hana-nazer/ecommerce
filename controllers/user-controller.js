@@ -209,31 +209,31 @@ module.exports = {
     postLogin: async (req, res) => {
         try {
             let user = await userModel.findOne({ userEmail: req.body.email })
-            if (user) {
-                if (user.status === "true") {
-                    bcrypt.compare(req.body.password, user.password).then((data) => {
-                        if (data) {
-                            req.session.userData = user
-                            req.session.loggedIn = true
-                            res.redirect('/')
+        if (user) {
+            if (user.status === "true") {
+                bcrypt.compare(req.body.password, user.password).then((data) => {
+                    if (data) {
+                        req.session.userData = user
+                        req.session.loggedIn = true
+                        res.redirect('/')
 
-                        }
-                        else {
-                            req.session.loginErr = "Invalid password"
-                            console.log("login failed");
-                            res.redirect('/login')
-                        }
-                    })
-                } else {
-                    req.session.loginErr = "you are blocked by the Admin"
-                    res.redirect('/login')
-                }
-
+                    }
+                    else {
+                        req.session.loginErr = "Invalid password"
+                        console.log("login failed");
+                        res.redirect('/login')
+                    }
+                })
             } else {
-                req.session.loginErr = "Invalid Email "
-                console.log("login failed");
+                req.session.loginErr = "you are blocked by the Admin"
                 res.redirect('/login')
             }
+
+        } else {
+            req.session.loginErr = "Invalid Email "
+            console.log("login failed");
+            res.redirect('/login')
+        }
         } catch (error) {
             console.log(error);
         }

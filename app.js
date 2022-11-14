@@ -6,6 +6,7 @@ const db = require('./config/connection')
 const session = require('express-session')
 const cookieParser = require('cookie-parser');
 const nocache = require('nocache')
+const flash = require('connect-flash');
 
 // sweetAlert
 const Swal = require('sweetalert2')
@@ -35,7 +36,7 @@ app.use(session({
     secret: "key",
     cookie: { maxAge: 60000000 }
 }))
-
+app.use(flash())
 
 app.use('/', userRouter)
 app.use('/admin', adminRouter)
