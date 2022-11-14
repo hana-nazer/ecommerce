@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>BeYou Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="../vendors/feather/feather.css">
+    <link rel="stylesheet" href="../vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="../vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="../vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+    <link rel="stylesheet" href="../vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" type="text/css" href="../js/select.dataTables.min.css">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="../css/vertical-layout-light/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="images/favicon.png" />
+</head>
+
+<body>
+    <div class="container-scroller">
+        <%- include('./includes/admin-navbar')%>
+            <div class="container-fluid page-body-wrapper">
+                <%- include('./includes/side-nav')%>
+                    <div class="main-panel">
+                        <div class="content-wrapper">
+                            <div class="row">
+                                <div class="col-lg-6 grid-margin stretch-card">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="col-12 grid-margin stretch-card">
+                                                <div class="card">
+                                                    <form class="forms-sample" method="post"
+                                                        action="/admin/editCoupon/<%=editCoupon._id%>" id="editCoupon">
+                                                        <h2>Edit Coupon</h2>
+                                                        <br>
+                                                        <div class="form-group">
+                                                            <label for="couponName">Coupon Name</label>
+                                                            <input type="text" class="form-control" name="couponName"
+                                                                id="couponName" value="<%=editCoupon.couponName%>"
+                                                                placeholder="Coupon name">
+                                                            <span id="errMsg" style="color: red;"></span>
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="couponCode">Coupon code</label>
+                                                            <input type="text" class="form-control" name="couponCode"
+                                                                id="couponCode" value="<%=editCoupon.couponCode%>"
+                                                                placeholder="Coupon Code">
+                                                            <span id="errMsgCode" style="color: red;"></span>
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="minAmount">Minimum purchase
+                                                                Amount</label>
+                                                            <input type="text" class="form-control" name="minAmount"
+                                                                id="minAmount" placeholder="minimum purchase amount"
+                                                                value="<%=editCoupon.MinimumAmount%>">
+                                                            <span id="errMsg1" style="color: red;"></span>
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="discount">discount
+                                                                percentage</label>
+                                                            <input type="number" class="form-control" id="discount"
+                                                                name="disPercentage" placeholder="discount percentage"
+                                                                value="<%=editCoupon.discountPercentage%>">
+                                                            <span id="errMsg2" style="color: red;"></span>
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="maxAmnt">Max
+                                                                limit</label>
+                                                            <input type="text" class="form-control" id="maxAmnt"
+                                                                name="maxLimit" placeholder="Maximum Discount limit"
+                                                                value="<%=editCoupon.maxLimit%>">
+                                                            <span id="errMsg3" style="color: red;"></span>
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="expDate">Expiry date</label>
+                                                            <input type="date" class="form-control" id="expDate"
+                                                                name="expDate" placeholder="Expiry Date"
+                                                                value="<%=editCoupon.expiryDate%>">
+                                                            <span id="errMsg4" style="color: red;"></span>
+
+                                                        </div>
+                                                        <button type="submit"
+                                                            class="btn btn-primary mr-2">Submit</button>
+                                                        <button class="btn btn-light">Cancel</button>
+                                                    </form>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <%- include('./includes/admin-footer')%>
+                    </div>
+            </div>
+    </div>
+    <script>
+        const form = document.getElementById('editCoupon')
+        form.addEventListener('submit', (e) => {
+            console.log("hiiiii");
+            const couponName = document.getElementById('couponName')
+            const couponCode = document.getElementById('couponCode')
+            const minAmount = document.getElementById('minAmount')
+            const discount = document.getElementById('discount')
+            const maxDiscount = document.getElementById('maxAmnt')
+            const expiryDate = document.getElementById('expDate')
+            const err = document.getElementById('errMsg')
+            const err1 = document.getElementById('errMsg1')
+            const err2 = document.getElementById('errMsg2')
+            const err3 = document.getElementById('errMsg3')
+            const err4 = document.getElementById('errMsg4')
+            const err5 = document.getElementById('errMsgCode')
+            err.innerHTML = ''
+            err1.innerHTML = ''
+            err2.innerHTML = ''
+            err3.innerHTML = ''
+            err4.innerHTML = ''
+            err5.innerHTML = ''
+            if (couponName.value == '' || couponName.value == null) {
+                console.log("hoo");
+                e.preventDefault()
+                err.innerHTML = 'please fill this'
+            }
+            else if (couponCode.value == '' || couponCode.value == null) {
+                e.preventDefault(
+                    errMsgCode.innerHTML = 'Fill here correctly'
+                )
+            }
+            else if (minAmount.value == '' || minAmount.value == null || minAmount == NaN) {
+                e.preventDefault(
+                    err1.innerHTML = 'Fill here correctly'
+                )
+            }
+            else if (discount.value == '' || discount.value == null || discount == NaN) {
+                e.preventDefault()
+                err2.innerHTML = 'fill here correctly'
+            } else if (maxDiscount.value == '' || maxDiscount.value == null || maxDiscount == NaN) {
+                e.preventDefault()
+                err3.innerHTML = 'fill here correctly'
+            } else if (expiryDate.value == '' || expiryDate.value == null) {
+                e.preventDefault()
+                err4.innerHTML = 'fill here'
+            }
+            console.log("hoiiiiii")
+        }
+      
+        )
+    </script>
+    <%- include('./includes/script')%>

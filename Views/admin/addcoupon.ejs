@@ -1,0 +1,135 @@
+<%- include('./includes/admin-header')%>
+
+    <body>
+        <div class="container-scroller">
+            <%- include('./includes/admin-navbar')%>
+                <div class="container-fluid page-body-wrapper">
+                    <%- include('./includes/side-nav')%>
+                        <div class="main-panel">
+                            <div class="content-wrapper">
+                                <div class="row">
+                                    <div class="col-lg-6 grid-margin stretch-card">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="col-12 grid-margin stretch-card">
+                                                    <div class="card">
+                                                        <form class="forms-sample" method="post"
+                                                            action="/admin/addCoupon" id="couponForm">
+                                                            <h2>Add Coupon</h2>
+                                                            <br>
+                                                            <div class="form-group">
+                                                                <label for="couponName">Coupon Name</label>
+                                                                <input type="text" class="form-control"
+                                                                    name="couponName" id="couponName"
+                                                                    placeholder="Coupon name">
+                                                                <span id="errMsg" style="color: red;"></span>
+
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="couponCode">Coupon Code</label>
+                                                                <input type="text" class="form-control"
+                                                                    name="couponCode" id="couponCode"
+                                                                    placeholder="Coupon code">
+                                                                <span id="errMsgCode" style="color: red;"></span>
+
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="minAmount">Minimum purchase
+                                                                    Amount</label>
+                                                                <input type="text" class="form-control" name="minAmount"
+                                                                    id="minAmount"
+                                                                    placeholder="minimum purchase amount">
+                                                                <span id="errMsg1" style="color: red;"></span>
+
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="discount">discount
+                                                                    percentage</label>
+                                                                <input type="number" class="form-control" id="discount"
+                                                                    name="disPercentage"
+                                                                    placeholder="discount percentage">
+                                                                <span id="errMsg2" style="color: red;"></span>
+
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="maxAmnt">Max
+                                                                    limit</label>
+                                                                <input type="text" class="form-control" id="maxAmnt"
+                                                                    name="maxLimit"
+                                                                    placeholder="Maximum Discount limit">
+                                                                <span id="errMsg3" style="color: red;"></span>
+
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="expDate">Expiry date</label>
+                                                                <input type="date" class="form-control" id="expDate"
+                                                                    name="expDate" placeholder="Expiry Date">
+                                                                <span id="errMsg4" style="color: red;"></span>
+
+                                                            </div>
+                                                            <button type="submit"
+                                                                class="btn btn-primary mr-2">Submit</button>
+                                                            <button class="btn btn-light">Cancel</button>
+                                                        </form>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <%- include('./includes/admin-footer')%>
+                        </div>
+                </div>
+        </div>
+        <script>
+            const form = document.getElementById('couponForm')
+            form.addEventListener('submit', (e) => {
+                console.log("hiiiii");
+                const couponName = document.getElementById('couponName')
+                const couponCode = document.getElementById('couponCode')
+                const minAmount = document.getElementById('minAmount')
+                const discount = document.getElementById('discount')
+                const maxDiscount = document.getElementById('maxAmnt')
+                const expiryDate = document.getElementById('expDate')
+                const err = document.getElementById('errMsg')
+                const err1 = document.getElementById('errMsg1')
+                const err2 = document.getElementById('errMsg2')
+                const err3 = document.getElementById('errMsg3')
+                const err4 = document.getElementById('errMsg4')
+                const err5 = document.getElementById('errMsgCode')
+                err.innerHTML = ''
+                err1.innerHTML = ''
+                err2.innerHTML = ''
+                err3.innerHTML = ''
+                err4.innerHTML = ''
+                err5.innerHTML=''
+                if (couponName.value == '' || couponName.value == null) {
+
+                    e.preventDefault()
+                    err.innerHTML = 'please fill this'
+                }
+                else if (minAmount.value == '' || minAmount.value == null || minAmount == NaN) {
+                    e.preventDefault(
+                        err1.innerHTML = 'Fill here correctly'
+                    )
+                }
+                else if (couponCode.value == '' || couponCode.value == null) {
+                    e.preventDefault(
+                        errMsgCode.innerHTML = 'Fill here correctly'
+                    )
+                }
+                else if (discount.value == '' || discount.value == null || discount == NaN) {
+                    e.preventDefault()
+                    err2.innerHTML = 'fill here correctly'
+                } else if (maxDiscount.value == '' || maxDiscount.value == null || maxDiscount == NaN) {
+                    e.preventDefault()
+                    err3.innerHTML = 'fill here correctly'
+                } else if (expiryDate.value == '' || expiryDate.value == null) {
+                    e.preventDefault()
+                    err4.innerHTML = 'fill here'
+                }
+            })
+        </script>
+        <%- include('./includes/script')%>

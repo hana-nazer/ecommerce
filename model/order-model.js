@@ -44,7 +44,12 @@ const orderSchema = new Schema({
     },
     discountAmount: {
         type: Number,
+        default:0
 
+    },
+    date:{
+        type:String,
+        require:true
     }
 
 

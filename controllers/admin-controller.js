@@ -6,20 +6,21 @@ const bcrypt = require('bcrypt')
 const categoryModel = require('../model/category-model')
 const bannerModel = require('../model/banner-model')
 const orderModel = require('../model/order-model')
-
-
+const couponModel = require('../model/coupon-model')
+// const otpGenerator = require('otp-generator')
+// let couponCode = otpGenerator.generate(4, { upperCaseAlphabets: false, specialChars: false });
 
 let categoryError;
 module.exports = {
     //-------------session middlware-----//
-    sessionAdmin: (req, res, next) => {
-        if (req.session.admin) {
-            next()
-        }
-        else {
-            res.redirect('/admin/admin-login')
-        }
-    },
+    // sessionAdmin: (req, res, next) => {
+    //     if (req.session.admin) {
+    //         next()
+    //     }
+    //     else {
+    //         res.redirect('/admin/admin-login')
+    //     }
+    // },
 
 
     //---------admin home---------//
@@ -398,7 +399,7 @@ module.exports = {
     postEditBanner: async (req, res) => {
         try {
             const bannerId = req.params.id
-            console.log(req.files);
+            // console.log(req.files);
             const images = [];
             for (file of req.files) {
                 images.push(file.filename)
@@ -414,24 +415,6 @@ module.exports = {
                     })
                 }
             })
-
-
-
-
-            //  if(files){
-            //     for(i=0;i<req.files.length;i++){
-            //         images[i]=files[i].filename
-            //     }
-            //  }
-
-
-            //   req.body.image=images
-            //   await bannerModel.updateOne({_id:bannerId},{
-            //     title:req.body.title,
-            //     description:req.body.description,
-            //     image:images
-            //   })
-            //   console.log(req.body.title);
             res.redirect('/admin/banner')
         }
         catch (error) {
@@ -570,19 +553,113 @@ module.exports = {
     },
 
     viewApprovedOrders: (req, res) => {
-        res.render('admin/approvedOrders')
+        try {
+            res.render('admin/approvedOrders')
+
+        } catch (error) {
+
+        }
     },
 
     viewDispatchedOrders: (req, res) => {
-        res.render('admin/dispatchedOrders')
+        try {
+            res.render('admin/dispatchedOrders')
+
+        } catch (error) {
+            console.log(error);
+        }
     },
 
     viewDeliveredOrders: (req, res) => {
-        res.render('admin/deliveredOrders')
+        try {
+            res.render('admin/deliveredOrders')
+
+        } catch (error) {
+            console.log(error);
+
+        }
     },
 
     viewCancelledOrders: (req, res) => {
-        res.render('admin/cancelledOrders')
+        try {
+            res.render('admin/cancelledOrders')
+
+        } catch (error) {
+            console.log(error);
+
+        }
+    },
+
+
+    //--------------coupon management---------//
+    viewCoupons: async (req, res) => {
+        try {
+            couponModel.find().then((coupons) => {
+                console.log(coupons);
+                res.render('admin/viewCoupons', { coupons })
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    },
+
+    AddCoupons: (req, res) => {
+        try {
+            res.render('admin/addCoupon')
+        } catch (error) {
+            console.log(error);
+        }
+    },
+
+    postAddCoupon: (req, res) => {
+        try {
+            // console.log(req.body);
+            // console.log(req.body.expDate);
+            const coupon = new couponModel({
+                couponName: req.body.couponName,
+                couponCode: req.body.couponCode,
+                MinimumAmount: req.body.minAmount,
+                discountPercentage: req.body.disPercentage,
+                maxLimit: req.body.maxLimit,
+                expiryDate: req.body.expDate
+            })
+            coupon.save();
+            res.redirect('/admin/coupon')
+        } catch (error) {
+
+        }
+    },
+
+    getEditCoupon: async (req, res) => {
+        let editId = req.params.id
+        let editCoupon = await couponModel.findOne({ _id: editId })
+        res.render('admin/editCoupon', { editCoupon })
+    },
+
+    postEditCoupon: async (req, res) => {
+        try {
+            let couponId = req.params.id
+            await couponModel.updateOne({ _id: couponId }, {
+                couponName: req.body.couponName,
+                couponCode: req.body.couponCode,
+                MinimumAmount: req.body.minAmount,
+                discountPercentage: req.body.disPercentage,
+                maxLimit: req.body.maxLimit,
+                expiryDate: req.body.expDate
+            })
+            res.redirect('/admin/coupon')
+        } catch (error) {
+
+        }
+    },
+
+
+
+    deleteCoupon: (req, res) => {
+        let couponId = req.params.id
+        couponModel.findByIdAndRemove({ _id: couponId }).then((data) => {
+            res.redirect('/admin/coupon')
+        })
     },
 
     //-----------------logout-------------------//

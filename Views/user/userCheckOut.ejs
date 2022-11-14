@@ -24,106 +24,211 @@
         <!-- checkout-section -->
         <section class="checkout-section">
             <div class="container">
-
-                <!-- <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12 upper-column">
-                        <div class="upper-box">
-                            <div class="customer single-box">Returning Customer? <a href="#">Click here to Login</a></div>
-                            <div class="coupon single-box">Have a Coupon? <a href="#">Click here to enter your code</a></div>
-                        </div>
-                    </div>
-                </div> -->
                 <div class="row">
+                    <div class="othre-content clearfix border">
+                        <div id="couponError" class="">
+                            <h6>check here if you have coupon</h6>
+                        </div>
+                        <div class="coupon-box pull-left clearfix id=err">
+                            <input type="text" name="couponCode" id="couponCode"
+                                placeholder="&nbsp;&nbsp;Enter coupon code...">
+                            <button onclick="coupon()" class="theme-btn-two">Apply coupon<i type="button"
+                                    class="flaticon-right-1"></i></a></button>
+                        </div>
+
+
+                       <!-- modal -->
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+    Launch demo modal
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <%showCoupon.forEach(function(show){%>
+        <div class="modal-body">
+          <h6>Coponcode:<%=show.couponCode%></h6>
+          <h6>discount:<%=show.discountPercentage%>%</h6>
+          <h6>Applicable to min purchase of : <%=show.MinimumAmount%></h6>
+        </div>
+        <%})%>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+                       <!-- modal ends -->
+
+
+                    </div>
+
                     <form action="" method="" class="billing-form" id="checkoutform">
 
+                        <div class="row">
 
-                        <div class="col-lg-6 col-md-12 col-sm-12 left-column">
-                            <div class="inner-box">
-                                <div class="billing-info">
-                                    <h4 class="sub-title">Billing Details</h4>
-                                    <div class="row">
-                                        <div class="col-lg-6 col-md-6 col-sm-12 form-group">
-                                            <label> Name*</label>
-                                            <div class="field-input">
-                                                <input type="text" name="name" id="name">
-                                            </div>
-                                        </div>
 
-                                        <div class="col-lg-6 col-md-6 col-sm-12 form-group">
-                                            <label>Phone Number*</label>
-                                            <div class="field-input">
-                                                <input type="text" name="phone" id="phone">
+                            <div class="col-lg-6 col-md-12 col-sm-12 left-column">
+                                <div class="inner-box">
+                                    <div class="billing-info border">
+                                        <h4 class="sub-title">Billing Details</h4>
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+                                                <label> &nbsp;Name*</label>
+                                                <div class="field-input">
+                                                    <input type="text" name="name" id="name">
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <div class="col-lg-12 col-md-12 col-sm-12 form-group">
-                                            <label>Address*</label>
-                                            <div class="field-input">
-                                                <input type="text" name="address" class="address" id="address">
-                                                <!-- <input type="text" name="address" id="addres"> -->
+                                            <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+                                                <label>&nbsp;Phone Number*</label>
+                                                <div class="field-input">
+                                                    <input type="text" name="phone" id="phone">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-lg-12 col-md-12 col-sm-12 form-group">
-                                            <label>Town/City*</label>
-                                            <div class="field-input">
-                                                <input type="text" name="town_city" id="city">
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                                                <label>&nbsp;Address*</label>
+                                                <div class="field-input">
+                                                    <input type="text" name="address" class="address" id="address">
+                                                    <!-- <input type="text" name="address" id="addres"> -->
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-12 form-group">
-                                            <label>State*</label>
-                                            <div class="select-column select-box">
-                                                <select class="selectmenu" id="select" id="ui-id-2" name="state">
-                                                    <option selected="selected" value="0">Select Option</option>
-                                                    <option>kerala</option>
-                                                    <option>Tamilnadu</option>
-                                                    <option>Karnataka</option>
-                                                </select>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                                                <label>&nbsp;Town/City*</label>
+                                                <div class="field-input">
+                                                    <input type="text" name="town_city" id="city">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-12 form-group">
-                                            <label>Zip Code*</label>
-                                            <div class="field-input">
-                                                <input type="text" name="zip" id="zip">
+                                            <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+                                                <label>&nbsp;State*</label>
+                                                <div class="select-column select-box">
+                                                    <select class="selectmenu" id="select" id="ui-id-2" name="state">
+                                                        <option selected="selected" value="0">Select Option
+                                                        </option>
+                                                        <option>kerala</option>
+                                                        <option>Tamilnadu</option>
+                                                        <option>Karnataka</option>
+                                                    </select>
+                                                </div>
                                             </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+                                                <label>Zip Code*</label>
+                                                <div class="field-input">
+                                                    <input type="text" name="zip" id="zip">
+                                                </div>
+                                            </div>
+
                                         </div>
 
                                     </div>
-                                    <!-- </form> -->
+
+
+                                    <!-- <div class="othre-content clearfix ">
+                                    <div class="coupon-box pull-left clearfix border">
+                                        <form action="/applyCoupon" method="post">
+                                            <input type="text" name="couponCode" placeholder="&nbsp;Enter coupon code...">
+                                            <button type="submit" class="theme-btn-two">Apply coupon<i
+                                                    class="flaticon-right-1"></i></a>
+                                        </form>
+                                    </div>
+                                </div> -->
+
+
                                 </div>
-
                             </div>
-                        </div>
-                        <div class="col-lg-6 col-md-12 col-sm-12 right-column">
-                            <div class="inner-box">
 
-                                <div class="payment-info">
-                                    <h4 class="sub-title">Payment Proccess</h4>
-                                    <div class="payment-inner" id="">
-                                        <!-- <form action="/checkout" method="post" id="payment"> -->
-                                        <div class="option-block">
-                                            <div class="custom-controls-stacked">
-                                                <label class="custom-control radio-inline">
-                                                    <input type="radio" name="paymentMethod" id="netbanking"
-                                                        value="netbanking" class="material-control-input">
-                                                    <span class="material-control-indicator"></span>
-                                                    <span class="description">netbanking</span>
-                                                </label>
-                                            </div>
+
+                            <div class="col-lg-6 col-md-12 col-sm-12 right-column">
+                                <div class="inner-box">
+                                    <div class="order-info border">
+                                        <h4 class="sub-title">Your Order</h4>
+                                        <div class="order-product">
+                                            <ul class="order-list clearfix">
+                                                <li class="title clearfix">
+                                                    <p>Product</p>
+                                                    <span></span>
+                                                </li>
+
+                                                <%for (let i=0;i<cartArray.length;i++){%>
+                                                    <li>
+                                                        <div class="single-box clearfix">
+                                                            <img src="/productImages/<%=cart.cartProducts[i].productId.image[0]%>"
+                                                                alt="">
+                                                            <h6>
+                                                                <%=cartArray[i].name%>,&nbsp;qty:
+                                                                    <%=cartArray[i].quantity%>
+                                                            </h6>
+                                                            <span>
+                                                                <%=cartArray[i].price%>
+                                                            </span>
+                                                        </div>
+                                                    </li>
+                                                    <%}%>
+                                                        <li class="order-total clearfix">
+
+                                                            <h6>&nbsp; order Total</h6>
+                                                            <span id="totalprice">
+                                                                <%=cart.total%>
+                                                            </span>
+                                                        </li>
+                                                        <div id="couponTotal">
+                                                            <li class="order-total clearfix">
+                                                                <h6>&nbsp;Discount</h6>
+                                                                <span>
+                                                                    0
+                                                                </span>
+                                                            </li>
+                                                            <li class="order-total clearfix">
+                                                                <h6>Total</h6>
+                                                                <span>
+
+                                                                </span>
+                                                            </li>
+                                                        </div>
+
+                                            </ul>
                                         </div>
-                                        <div class="option-block" id="inner">
-                                            <div class="custom-controls-stacked">
-                                                <label class="custom-control radio-inline">
-                                                    <input type="radio" name="paymentMethod" value="cod" id="cod"
-                                                        class="material-control-input" checked>
-                                                    <span class="material-control-indicator"></span>
-                                                    <span class="description">Cash on delivery</span>
-                                                </label>
+                                    </div>
+                                    <div class="payment-info">
+                                        <h4 class="sub-title">Payment Proccess</h4>
+                                        <div class="payment-inner" id="">
+                                            <!-- <form action="/checkout" method="post" id="payment"> -->
+                                            <div class="option-block">
+                                                <div class="custom-controls-stacked">
+                                                    <label class="custom-control radio-inline">
+                                                        <input type="radio" name="paymentMethod" id="netbanking"
+                                                            value="netbanking" class="material-control-input">
+                                                        <span class="material-control-indicator"></span>
+                                                        <span class="description">netbanking</span>
+                                                    </label>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <!-- </form> -->
-                                        <div class="btn-box">
-                                            <button type="button" onclick="checkout()" class="theme-btn-two">Place Your
-                                                Order<i class="flaticon-right-1"></i></button>
+                                            <div class="option-block" id="inner">
+                                                <div class="custom-controls-stacked">
+                                                    <label class="custom-control radio-inline">
+                                                        <input type="radio" name="paymentMethod" value="cod" id="cod"
+                                                            class="material-control-input" checked>
+                                                        <span class="material-control-indicator"></span>
+                                                        <span class="description">Cash on delivery</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <!-- </form> -->
+                                            <div class="btn-box">
+                                                <button type="button" onclick="checkout()" class="theme-btn-two">Place
+                                                    Your
+                                                    Order<i class="flaticon-right-1"></i></button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -138,9 +243,80 @@
 
 
         <%- include('./includes/user-footer')%>
+            <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
             <script>
+                function coupon() {
+                    // let total = document.getElementById('total').value
+                    let couponCode = document.getElementById('couponCode').value
+                    $.ajax({
+                        url: '/applyCoupon',
+                        data: { couponCode },
+                        method: 'post',
+                        success: (response) => {
+                            if (response.couponObj) {
+                                coupon = response.couponObj
+                            
+                                console.log("hiiii");
+                                console.log(coupon);
+                                let userCouponCart = document.getElementById('couponTotal')
+                                let totalbill = document.getElementById('totalprice').innerText
+                                console.log(totalbill);
+
+                                console.log(userCouponCart);
+                                let html = null
+                                html = ` <div  id="couponTotal">
+                                                            <li class="order-total clearfix">
+                                                                <h6>&nbsp;Discount</h6>
+                                                                <span>
+                                                                    ${coupon.discount}
+                                                                    
+                                                                </span>
+                                                            </li>
+                                                        <li class="order-total clearfix">
+                                                            <h6>Total</h6>
+                                                            <span>
+                                                             ${parseInt(Number(totalbill) - (Number(totalbill) * coupon.discount) / 100)}
+                                                            </span>
+                                                        </li>
+                                                    </div>  `
+                                userCouponCart.innerHTML = html
+
+                            }
+                            else if (response.couponErr) {
+                                error = response.couponErr
+                                console.log(error);
+                                let couponError = document.getElementById('couponError')
+                                let html = null
+                                html = `<div id="couponError">
+                                    <h6 style="color:red;"> ${error}
+                                    </div>`
+                                couponError.innerHTML = html
+                            }
+                            // {
+                            //     $("#err").after(`<span class="error text-danger"> </span>`);
+                            // }
+                        }
+                    })
+                }
+                //                 <div id="CouponTotal"  class="size-209 p-t-1 ">
+
+                // <div class="size-209 p-t-1">
+                // <span id="totalbill"  class="mtext-110 cl2"> ${parseInt(Number(totalbill))}-</span>
+                //      </div>
+                //       <div >
+
+                //          <span   style="margin-left:1.5rem  ;" class="mtext-110 cl2"> ${coupon[0].discount}%</span>
+                //       </div>
+                //       <hr style="color: black; ">
+
+                //       <div >
+                //   <span   style="margin-left:0.5rem ;" class="mtext-110 cl2">${parseInt(Number(totalbill) - (Number(totalbill) * Number(coupon[0].discount)) / 100)} </span>
+                //     </div>
+                //    <hr style="color: black; ">
+                //    </div>
+
                 function checkout() {
-                    console.log("hrjnfj");
+
                     const error = document.getElementById('errorMsg')
                     const name = document.getElementById('name')
                     const phone = document.getElementById('phone')
@@ -179,7 +355,10 @@
                                 method: 'post',
                                 data: $('#checkoutform').serialize(),
                                 success: (response) => {
-                                    if (response.status) {
+                                    if (response.codSuccess,response.orderId) {
+                                        orderId=response.orderId
+                                        console.log("hiii")
+                                        console.log(orderId)
                                         swal.fire({
                                             icon: 'success',
                                             title: 'order has been placed Succesfully',
@@ -189,19 +368,82 @@
                                             hideClass: {
                                                 popup: 'animate__animated animate__fadeOutUp'
                                             },
-                                        showConfirmButton: true,
+                                            showConfirmButton: true,
                                         }).then(() => {
-                                            window.location.href = "/";
+                                            window.location.href = "/orderSuccess/"+ orderId;
+                                            // instead of directing to homepage direct it to a success page
                                         })
+                                    } else {
+                                        razorPayPayment(response)
                                     }
                                 }
                             })
+                        function razorPayPayment(order) {
+                            var options = {
+                                "key": "rzp_test_BUnir6WHXKvN1B", // Enter the Key ID generated from the Dashboard
+                                "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                                "currency": "INR",
+                                "name": "BeYou",
+                                "description": "Test Transaction",
+                                "image": "https://example.com/your_logo",
+                                "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                                "handler": function (response) {
+                                    alert(response.razorpay_payment_id);
+                                    alert(response.razorpay_order_id);
+                                    alert(response.razorpay_signature)
+
+                                    verifyPayment(response, order)
+                                },
+                                "prefill": {
+                                    "name": "Gaurav Kumar",
+                                    "email": "gaurav.kumar@example.com",
+                                    "contact": "9999999999"
+                                },
+                                "notes": {
+                                    "address": "Razorpay Corporate Office"
+                                },
+                                "theme": {
+                                    "color": "#3399cc"
+                                }
+
+                            };
+                            var rzp1 = new Razorpay(options);
+                            rzp1.open();
+
+                            function verifyPayment(payment, order) {
+                                $.ajax({
+                                    url: '/verify-payment',
+                                    data: { payment, order },
+                                    method: 'post',
+                                    success: (response) => {
+                                        if (response.status,response.orderId) {
+                                            orderId=response.orderId
+                                            console.log("oiiii");
+                                             console.log(orderId);
+                                            swal.fire({
+                                                icon: 'success',
+                                                title: 'order has been placed Succesfully',
+                                                showClass: {
+                                                    popup: 'animate__animated animate__fadeInDown'
+                                                },
+                                                hideClass: {
+                                                    popup: 'animate__animated animate__fadeOutUp'
+                                                },
+                                                showConfirmButton: true,
+                                            }).then(() => {
+                                                window.location.href = "/orderSuccess/"+ orderId;
+                                                // instead of directing to homepage direct it to a success page
+                                            })
+                                        } else {
+                                            alert("payment failed")
+                                        }
+                                    }
+                                })
+                            }
+                        }
                     }
 
-
-                    // })
                 }
-
             </script>
 
             <%- include('./includes/script')%>

@@ -21,6 +21,10 @@ const userSchema = new Schema({
     status:{
         type:String,
         required:true
+    },
+    coupon:{
+        type:Array,
+        unique:true
     }
 })
 

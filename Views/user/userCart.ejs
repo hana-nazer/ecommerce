@@ -18,7 +18,7 @@
         <!-- page-title end -->
 
 
-       
+
         <section class="cart-section cart-page">
             <div class="auto-container">
                 <div class="row clearfix">
@@ -40,13 +40,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    
+
                                     <%products.forEach(function(product){%>
-                                        <tr> 
-                                           
+                                        <tr>
+
                                             <td colspan="4" class="prod-column">
                                                 <div class="column-box">
-                                                    <div class="remove-btn" onclick="removeItem('<%=product.productId._id%>')">
+                                                    <div class="remove-btn"
+                                                        onclick="removeItem('<%=product.productId._id%>')">
                                                         <i class="flaticon-close"></i>
                                                     </div>
                                                     <div class="prod-thumb">
@@ -65,7 +66,6 @@
                                             </td>
                                             <td class="qty">
                                                 <div class="item-quantity"
-                                                
                                                     onclick="quantityChange('<%=product.productId._id%>')">
                                                     <input class="quantity-spinner"
                                                         id="<%=product.productId._id%>quantity" type="text"
@@ -76,36 +76,40 @@
                                                 <%=product.productId.price*product.quantity%>
                                             </td>
                                         </tr>
-                                   
+
                                         <%})%>
 
-                                       
+
 
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-                <div class="othre-content clearfix">
+
+                <!-- <div class="othre-content clearfix">
                     <div class="coupon-box pull-left clearfix">
-                        <input type="text" placeholder="Enter coupon code...">
-                        <button type="submit" class="theme-btn-two">Apply coupon<i
-                                class="flaticon-right-1"></i></button>
+                        <form action="/applyCoupon" method="post">
+                            <input type="text" name="couponCode" placeholder="Enter coupon code...">
+                            <button type="submit" class="theme-btn-two">Apply coupon<i
+                                    class="flaticon-right-1"></i></a>
+                        </form>
                     </div>
-                    
-                    <!-- <div class="update-btn pull-right">
-                        <button type="submit" class="theme-btn-one">Update Cart<i class="flaticon-right-1"></i></button>
-                    </div> -->
-                </div>
+                </div> -->
+
                 <div class="cart-total">
                     <div class="row">
                         <div class="col-xl-5 col-lg-12 col-md-12 offset-xl-7 cart-column">
                             <div class="total-cart-box clearfix">
                                 <h4>Cart Totals</h4>
                                 <ul class="list clearfix">
-                                    <li>Subtotal:<span>$150</span></li>
-                                    
-                                    <li>Order Total:<span id="totalPrice"><%=total%></span></li>
+                                    <li>Subtotal:<span>
+                                            <%=total%>
+                                        </span></li>
+
+                                    <li>Order Total:<span id="totalPrice">
+                                            <%=total%>
+                                        </span></li>
                                 </ul>
                                 <a href="/checkout" class="theme-btn-two">Proceed to Checkout<i
                                         class="flaticon-right-1"></i></a>
@@ -138,42 +142,42 @@
                 }
             </script>
             <script>
-                 
-      function removeItem(productId) {
-        Swal.fire({
-          title: "Are you sure to remove this",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#d33',
-          cancelButtonColor: '#3085d6',
-          confirmButtonText: 'remove'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            $.ajax({
-              url: '/remove/' + productId,
-              method: 'post',
-              success: (response) => {
-                if (response.status) {
-                  swal.fire({
-                    icon: 'success',
-                    title: 'Removed Succesfully',
-                    showConfirmButton: false,
-                  }).then(() => {
-                    setTimeout(() => {
-                      location.reload()
-                    }, 800)
-                  })
+
+                function removeItem(productId) {
+                    Swal.fire({
+                        title: "Are you sure to remove this",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'remove'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                url: '/remove/' + productId,
+                                method: 'post',
+                                success: (response) => {
+                                    if (response.status) {
+                                        swal.fire({
+                                            icon: 'success',
+                                            title: 'Removed Succesfully',
+                                            showConfirmButton: false,
+                                        }).then(() => {
+                                            setTimeout(() => {
+                                                location.reload()
+                                            }, 800)
+                                        })
+                                    }
+
+                                }
+                            })
+                        }
+                    }
+                    )
                 }
-                
-              }
-            })
-          }
-        }
-        )
-      }
-      
-    </script>
-    <!-- <script>
+
+            </script>
+            <!-- <script>
         function totalprice(){
             let total = document.getElementById('totalPrice').innerHTML
             $.ajax({
@@ -183,8 +187,6 @@
             })
         }
     </script> -->
-            
 
-        <%- include('./includes/script')%>
 
-            
+            <%- include('./includes/script')%>

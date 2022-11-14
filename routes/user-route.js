@@ -1,6 +1,7 @@
 const express = require('express');
 const { TaskRouterGrant } = require('twilio/lib/jwt/AccessToken');
 const app = require('../app');
+const { adminCollection } = require('../config/collection');
 const adminController = require('../controllers/admin-controller');
 var router = express.Router();
 const userController = require('../controllers/user-controller')
@@ -65,8 +66,14 @@ router.route('/checkout')
 .get (userController.userSession,userController.userBlock,userController.getCheckOut)
 .post(userController.userSession,userController.userBlock,userController.postCheckOut)
 
+router.post('/verify-payment',userController.userSession,userController.verifyPayment)
+router.post('/applyCoupon',userController.userSession,userController.applyCoupon)
+// router.get('/availableCoupons',userController.userSession,userController.availableCoupons)
+
 //orderDetails
 router.get('/orderTrack',userController.userSession,userController.orderDetails)
+//orderSuccessPage
+router.get('/orderSuccess/:orderId',userController.userSession,userController.userBlock,userController.orderSuccesPage)
 
 
 //logout

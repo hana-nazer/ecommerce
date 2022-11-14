@@ -4,12 +4,13 @@ const router = express.Router();
 const adminController = require('../controllers/admin-controller')
 const upload = require('../multer/multer')
 const storeBanner = require('../multer/multer')
+const sessionAdmin = require('../middleware/admin-session')
 
 
 
 
 //homepage
-router.get('/', adminController.sessionAdmin, adminController.getAdmin)
+router.get('/', sessionAdmin, adminController.getAdmin)
 
 //admin login(get)
 router.get('/admin-login', adminController.getAdminLogin)
@@ -18,10 +19,10 @@ router.get('/admin-login', adminController.getAdminLogin)
 router.post('/admin-login', adminController.postLogin)
 
 //user list
-router.get('/user-option', adminController.sessionAdmin, adminController.getUserList)
+router.get('/user-option', sessionAdmin, adminController.getUserList)
 
 //products
-router.get('/product', adminController.sessionAdmin, adminController.getProductList)
+router.get('/product', sessionAdmin, adminController.getProductList)
 
 //add-products
 // router.get('/add-product',adminController.addProduct)
@@ -31,76 +32,81 @@ router.get('/product', adminController.sessionAdmin, adminController.getProductL
 
 //route chaining (add product ,get and post writing together)
 router.route('/add-product')
-    .get(adminController.sessionAdmin, adminController.addProduct)
-    .post(adminController.sessionAdmin, upload.array("productImage", 2), adminController.product)
+    .get(sessionAdmin, adminController.addProduct)
+    .post(sessionAdmin, upload.array("productImage", 2), adminController.product)
 
 //Add category
-router.post('/add-category', adminController.sessionAdmin, adminController.addCategory)
+router.post('/add-category', sessionAdmin, adminController.addCategory)
 
 //delete category
-router.post('/delete-category/:id', adminController.sessionAdmin, adminController.deleteCategory)
+router.post('/delete-category/:id', sessionAdmin, adminController.deleteCategory)
 
-router.get('/categoryList/:category', adminController.sessionAdmin, adminController.categoryList)
+router.get('/categoryList/:category', sessionAdmin, adminController.categoryList)
 
 
 //category
-router.get('/category', adminController.sessionAdmin, adminController.getCategory)
+router.get('/category',sessionAdmin, adminController.getCategory)
 
 //edit-product
-router.get('/edit-product/:id', adminController.sessionAdmin, adminController.editProduct)
+router.get('/edit-product/:id',sessionAdmin, adminController.editProduct)
 
 //post edit
-router.post('/edit-product/:id', adminController.sessionAdmin, upload.array("productImage", 2), adminController.postEditProduct)
+router.post('/edit-product/:id',sessionAdmin, upload.array("productImage", 2), adminController.postEditProduct)
 
 //delete product
-router.post('/delete-product/:id', adminController.sessionAdmin, adminController.deleteProduct)
+router.post('/delete-product/:id',sessionAdmin, adminController.deleteProduct)
 
 //block user
-router.get('/blockUser/:id', adminController.sessionAdmin, adminController.blockUser)
+router.get('/blockUser/:id',sessionAdmin, adminController.blockUser)
 
 //unblock user
-router.get('/unBlockUser/:id', adminController.sessionAdmin, adminController.unBlock)
+router.get('/unBlockUser/:id', sessionAdmin, adminController.unBlock)
 
 //banner
-router.get('/banner', adminController.sessionAdmin, adminController.getBannerList)
+router.get('/banner', sessionAdmin, adminController.getBannerList)
 
 //addBanner
 router.route('/addBanner')
-    .get(adminController.sessionAdmin, adminController.addBanner)
-    .post(adminController.sessionAdmin, storeBanner.array("bannerImage", 2), adminController.postAddBanner)
+    .get(sessionAdmin, adminController.addBanner)
+    .post(sessionAdmin, storeBanner.array("bannerImage", 2), adminController.postAddBanner)
 
 //editbanner
 router.route('/editBanner/:id')
-    .get(adminController.sessionAdmin, adminController.editBanner)
-    .post(adminController.sessionAdmin, storeBanner.array("bannerImage", 2), adminController.postEditBanner)
+    .get(sessionAdmin, adminController.editBanner)
+    .post(sessionAdmin, storeBanner.array("bannerImage", 2), adminController.postEditBanner)
 
 //hideUnhideBanner
-router.post('/hideUnhideBanner/:id', adminController.sessionAdmin, adminController.bannerHideUnhide)
+router.post('/hideUnhideBanner/:id', sessionAdmin, adminController.bannerHideUnhide)
 
 //orderpage
-router.get('/viewOrder', adminController.sessionAdmin, adminController.viewOrder)
+router.get('/viewOrder', sessionAdmin, adminController.viewOrder)
 //orderDetails
-router.get('/orderDetails/:id', adminController.sessionAdmin, adminController.viewOrderDetails)
+router.get('/orderDetails/:id', sessionAdmin, adminController.viewOrderDetails)
 //pending orders
-router.get('/pendingOrders', adminController.sessionAdmin, adminController.viewPendingOrders)
+router.get('/pendingOrders', sessionAdmin, adminController.viewPendingOrders)
 //Approved
-router.get('/approvedOrders', adminController.sessionAdmin, adminController.viewApprovedOrders)
+router.get('/approvedOrders', sessionAdmin, adminController.viewApprovedOrders)
 //dispatched
-router.get('/dispatchedOrders', adminController.sessionAdmin, adminController.viewDispatchedOrders)
+router.get('/dispatchedOrders', sessionAdmin, adminController.viewDispatchedOrders)
 //delieverd
-router.get('/deliveredOrders', adminController.sessionAdmin, adminController.viewDeliveredOrders)
+router.get('/deliveredOrders', sessionAdmin, adminController.viewDeliveredOrders)
 //cancelled
-router.get('/cancelledOrders', adminController.sessionAdmin, adminController.viewCancelledOrders)
+router.get('/cancelledOrders', sessionAdmin, adminController.viewCancelledOrders)
 
 
 //order status
-router.get('/approveOrder/:id', adminController.sessionAdmin, adminController.approveOrders)
-router.get('/dispatchedOrder/:id', adminController.sessionAdmin, adminController.dispatchedOrders)
-router.get('/deliveredOrder/:id', adminController.sessionAdmin, adminController.deliveredOrders)
-router.get('/cancelOrder/:id', adminController.sessionAdmin, adminController.cancelledOrders)
+router.get('/approveOrder/:id', sessionAdmin, adminController.approveOrders)
+router.get('/dispatchedOrder/:id', sessionAdmin, adminController.dispatchedOrders)
+router.get('/deliveredOrder/:id', sessionAdmin, adminController.deliveredOrders)
+router.get('/cancelOrder/:id', sessionAdmin, adminController.cancelledOrders)
 
-//to get each category products
-// router.get('/categoryList/:category',adminController.sessionAdmin,adminController.categoryList)
+//coupon
+router.get('/coupon',sessionAdmin,adminController.viewCoupons)
+router.get('/addCoupon',sessionAdmin,adminController.AddCoupons)
+router.post('/addcoupon',sessionAdmin,adminController.postAddCoupon)
+router.get('/deleteCoupon/:id',sessionAdmin,adminController.deleteCoupon)
+router.get('/editCoupon/:id',sessionAdmin,adminController.getEditCoupon)
+router.post('/editCoupon/:id',sessionAdmin,adminController.postEditCoupon)
 
 
 //logout

@@ -1,74 +1,68 @@
 <%- include('./includes/admin-header')%>
 
-<body>
-  <div class="container-scroller">
-    <!-- partial:../../partials/_navbar.html -->
-    <%- include('./includes/admin-navbar')%>
-    <!-- partial -->
-    <div class="container-fluid page-body-wrapper">
-      
-    
+  <body>
+    <div class="container-scroller">
+      <%- include('./includes/admin-navbar')%>
+        <div class="container-fluid page-body-wrapper">
+          <%- include('./includes/side-nav')%>
+            <div class="main-panel">
+              <div class="content-wrapper">
+                <div class="row">
+                  <div class="col-lg-6 grid-margin stretch-card">
+                    <div class="card">
+                      <div class="card-body">
+                        <h4 class="card-title">Users List</h4>
 
+                        <div class="table-responsive">
+                          <table class="table table-hover">
+                            <thead>
+                              <tr>
+                                <th>User</th>
+                                <th>email</th>
+                                <th>mobile</th>
+                                <th>Status</th>
 
-
-      <%- include('./includes/side-nav')%>
-      <!-- partial:../../partials/_sidebar.html -->
-     
-
-
-
-      <!-- partial -->
-      <div class="main-panel">
-        <div class="content-wrapper">
-          <div class="row">
-            <div class="col-lg-6 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">Users List</h4>
-                  
-                  <div class="table-responsive">
-                    <table class="table table-hover">
-                      <thead>
-                        <tr>
-                          <th>User</th>
-                          <th>email</th>
-                          <th>mobile</th>
-                          <th>Status</th>
-                          
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <% data.forEach(function(data){ %>
-                            <tr>
-                                <td><%=data.userName%></td>
-                                <td><%=data.userEmail%></td>
-                                <td><%=data.mobile%></td>
-                               <td><% if(data.status==="true"){%> 
-                                <a href="/admin/blockUser/<%=data._id%>" style="text-decoration: none;">block</a>
-                                <%}else{%>
-                                  <a href="/admin/unBlockUser/<%=data._id%>" style="text-decoration: none;">Unblock</a>
-                                <%}%>
-                              </td>
                               </tr>
-                       <%})%>
-                       
-                      </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                              <% data.forEach(function(data){ %>
+                                <tr>
+                                  <td>
+                                    <%=data.userName%>
+                                  </td>
+                                  <td>
+                                    <%=data.userEmail%>
+                                  </td>
+                                  <td>
+                                    <%=data.mobile%>
+                                  </td>
+                                  <td>
+                                    <% if(data.status==="true" ){%>
+                                      <a href="/admin/blockUser/<%=data._id%>" style="text-decoration: none;">block</a>
+                                      <%}else{%>
+                                        <a href="/admin/unBlockUser/<%=data._id%>"
+                                          style="text-decoration: none;">Unblock</a>
+                                        <%}%>
+                                  </td>
+                                </tr>
+                                <%})%>
+
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
+              <!-- content-wrapper ends -->
+              <!-- partial:../../partials/_footer.html -->
+              <%- include('./includes/admin-footer')%>
+                <!-- partial -->
             </div>
-          </div>
+            <!-- main-panel ends -->
         </div>
-        <!-- content-wrapper ends -->
-        <!-- partial:../../partials/_footer.html -->
-        <%- include('./includes/admin-footer')%>
-        <!-- partial -->
-      </div>
-      <!-- main-panel ends -->
+        <!-- page-body-wrapper ends -->
     </div>
-    <!-- page-body-wrapper ends -->
-  </div>
-  <!-- container-scroller -->
-  <%- include('./includes/script')%>
-  
+    <!-- container-scroller -->
+    <%- include('./includes/script')%>

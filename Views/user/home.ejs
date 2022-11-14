@@ -7,14 +7,14 @@
 
             <!-- Mobile Menu  -->
             <div class="mobile-menu">
-                <div class="menu-backdrop"></div>
+                <!-- <div class="menu-backdrop"></div>
                 <div class="close-btn"><i class="fas fa-times"></i></div>
                 <nav class="menu-box">
                     <div class="nav-logo"><a href="index.html"><img src="user/images/logo-2.png" alt="" title=""></a>
                     </div>
-                    <div class="menu-outer">
+                    <div class="menu-outer"> -->
                         <!--Here Menu Will Come Automatically Via Javascript / Same Menu as in Header-->
-                    </div>
+                    <!-- </div>
                     <div class="contact-info">
                         <h4>Contact Info</h4>
                         <ul>
@@ -22,8 +22,8 @@
                             <li><a href="tel:+8801682648101">+88 01682648101</a></li>
                             <li><a href="mailto:info@example.com">info@example.com</a></li>
                         </ul>
-                    </div>
-                    <div class="social-links">
+                    </div> -->
+                    <!-- <div class="social-links">
                         <ul class="clearfix">
                             <li><a href="index.html"><span class="fab fa-twitter"></span></a></li>
                             <li><a href="index.html"><span class="fab fa-facebook-square"></span></a></li>
@@ -31,7 +31,7 @@
                             <li><a href="index.html"><span class="fab fa-instagram"></span></a></li>
                             <li><a href="index.html"><span class="fab fa-youtube"></span></a></li>
                         </ul>
-                    </div>
+                    </div> -->
                 </nav>
             </div><!-- End Mobile Menu -->
 
@@ -45,14 +45,14 @@
                             <div class="content-inner">
                                 <div class="content-box">
                                     <h1>Up To <br /><span>50%</span> Discount</h1>
-                                    <h3>Summer Lookbook - 2020</h3>
+                                    <h3>Summer Lookbook - 2022</h3>
                                     <p><%=banner[0].description%></p>
                                     <div class="btn-box">
                                         <a href="/" class="theme-btn-one">Explore Now<i
                                                 class="flaticon-right-1"></i></a>
                                     </div>
                                 </div>
-                                <% console.log(banner)%>
+                                
                                 <figure class="image-box image-1"><img src="/bannerImages/<%=banner[1].image[0]%>"
                                         alt=""></figure>
                             </div>
@@ -133,17 +133,19 @@
                                     class="col-lg-3 col-md-6 col-sm-12 shop-block masonry-item small-column best_seller new_arraivals top_rate ">
                                     <div class="shop-block-one ">
                                         <div class="inner-box ">
-                                            <figure class="image-box zoom">
+                                            <figure class="image-box ">
                                                 <a href="/productView/<%=product._id%>/<%=product.category%>"><img
                                                         src="/productImages/<%=product.image[0]%>"
                                                         style="height: 320px;width:700px;" alt="Image not found"></a>
                                                 <ul class="info-list clearfix">
-                                                    <li><a href="/wishList/<%=product._id%>"><i
-                                                                class="flaticon-heart"></i></a></li>
+                                                    <li><a href="/wishList/<%=product._id%>">
+                                                        <i
+                                                                class="flaticon-heart"></i>
+                                                            </a></li>
                                                     <li><a onclick="addToCart('<%=product._id%>')">Add to cart</a></li>
-                                                    <li><a href="user/images/resource/shop/shop-1.jpg"
+                                                    <!-- <li><a href="user/images/resource/shop/shop-1.jpg"
                                                             class="lightbox-image" data-fancybox="gallery"><i
-                                                                class="flaticon-search"></i></a></li>
+                                                                class="flaticon-search"></i></a></li> -->
                                                 </ul>
                                             </figure>
                                             <div class="lower-content">

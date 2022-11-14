@@ -1,0 +1,90 @@
+<%- include('./includes/admin-header')%>
+
+    <body>
+        <div class="container-scroller">
+            <%- include('./includes/admin-navbar')%>
+                <div class="container-fluid page-body-wrapper">
+                    <%- include('./includes/side-nav')%>
+                        <div class="container">
+                            <div class="col-lg-12 grid-margin stretch-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Coupon Details</h4>
+
+                                        <div class="table-responsive pt-3">
+                                            <table class="table table-dark">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            SI/No
+                                                        </th>
+                                                        <th>
+                                                            coupon Name
+                                                        </th>
+                                                        <th>
+                                                            coupon Code
+                                                        </th>
+                                                        <th>
+                                                            Percentage
+                                                        </th>
+                                                        <th>
+                                                            Min Amount
+                                                        </th>
+                                                        <th>
+                                                            Max Limit
+                                                        </th>
+                                                        <th>
+                                                            expiryDate
+                                                        </th>
+                                                        <th>
+                                                            options
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <%coupons.forEach(function(coupon,index){%>
+                                                        <tr>
+                                                            <td>
+                                                                <%=index+1%>
+                                                            </td>
+                                                            <td>
+                                                                <%=coupon.couponName%>
+                                                            </td>
+                                                            <td>
+                                                                <%=coupon.couponCode%>
+                                                            </td>
+                                                            <td>
+                                                                <%=coupon.discountPercentage%>
+                                                            </td>
+                                                            <td>
+                                                                <%=coupon.MinimumAmount%>
+                                                            </td>
+                                                            <td>
+                                                                <%=coupon.maxLimit%>
+                                                            </td>
+
+                                                            <td>
+                                                                <%=coupon.expiryDate%>
+
+                                                            </td>
+
+
+                                                            <td>
+                                                                <a href="/admin/editCoupon/<%=coupon._id%>" class="btn btn-light">Edit</a>
+                                                                <a href="/admin/deleteCoupon/<%=coupon._id%>" class="btn btn-light">Delete</a>
+                                                            </td>
+
+                                                        </tr>
+                                                        <%})%>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <%- include('./includes/admin-footer')%>
+                </div>
+        </div>
+        </div>
+        <%- include('./includes/script')%>
