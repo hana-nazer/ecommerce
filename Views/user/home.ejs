@@ -1,42 +1,7 @@
+
 <%- include('./includes/user-header')%>
- <div class="boxed_wrapper">
-        <!-- navbar  -->
+    <div class="boxed_wrapper">
         <%- include('./includes/user-navbar')%>
-            <!-- navbar end -->
-
-
-            <!-- Mobile Menu  -->
-            <div class="mobile-menu">
-                <!-- <div class="menu-backdrop"></div>
-                <div class="close-btn"><i class="fas fa-times"></i></div>
-                <nav class="menu-box">
-                    <div class="nav-logo"><a href="index.html"><img src="user/images/logo-2.png" alt="" title=""></a>
-                    </div>
-                    <div class="menu-outer"> -->
-                        <!--Here Menu Will Come Automatically Via Javascript / Same Menu as in Header-->
-                    <!-- </div>
-                    <div class="contact-info">
-                        <h4>Contact Info</h4>
-                        <ul>
-                            <li>Chicago 12, Melborne City, USA</li>
-                            <li><a href="tel:+8801682648101">+88 01682648101</a></li>
-                            <li><a href="mailto:info@example.com">info@example.com</a></li>
-                        </ul>
-                    </div> -->
-                    <!-- <div class="social-links">
-                        <ul class="clearfix">
-                            <li><a href="index.html"><span class="fab fa-twitter"></span></a></li>
-                            <li><a href="index.html"><span class="fab fa-facebook-square"></span></a></li>
-                            <li><a href="index.html"><span class="fab fa-pinterest-p"></span></a></li>
-                            <li><a href="index.html"><span class="fab fa-instagram"></span></a></li>
-                            <li><a href="index.html"><span class="fab fa-youtube"></span></a></li>
-                        </ul>
-                    </div> -->
-                </nav>
-            </div><!-- End Mobile Menu -->
-
-
-            <!-- banner-section -->
             <section class="banner-style-one">
                 <div class="pattern-layer" style="background-image: url(/bannerImages/<%=banner[0].image[0]%>);"></div>
                 <div class="banner-carousel owl-theme owl-carousel">
@@ -46,123 +11,62 @@
                                 <div class="content-box">
                                     <h1>Up To <br /><span>50%</span> Discount</h1>
                                     <h3>Summer Lookbook - 2022</h3>
-                                    <p><%=banner[0].description%></p>
+                                    <p>
+                                        <%=banner[0].description%>
+                                    </p>
                                     <div class="btn-box">
                                         <a href="/" class="theme-btn-one">Explore Now<i
                                                 class="flaticon-right-1"></i></a>
                                     </div>
                                 </div>
-                                
                                 <figure class="image-box image-1"><img src="/bannerImages/<%=banner[1].image[0]%>"
                                         alt=""></figure>
                             </div>
                         </div>
                     </div>
-                    
-                   
                 </div>
             </section>
-            <!-- banner-section end -->
-
-
-            <!-- topcategory-section -->
-            <!-- <section class="topcategory-section centred">
-                <div class="auto-container">
-                    <div class="sec-title">
-                        <h2>Top Category</h2>
-                        <p>Follow the most popular trends and get exclusive items from castro shop</p>
-                        <span class="separator"
-                            style="background-image: url(user/images/icons/separator-1.png);"></span>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="col-lg-3 col-md-6 col-sm-12 category-block">
-                            <div class="category-block-one wow fadeInUp animated animated" data-wow-delay="00ms"
-                                data-wow-duration="1500ms">
-                                <figure class="image-box"><a href=""><img src="user/images/resource/category-1.png"
-                                            alt=""></a>
-                                </figure>
-                                <h5><a href="/singleCategory">Women Collections</a></h5>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-12 category-block">
-                            <div class="category-block-one wow fadeInUp animated animated" data-wow-delay="200ms"
-                                data-wow-duration="1500ms">
-                                <figure class="image-box"><a href=""><img src="user/images/resource/category-2.png"
-                                            alt=""></a>
-                                </figure>
-                                <h5><a href="/singleCategory">Kids Collections</a></h5>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 col-md-6 col-sm-12 category-block">
-                            <div class="category-block-one wow fadeInUp animated animated" data-wow-delay="600ms"
-                                data-wow-duration="1500ms">
-                                <figure class="image-box"><a href=""><img src="user/images/resource/category-4.png"
-                                            alt=""></a>
-                                </figure>
-                                <h5><a href="/singlecategory">Gents Collections</a></h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section> -->
-            <!-- topcategory-section end -->
-
             <br>
             <!-- shop-section -->
             <section class="shop-section">
                 <div class="auto-container">
                     <div class="sec-title">
-                        <!-- <h2>Our Top Collection</h2>
-                        <p>There are some product that we featured for choose your best</p> -->
                         <span class="separator"
                             style="background-image: url(user/images/icons/separator-1.png);"></span>
                     </div>
-                    <!-- <div class="sortable-masonry">
-                        <div class="filters">
-                            <ul class="filter-tabs filter-btns centred clearfix">
-                                <li class="active filter" data-role="button" data-filter=".best_seller">Best Seller</li> -->
-                                <!-- <li class="filter" data-role="button" data-filter=".new_arraivals">New Arraivals</li> -->
-                                <!-- <li class="filter" data-role="button" data-filter=".top_rate">Top Rate</li> -->
-                            <!-- </ul> -->
-                        <!-- </div> -->
-                        <div class="items-container row clearfix">
-                            <% product.forEach(function(product){%>
-
-                                <div
-                                    class="col-lg-3 col-md-6 col-sm-12 shop-block masonry-item small-column best_seller new_arraivals top_rate ">
-                                    <div class="shop-block-one ">
-                                        <div class="inner-box ">
-                                            <figure class="image-box ">
-                                                <a href="/productView/<%=product._id%>/<%=product.category%>"><img
-                                                        src="/productImages/<%=product.image[0]%>"
-                                                        style="height: 320px;width:700px;" alt="Image not found"></a>
-                                                <ul class="info-list clearfix">
-                                                    <li><a href="/wishList/<%=product._id%>">
-                                                        <i
-                                                                class="flaticon-heart"></i>
-                                                            </a></li>
-                                                    <li><a onclick="addToCart('<%=product._id%>')">Add to cart</a></li>
-                                                    <!-- <li><a href="user/images/resource/shop/shop-1.jpg"
-                                                            class="lightbox-image" data-fancybox="gallery"><i
-                                                                class="flaticon-search"></i></a></li> -->
-                                                </ul>
-                                            </figure>
-                                            <div class="lower-content">
-                                                <a href="product-details.html">
-                                                    <%=product.name%>
-                                                </a>
-                                                <span class="price">
-                                                    <%=product.price%>
-                                                </span>
-                                            </div>
+                    <div class="items-container row clearfix d-flex justify-content-center">
+                        <% product.forEach(function(product){%>
+                            <div
+                                class="col-lg-3 col-md-6 col-sm-12 shop-block masonry-item small-column best_seller new_arraivals top_rate ">
+                                <div class="shop-block-one ">
+                                    <div class="inner-box ">
+                                        <figure class="image-box ">
+                                            <a href="/productView/<%=product._id%>/<%=product.category%>"><img
+                                                    src="/productImages/<%=product.image[0]%>"
+                                                    style="height: 320px;width:700px;" alt="Image not found"></a>
+                                            <ul class="info-list clearfix">
+                                                <li><a href="/wishList/<%=product._id%>">
+                                                        <i class="flaticon-heart"></i>
+                                                    </a></li>
+                                                <li><a onclick="addToCart('<%=product._id%>')">Add to cart</a></li>
+                                            </ul>
+                                        </figure>
+                                        <div class="lower-content">
+                                            <a href="product-details.html">
+                                                <%=product.name%>
+                                            </a>
+                                            <span class="price">
+                                                <%=product.price%>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
-                                <%})%>
-                        </div>
+                            </div>
+                            <%})%>
                     </div>
-                    <nav aria-label="...">
+                </div>
+                <!-- <nav aria-label="..."> -->
+                    <div class="container d-flex justify-content-center">
                         <ul class="pagination pagination-sm">
                             <%for (let i=1;i<=pages;i++){%>
                                 <%if(i==currentPage){%>
@@ -176,36 +80,10 @@
                                         <%}%>
                                             <%}%>
                         </ul>
-                    </nav>
-                    <!-- <div class="more-btn centred"><a href="shop.html" class="theme-btn-one">View All Products<i
-                                class="flaticon-right-1"></i></a></div>
-                </div> -->
+                    </div>
+                <!-- </nav> -->
             </section>
             <!-- shop-section end -->
-
-
-            <!-- cta-section -->
-            <!-- <section class="cta-section">
-                <div class="image-layer" style="background-image: url(user/images/background/cta-bg-1.jpg);"></div>
-                <div class="auto-container">
-                    <div class="cta-inner centred">
-                        <div class="pattern-layer">
-                            <div class="pattern-1" style="background-image: url(user/images/shape/shape-2.png);"></div>
-                            <div class="pattern-2" style="background-image: url(user/images/shape/shape-3.png);"></div>
-                        </div>
-                        <h2>End of Season Clearance Sale upto 50%</h2>
-                        <p>Welcome to the new range of shaving products from master barber. We have over three decades
-                            of experience in the male grooming industry</p>
-                        <a href="shop.html" class="theme-btn-one">Shop Now<i class="flaticon-right-1"></i></a>
-                    </div>
-                </div>
-            </section> -->
-            <!-- cta-section end -->
-
-
-
-
-
             <!-- service-section -->
             <section class="service-section">
                 <div class="auto-container">
@@ -252,24 +130,9 @@
                 </div>
             </section>
             <!-- service-section end -->
-
-
-
-
-
-            <!-- footer section -->
             <%- include('./includes/user-footer')%>
-                <!-- footer end -->
                 <script>
                     function addToCart(productId) {
-                        // Swal.fire({
-                        //     position: 'top-end',
-                        //     icon: 'success',
-                        //     title: 'Item added to cart',
-                        //     showCancellationButton: false,
-
-                        // }).then((result) => {
-                        //     if (result.isConfirmed) {
                         console.log(productId);
                         console.log("hiii");
                         $.ajax({
@@ -282,20 +145,10 @@
                                         title: 'Added Succesfully',
                                         showConfirmButton: false,
                                     })
-                                    // .then(() => {
-
-                                    //     location.reload()
-
-                                    // })
                                 }
 
                             }
                         })
                     }
-                        // }
-                        // )
-                    // }
                 </script>
-                <!-- script section -->
                 <%- include('./includes/script')%>
-                    <!-- script end -->

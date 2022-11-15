@@ -12,12 +12,18 @@ const otpGenerator = require('otp-generator')
 const { SinkPage } = require('twilio/lib/rest/events/v1/sink')
 const { default: mongoose } = require('mongoose')
 const Razorpay = require('razorpay');
+const { accessSync } = require('fs')
 var instance = new Razorpay({ key_id: 'rzp_test_BUnir6WHXKvN1B', key_secret: '7fAojnkk4JyB4waSOHtXlOUC' })
 
 
 require('dotenv').config()
 process.env.ACCOUNT_SID
 process.env.AUTH_TOKEN
+process.env.VERIFY_SID
+
+const accountSid = process.env.ACCOUNT_SID;
+const authToken = process.env.AUTH_TOKEN;
+const client = require('twilio')(accountSid, authToken);
 
 let loginErr;
 let couponErr;
@@ -25,29 +31,28 @@ let couponErr;
 
 module.exports = {
     //----------session ------//
-    userSession: (req, res, next) => {
-        if (req.session.userData) {
-            //  userData = req.session.userData
-            next()
-        }
-        else {
-            res.render('user/login', { userData: false, loginErr: req.session.loginErr })
-        }
-    },
+    // userSession: (req, res, next) => {
+    //     if (req.session.userData) {
+    //         next()
+    //     }
+    //     else {
+    //         res.render('user/login', { userData: false, loginErr: req.session.loginErr })
+    //     }
+    // },
 
     //-------userBlock checking----//
-    userBlock: async (req, res, next) => {
-        let userData = req.session.userData
-        // console.log(userData);
-        let user = await userModel.findOne({ _id: userData._id })
-        if (user.status === "true") {
-            next()
-        }
-        else {
-            req.session.userData = null
-            res.redirect('/login')
-        }
-    },
+    // userBlock: async (req, res, next) => {
+    //     let userData = req.session.userData
+    //     // console.log(userData);
+    //     let user = await userModel.findOne({ _id: userData._id })
+    //     if (user.status === "true") {
+    //         next()
+    //     }
+    //     else {
+    //         req.session.userData = null
+    //         res.redirect('/login')
+    //     }
+    // },
 
     //---------home page--------------//
     getHome: async (req, res) => {
@@ -76,7 +81,6 @@ module.exports = {
                     })
 
             } else {
-                // console.log(userData);
                 const pageNum = req.query.page
                 const perPage = 3
                 let docCount;
@@ -107,31 +111,40 @@ module.exports = {
     postOtp: async (req, res) => {
         try {
             userData = req.session.userdata;
-            generateOtp = req.session.userdata.otp
-            if (generateOtp == req.body.otp) {
-                const newUser = new userModel
-                    ({
-                        userName: userData.name,
-                        userEmail: userData.email,
-                        mobile: userData.mobile,
-                        password: await bcrypt.hash(userData.password, 10),
-                        status: true
-                    })
-                newUser.save()
-                    .then(result => {
-                        req.session.userData = result
-                        res.redirect('/')
-                    })
-                    .catch(err => {
-                        console.log("error is" + err);
-                        res.redirect('/login')
-                    })
-            }
-            else {
-                req.session.otpErr = true
-                res.render('user/otp', { otpErr: req.session.otpErr })
-                req.session.otpErr = false
-            }
+            // generateOtp = req.session.userdata.otp
+            let password = await bcrypt.hash(userData.password, 10)
+            client.verify.v2.services(process.env.VERIFY_SID)
+                .verificationChecks
+                .create({ to: '+91' + userData.mobile, code: req.body.otp })
+                .then(verification_check => {
+                    if (verification_check.status == 'approved') {
+
+                        const newUser = new userModel
+                            ({
+                                userName: userData.name,
+                                userEmail: userData.email,
+                                mobile: userData.mobile,
+                                password: password,
+                                status: true,
+                                coupon: []
+                            })
+                        newUser.save()
+                            .then(result => {
+                                req.session.userData = result
+                                res.redirect('/')
+                            })
+                            .catch(err => {
+                                console.log("error is" + err);
+                                res.redirect('/login')
+                            })
+                    }
+                    else {
+                        req.session.otpErr = true
+                        res.render('user/otp', { otpErr: req.session.otpErr })
+                        req.session.otpErr = false
+                    }
+                });
+
         } catch (error) {
             console.log(error);
         }
@@ -157,18 +170,12 @@ module.exports = {
             if (req.body.password == req.body.cpassword) {
                 userModel.findOne({ userEmail: req.body.email }, async (err, data) => {
                     if (data == null) {
-                        let otpGen = otpGenerator.generate(6, { upperCaseAlphabets: false, specialChars: false });
-                        console.log(otpGen)
+                        client.verify.v2.services(process.env.VERIFY_SID)
+                            .verifications
+                            .create({ to: '+91' + req.body.mobile, channel: 'sms' })
+                            .then(verification => console.log(verification.status));
+                        console.log(req.body.mobile)
                         req.session.userdata = req.body
-                        req.session.userdata.otp = otpGen
-                        // client.messages
-                        // .create({
-                        //     body:otpGen,
-                        //     messagingServiceSid:'MGe8106f7aa8e4205aa36c7c96c38437f7',
-                        //     to:'+919895957696'
-                        // })
-                        // .then(message=>console.log(message.sid))
-                        // .done();
                         res.render('user/otp', { otpErr: req.session.otp })
                         req.session.otp = false
                     }
@@ -197,7 +204,7 @@ module.exports = {
                 res.redirect('/')
             } else {
                 let userData = req.session.userData
-                res.render('user/login', { userData, loginErr: req.session.loginErr })
+                res.render('user/login', { userData, loginMessage: req.flash('error') })
                 req.session.loginErr = false
             }
         } catch (error) {
@@ -209,31 +216,31 @@ module.exports = {
     postLogin: async (req, res) => {
         try {
             let user = await userModel.findOne({ userEmail: req.body.email })
-        if (user) {
-            if (user.status === "true") {
-                bcrypt.compare(req.body.password, user.password).then((data) => {
-                    if (data) {
-                        req.session.userData = user
-                        req.session.loggedIn = true
-                        res.redirect('/')
+            if (user) {
+                if (user.status === "true") {
+                    bcrypt.compare(req.body.password, user.password).then((data) => {
+                        if (data) {
+                            req.session.userData = user
+                            req.session.loggedIn = true
+                            res.redirect('/')
 
-                    }
-                    else {
-                        req.session.loginErr = "Invalid password"
-                        console.log("login failed");
-                        res.redirect('/login')
-                    }
-                })
+                        }
+                        else {
+                            req.flash('error', 'invalid password')
+                            console.log("login failed");
+                            res.redirect('/login')
+                        }
+                    })
+                } else {
+                    req.flash('error', 'you are blocked by the Admin')
+                    res.redirect('/login')
+                }
+
             } else {
-                req.session.loginErr = "you are blocked by the Admin"
+                req.flash('error', 'Invalid email')
+                console.log("login failed");
                 res.redirect('/login')
             }
-
-        } else {
-            req.session.loginErr = "Invalid Email "
-            console.log("login failed");
-            res.redirect('/login')
-        }
         } catch (error) {
             console.log(error);
         }
@@ -254,16 +261,13 @@ module.exports = {
 
     //---------SIngle Product View------------//
     productView: (req, res) => {
-        // console.log("okkkk");
         try {
             let proId = req.params.id
-            // console.log(proId);
             productSchema.find({ _id: proId }, (err, results) => {
                 product = results[0]
                 if (!err) {
                     userData = req.session.userData
                     categoryChoosen = req.params.category
-                    // console.log(categoryChoosen);
                     productSchema.find({ category: categoryChoosen }).then((relatedProducts) => {
                         res.render('user/single-product', { userData, product, relatedProducts })
                     })
@@ -278,33 +282,17 @@ module.exports = {
     },
 
 
-
-    //-----single Category-----------//
-    // singleCategory: (req, res) => {
-    //     try {
-    //         res.render('user/singleCategory')
-
-    //     }
-    //     catch (error) {
-    //         console.log(error);
-    //     }
-    // },
-
     //----------ViewCart---------//
     viewCart: async (req, res) => {
         try {
             if (req.session.userData) {
                 let userData = req.session.userData
-                // console.log(userData);
                 let cartUserId = userData._id
-                // console.log(cartUserId);
                 let cartItems = await cartModel.findOne({ userId: cartUserId }).lean().populate('cartProducts.productId').exec()
                 if (cartItems) {
 
                     if (cartItems.cartProducts.length != 0) {
                         total = cartItems.total
-                        // console.log("total amount");
-                        // console.log(total);
                         req.session.cartNum = cartItems.cartProducts.length
                         const products = cartItems.cartProducts
                         res.render('user/userCart', { products, cartItems, userData, "cartNum": req.session.cartNum })
@@ -339,20 +327,14 @@ module.exports = {
                 console.log(userData);
                 proId = req.params.id
                 let quantity = 1
-                // cartUser = userData._id
                 const findProduct = await productSchema.findById(proId)
-                // console.log(findProduct);
                 let price = findProduct.price
                 let stock = findProduct.quantity
                 let name = findProduct.name
                 if (stock >= quantity) {
                     findProduct.quantity -= quantity
                     cartUser = userData._id
-                    console.log("cartUser");
-                    console.log(cartUser);
                     let cart = await cartModel.findOne({ userId: cartUser })
-                    console.log("carttt");
-                    console.log(cart);
                     if (cart) {
                         let itemIndex = cart.cartProducts.findIndex(p => p.productId == proId)
                         if (itemIndex > -1) {
@@ -400,9 +382,7 @@ module.exports = {
             if (req.session.userData) {
                 userData = req.session.userData
                 proId = req.params.id
-
                 let quantity = 1
-                // cartUser = userData._id
                 const findProduct = await productSchema.findById(proId)
                 let price = findProduct.price
                 let stock = findProduct.quantity
@@ -465,12 +445,9 @@ module.exports = {
         try {
             str = req.params.id
             let array = str.split("t")
-            // console.log(array);
             let userId = req.session.userData._id
-            // console.log(array);
             productId = array[0]
             quantity = array[1]
-            // console.log(quantity);
             let productExist = await cartModel.findOne({ userId: userId }).populate('cartProducts.productId').exec()
             let cart = await cartModel.findOne({ userId: userId })
             if (cart) {
@@ -484,34 +461,19 @@ module.exports = {
                 }
                 cart.save()
                 res.json({ status: true })
-
-
-
             }
             let cart2 = await cartModel.findOne({ userId: userId })
-            // console.log();
-            
-            // console.log("start-----" + cart2.total);
             const total = cart2.cartProducts.reduce((acc, curr) => {
-                // console.log(`Total : ${acc}`)
-                // console.log(`Item : ${curr.price}`)
-                // console.log(`Quantity : ${curr.quantity}`)
-
                 const qty = curr.quantity
-
                 val = acc + qty * (curr.price);
-                // console.log("mid-----" + val)
                 return val
             }, 0)
             cart2.total = total;
-            // console.log("end--------" + cart2.total);
-
             cart2.save()
             res.json({ status: true })
         } catch (error) {
             console.log(error);
         }
-
     },
 
 
@@ -519,19 +481,13 @@ module.exports = {
     removeCartItem: async (req, res) => {
         try {
             proId = req.params.id
-            // console.log("removing id");
-            // console.log(proId);
             userId = req.session.userData._id
             let cart = await cartModel.findOne({ userId })
-            // console.log(cart);
             let itemIndex = cart.cartProducts.findIndex(p => p.productId == proId)
-            // console.log(itemIndex);
             cart.cartProducts.splice(itemIndex, 1)
             cart.total = cart.cartProducts.reduce((acc, curr) => {
                 return acc + curr.quantity * curr.price
             }, 0)
-            // console.log("total");
-            // console.log( cart.total);
             await cart.save()
             res.json({ status: true })
         } catch (error) {
@@ -584,64 +540,49 @@ module.exports = {
                 wishListUser = userData._id
                 const wishList = await wishListModel.findOne({ userId: wishListUser })
                 if (wishList) {
-                    // console.log("user have a cart");
                     let productIndex = wishList.wishListProducts.findIndex(product => product.products == productId);
                     if (productIndex > -1) {
                         wishList.wishListProducts.splice(productIndex, 1)
-                        // let productItem = wishList.wishListProducts[productIndex]
-                        // wishList.wishListProducts[productIndex] = productItem
                         wishList.save()
-                        // res.json({status:true})
                         res.redirect('/viewWishList')
                     }
                     else {
-                        // console.log("this product is not added previously");
                         wishList.wishListProducts.push({
                             products: productId,
-                            // quantity: 1,
                         })
-                        // console.log(productId);
                         wishList.save()
-                        // res.json({status:true})
                         res.redirect('/viewWishList')
                     }
                 } else {
-                    // console.log("user dont have a cart , lets create it");
                     const newwishList = new wishListModel({
                         userId: wishListUser,
                         wishListProducts: [{
                             products: productId,
-                            // quantity: 1,
                         }],
                     },
                     )
                     newwishList.save();
-                    // res.json({status:true})
                     res.redirect('/viewWishList')
                 }
             } else {
                 res.redirect('/login')
-                // console.log("adichu poiii")
             }
 
         } catch (error) {
             console.log(error);
         }
-        // res.json({status:true})
 
     },
+
+
     //-----remove wishList Item--//
     removeWishListItem: async (req, res) => {
         try {
             proId = req.params.id
-            // console.log(proId);
             userId = req.session.userData._id
             let removeItem = await wishListModel.findOne({ userId: userId }).populate('wishListProducts.products').exec()
-            // console.log("item is");
-            //    console.log(removeItem);
             wishListModel.findOne({ userId: userId }, async (err, data) => {
                 if (data) {
-                    // console.log(data)
                     if (removeItem.length != 0) {
                         await wishListModel.updateOne({ userId: userId }, {
                             $pull: {
@@ -652,22 +593,18 @@ module.exports = {
                         })
                     }
                     res.json({ status: true })
-                    // res.redirect('/viewWishList')
                 }
             })
         } catch (error) {
-            // console.log(error);
+            console.log(error);
         }
     },
 
     //-----checkout---//
-
     getCheckOut: async (req, res) => {
         try {
             let userData = req.session.userData
             let cart = await cartModel.findOne({ userId: userData._id }).populate('cartProducts.productId').exec()
-            // console.log("cartProducts");
-            // console.log(cart.cartProducts[0].productId);
             let cartArray = []
             for (let i = 0; i < cart.cartProducts.length; i++) {
                 let cartProducts = {}
@@ -691,31 +628,17 @@ module.exports = {
             let userId = userData._id
             let date = new Date().toJSON().slice(0, 10)
             const products = await cartModel.findOne({ userId: userId }).populate('cartProducts.productId').exec()
-            // console.log(products.cartProducts.length);
             if (req.session.coupon) {
                 couponObj = req.session.coupon
                 let dis = couponObj.discount
                 let couponId = couponObj.couponId
-                // console.log(couponId);
-                // console.log("hiiiiiiiiiiiiiiiiiiiiiii");
-                // console.log(dis.discount);
                 total = products.total
                 orderTotal = (total - ((total * dis) / 100))
-                // console.log("hiiii");
-                // console.log(orderTotal);
                 discountAmount = total - orderTotal
-                // console.log(discountAmount);
-
                 let couponFind = await couponModel.findOne({ _id: couponId })
-                // console.log("asdfg");
-                // console.log(coupon);
                 let coupon = couponFind._id
-                // console.log(coupon);
-
                 let userInfo = await userModel.findOne({ _id: userId })
                 userInfo.coupon.push({ coupon: coupon })
-                // console.log("hello");
-                // console.log(userInfo);
                 userInfo.save()
                 req.session.coupon = null
             } else {
@@ -723,9 +646,6 @@ module.exports = {
                 discountAmount = 0
                 orderTotal = products.total
             }
-
-
-
             let orderArray = []
             for (let i = 0; i < products.cartProducts.length; i++) {
                 let orderProducts = {}
@@ -737,12 +657,12 @@ module.exports = {
             }
             console.log(req.body.name);
             if (req.body.paymentMethod === "cod") {
+                console.log("cod");
                 const newOrder = new orderModel
                     ({
                         userId: userData._id,
                         paymentMode: req.body.paymentMethod,
                         address: {
-                            //add name and other details
                             name: req.body.name,
                             houseName: req.body.address,
                             pincode: req.body.zip,
@@ -762,12 +682,12 @@ module.exports = {
                 res.json({ codSuccess: true, orderId })
 
             } else {
+                console.log("netbanking");
                 const newOrder = new orderModel
                     ({
                         userId: userData._id,
                         paymentMode: req.body.paymentMethod,
                         address: {
-                            //add name and other details
                             name: req.body.name,
                             houseName: req.body.address,
                             pincode: req.body.zip,
@@ -776,34 +696,28 @@ module.exports = {
                             state: req.body.state,
                         },
                         date: date,
-                        // paymentStatus: "completed",
                         order: orderArray,
                         totalAmount: orderTotal,
-                        discountAmount: discountAmount
+                        discountAmount: discountAmount,
+                        paymentStatus: "failed",
+                        orderStatus: "failed"
 
                     })
                 newOrder.save()
 
 
                 req.session.orderId = newOrder._id
-                // console.log("hiii");
-                // console.log(req.session.orderId);
                 var options = {
                     amount: orderTotal * 100,  // amount in the smallest currency unit
                     currency: "INR",
                     receipt: "" + req.session.orderId
                 };
                 instance.orders.create(options, function (err, order) {
+                    console.log("hii");
                     console.log(order);
                     res.json(order)
                 });
-
-
-                // res.json({ status: true })
             }
-
-            // console.log(orderArray);
-
         } catch (error) {
             console.log(error);
         }
@@ -813,8 +727,6 @@ module.exports = {
     verifyPayment: async (req, res) => {
         let userData = req.session.userData
         userId = userData._id
-        //     console.log("verifyPAyment");
-        //    console.log(req.body);
         let details = req.body
         console.log("details");
         console.log(details);
@@ -827,12 +739,13 @@ module.exports = {
             orderId = req.session.orderId
             console.log("hii orderId");
             console.log(orderId);
-            await orderModel.findByIdAndUpdate(orderId, { paymentStatus: "completed" })
+            await orderModel.findByIdAndUpdate(orderId, { paymentStatus: "completed", orderStatus: "pending" })
             await cartModel.findOneAndDelete({ userId: userId })
-            res.json({ status:true,orderId})
+            res.json({ status: true, orderId })
         } else {
-            // console.log("payment failed");
-            res.json({ status: 'false'})
+            console.log("payment failed");
+            await orderModel.findByIdAndUpdate(orderId, { orderStatus: "failed" })
+            res.json({ status: 'false' })
         }
     },
 
@@ -840,36 +753,21 @@ module.exports = {
 
     applyCoupon: async (req, res) => {
         let couponCode = req.body
-        //  console.log("coupon");
-        //  console.log(coupon);
+        console.log(couponCode);
         let userData = req.session.userData
         let userId = userData._id
-        //  console.log(coupon);
         let user = await cartModel.findOne({ userId: userId })
         let totalAmount = user.total
-        // console.log("hiii");
-        // console.log(user);
-        // console.log("total");
-        // console.log(totalAmount);
         couponModel.find({ couponCode: couponCode.couponCode }).then((coupons) => {
             if (coupons) {
-                // console.log("hello");
                 userModel.findOne({ _id: userId }).then((data) => {
                     if (data) {
-                        // console.log("hyy id");
-                        // console.log( coupons[0]._id);
-                        // console.log("user is here");coupon
-                        let itemIndex = data.coupon.findIndex(p => p.coupon === coupons[0]._id)
-                        console.log("hiiii");
-                        console.log(itemIndex);
-                        console.log(data.coupon);
-                        if (itemIndex == -1) {
-                            // data.coupon.push({coupon:couponCode.couponCode})
-                            // data.save()
-                            // console.log("user is not used coupon");
+                        let itemIndex = data.coupon.filter(p => {
+                            return p.coupon.toString() === coupons[0]._id.toString()
+                        })
+                        if (itemIndex.length == 0) {
                             let date = new Date().toJSON().slice(0, 10)
                             if (date < coupons[0].expiryDate) {
-                                // console.log("coupon is not expired");
                                 if (totalAmount < coupons[0].maxLimit) {
                                     // console.log("Coupon is apllicable to this amount");
                                     if (Number(coupons[0].MinimumAmount) < Number(totalAmount)) {
@@ -891,28 +789,19 @@ module.exports = {
                                         res.json({ couponErr })
                                     }
                                 } else {
-                                    console.log("coupon limit is exceeded");
                                     req.session.couponErr = "Coupon limit is exceeded"
                                     let couponErr = req.session.couponErr
-
                                     res.json({ couponErr })
-
                                 }
                             } else {
-                                console.log("coupon is expired");
                                 req.session.couponErr = "This Coupon is expired"
                                 let couponErr = req.session.couponErr
-
                                 res.json({ couponErr })
-
                             }
                         } else {
-                            console.log("this coupon is already used");
                             req.session.couponErr = "you have already used this coupon"
                             let couponErr = req.session.couponErr
-
                             res.json({ couponErr })
-
                         }
                     } else {
                         console.log("cannot find the user");
@@ -925,28 +814,21 @@ module.exports = {
     },
 
 
-    //  availableCoupons:(req,res)=>{
-    //     res.render('user/availableCoupons')
-    // },
+
 
     //---------order Succes----------//
     orderSuccesPage: async (req, res) => {
         let orderId = req.params.orderId
-        console.log("orderId")
-        console.log(orderId)
-
         let userData = req.session.userData
         let orderSuccess = await orderModel.find({ _id: orderId }).populate('order.productId').exec()
-        console.log("sdfghj");
-        console.log(orderSuccess);
         res.render('user/orderSuccess', { userData, orderSuccess })
     },
 
     //--------order Details----------//
     orderDetails: async (req, res) => {
         let userData = req.session.userData
-        let user = await orderModel.find({ userId: userData._id }).populate('order.productId').exec()
-        // let product = user[0].order[0].productId
+        let users = await orderModel.find({ userId: userData._id }).populate('order.productId').exec()
+        let user = users.reverse()
         res.render('user/userOrderDetail', { userData, user })
     },
 

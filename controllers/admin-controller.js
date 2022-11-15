@@ -24,9 +24,66 @@ module.exports = {
 
 
     //---------admin home---------//
-    getAdmin: (req, res) => {
+    getAdmin: async (req, res) => {
         try {
-            res.render('admin/admin')
+            let totalUsers= await userModel.estimatedDocumentCount();
+            let totalOrders = await orderModel.estimatedDocumentCount();
+            let totalProducts = await productSchema.estimatedDocumentCount();
+            let orderIncome = await orderModel.find({paymentStatus:"completed"})
+            let cancelledOrder = await orderModel.find({orderStatus:"Cancelled"}).count();
+            let pendingOrder = await orderModel.find({orderStatus:"pending"}).count();
+            let deliveredOrder = await orderModel.find({orderStatus:"Delivered"}).count();
+
+            console.log("hiiii");
+            console.log(cancelledOrder,pendingOrder,deliveredOrder);
+
+            let date = new Date().toJSON().slice(0, 10)
+            // console.log(orderIncome);
+            // console.log("--------");
+        
+            let sum=0
+            for (let i = 0; i < orderIncome.length; i++) {
+                sum=sum+orderIncome[i].totalAmount
+            }
+
+            let incomeGenerated = await orderModel.aggregate([
+
+                // First Stage
+                {
+                    $match: { "date": { $ne: null } }
+                },
+                // Second Stage
+                {
+                    $group: {
+                        _id:   "$date"  ,
+                        sales: { $sum: "$totalAmount" },
+                    }
+                },
+                // Third Stage
+                {
+                    $sort: { _id: 1 }
+                },
+                {
+                    $limit: 7
+                }
+            ])
+            let orderDate = incomeGenerated._id
+            let sales = incomeGenerated.sales
+            console.log(incomeGenerated);
+            const newArr = incomeGenerated.map(elements)
+            function elements(item) {
+                return item.sales;
+              }
+              console.log(newArr);
+
+              const newdate = incomeGenerated.map(dateOrder)
+              function dateOrder(item) {
+                  return item._id;
+                }
+                console.log(newdate);
+              
+            res.render('admin/admin',{totalUsers,totalOrders,totalProducts,sum,date,cancelledOrder,pendingOrder,deliveredOrder,newArr,newdate})
+
         }
         catch (err) {
             console.log(err);
@@ -78,6 +135,15 @@ module.exports = {
 
     },
 
+    //-------report----------//
+    report: (req, res) => {
+        try {
+                res.render('admin/report')
+        } catch (error) {
+            console.log(error);
+        }
+    },
+
     // --------------------user list---------------//
     getUserList: (req, res) => {
         try {
@@ -112,7 +178,7 @@ module.exports = {
     addProduct: async (req, res) => {
         try {
             let category = await categoryModel.find()
-            res.render('admin/add-product', { category ,message: req.flash('error')})
+            res.render('admin/add-product', { category, message: req.flash('error') })
         }
         catch (error) {
             console.log(error);
@@ -127,7 +193,7 @@ module.exports = {
         try {
             if (req.files.length == 0) {
                 productId = req.params.id
-                req.flash('error','insert an image')
+                req.flash('error', 'insert an image')
                 res.redirect('/admin/add-product')
             }
             else {
@@ -160,7 +226,7 @@ module.exports = {
         try {
             let productId = await productSchema.findOne({ _id: req.params.id })
             let category = await categoryModel.find()
-            res.render('admin/edit-product', { productId, category,message: req.flash('error')})
+            res.render('admin/edit-product', { productId, category, message: req.flash('error') })
 
         }
         catch (error) {
@@ -174,7 +240,7 @@ module.exports = {
         try {
             if (req.files.length == 0) {
                 productId = req.params.id
-                req.flash('error','insert an image')
+                req.flash('error', 'insert an image')
                 res.redirect(`/admin/edit-product/${productId}`)
 
             } else {
@@ -376,7 +442,7 @@ module.exports = {
     //Add banner----//
     addBanner: async (req, res) => {
         try {
-            res.render('admin/addBanner',{bannerMessage:req.flash('error')})
+            res.render('admin/addBanner', { bannerMessage: req.flash('error') })
         }
         catch (error) {
             console.log(error);
@@ -385,10 +451,10 @@ module.exports = {
     //add banner post---//
     postAddBanner: async (req, res) => {
         try {
-            if(req.files.length===0){
-                req.flash("error",'Insert banner image')
+            if (req.files.length === 0) {
+                req.flash("error", 'Insert banner image')
                 res.redirect('/admin/addBanner')
-            }else{
+            } else {
 
             }
             const imageName = [];
@@ -415,7 +481,7 @@ module.exports = {
         try {
             let bannerId = await bannerModel.findOne({ _id: req.params.id })
 
-            res.render('admin/editBanner', { bannerId,bannerMessage:req.flash('error')})
+            res.render('admin/editBanner', { bannerId, bannerMessage: req.flash('error') })
         }
         catch (error) {
             console.log(error);
@@ -425,8 +491,8 @@ module.exports = {
     //----postEdit banner---//
     postEditBanner: async (req, res) => {
         try {
-            if(req.files.length===0){
-                req.flash("error",'Insert banner image')
+            if (req.files.length === 0) {
+                req.flash("error", 'Insert banner image')
                 res.redirect('/admin/editBanner')
             }
             const bannerId = req.params.id
@@ -483,7 +549,8 @@ module.exports = {
     //--------order Management----------//
     viewOrder: (req, res) => {
         try {
-            orderModel.find().then((orders) => {
+            orderModel.find().then((orderDetails) => {
+                let orders = orderDetails.reverse()
                 res.render('admin/viewOrders', { orders })
 
             })
@@ -497,6 +564,7 @@ module.exports = {
         try {
             orderId = req.params.id
             let order = await orderModel.findById({ _id: orderId }).populate('order.productId').exec()
+          
             let products = order.order
             console.log(products);
             res.render('admin/orderDetails', { order, products })
@@ -572,55 +640,32 @@ module.exports = {
         }
     },
 
-    viewPendingOrders: async (req, res) => {
+    failedOrders: async (req, res) => {
         try {
-            orderModel.find({ orderStatus: "pending" }).then((orders) => {
-                res.render('admin/pendingOrders', { orders })
+            let orderId = req.params.id
+            console.log("orderId is ertyuijhgfd");
+            console.log(orderId);
+            await orderModel.updateOne({ _id: orderId }, {
+                $set: {
+                    orderStatus: "failed",
+                    paymentStatus: "failed"
+
+
+                }
+            }).then(() => {
+                res.redirect(`/admin/orderDetails/${orderId}`)
             })
         } catch (error) {
-
-        }
-
-    },
-
-    viewApprovedOrders: (req, res) => {
-        try {
-            res.render('admin/approvedOrders')
-
-        } catch (error) {
-
-        }
-    },
-
-    viewDispatchedOrders: (req, res) => {
-        try {
-            res.render('admin/dispatchedOrders')
-
-        } catch (error) {
             console.log(error);
         }
     },
 
-    viewDeliveredOrders: (req, res) => {
-        try {
-            res.render('admin/deliveredOrders')
+    
+   
+   
+   
 
-        } catch (error) {
-            console.log(error);
-
-        }
-    },
-
-    viewCancelledOrders: (req, res) => {
-        try {
-            res.render('admin/cancelledOrders')
-
-        } catch (error) {
-            console.log(error);
-
-        }
-    },
-
+   
 
     //--------------coupon management---------//
     viewCoupons: async (req, res) => {

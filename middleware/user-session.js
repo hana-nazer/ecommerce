@@ -1,12 +1,13 @@
 module.exports = (req, res, next) => {
     try {
-        if (req.session.admin) {
+        if (req.session.userData) {
             next()
         }
         else {
-            res.redirect('/admin/admin-login')
+            res.render('user/login', { userData: false, loginMessage: req.flash('error') })
         }
     } catch (error) {
         console.log(error);
     }
+
 }

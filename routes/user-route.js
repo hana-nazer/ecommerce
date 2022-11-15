@@ -5,6 +5,9 @@ const { adminCollection } = require('../config/collection');
 const adminController = require('../controllers/admin-controller');
 var router = express.Router();
 const userController = require('../controllers/user-controller')
+const userSession = require('../middleware/user-session')
+const userBlock = require('../middleware/user-block')
+
 
 
 //homepage
@@ -27,7 +30,7 @@ router.get('/login',userController.getLogin)
 router.post('/login',userController.postLogin)
 
 //user_info
-router.get('/userInfo',userController.userSession,userController.userBlock,userController.userInfo)
+router.get('/userInfo',userSession,userBlock,userController.userInfo)
 
 //productview
 router.get('/productView/:id/:category',userController.productView)
@@ -36,44 +39,44 @@ router.get('/productView/:id/:category',userController.productView)
 // router.get('/singleCategory',userController.singleCategory)
 
 //add to cart
-router.get('/addToCart/:id',userController.addToCart)
+router.get('/addToCart/:id',userSession,userBlock,userController.addToCart)
 //add to cart from wishlist
-router.get('/addToCartWishlist/:id',userController.addToCartWishlist)
+router.get('/addToCartWishlist/:id',userSession,userBlock,userController.addToCartWishlist)
 
 //Viewcart
-router.get('/cart',userController.userSession,userController.userBlock,userController.viewCart)
+router.get('/cart',userSession,userBlock,userController.viewCart)
 
 //quantityInc
-router.post('/increment/:id',userController.quantityInc)
+router.post('/increment/:id',userSession,userBlock,userController.quantityInc)
 
 //remove from cart
-router.post('/remove/:id',userController.removeCartItem)
+router.post('/remove/:id',userSession,userBlock,userController.removeCartItem)
 
 //viewWishList
-router.get('/viewWishList',userController.viewWishList)
+router.get('/viewWishList',userSession,userBlock,userController.viewWishList)
 
 //addtoWishList
-router.get('/wishList/:id',userController.addToWishList)
+router.get('/wishList/:id',userSession,userBlock,userController.addToWishList)
 
 //removewishListItem
-router.get('/removeWishList/:id',userController.removeWishListItem)
+router.get('/removeWishList/:id',userSession,userBlock,userController.removeWishListItem)
 
 //gettoing total value from ajax
 // router.get('/totalBill',userController.)
 
 //get and post Checkout
 router.route('/checkout')
-.get (userController.userSession,userController.userBlock,userController.getCheckOut)
-.post(userController.userSession,userController.userBlock,userController.postCheckOut)
+.get (userSession,userBlock,userController.getCheckOut)
+.post(userSession,userBlock,userController.postCheckOut)
 
-router.post('/verify-payment',userController.userSession,userController.verifyPayment)
-router.post('/applyCoupon',userController.userSession,userController.applyCoupon)
+router.post('/verify-payment',userSession,userBlock,userController.verifyPayment)
+router.post('/applyCoupon',userSession,userBlock,userController.applyCoupon)
 // router.get('/availableCoupons',userController.userSession,userController.availableCoupons)
 
 //orderDetails
-router.get('/orderTrack',userController.userSession,userController.orderDetails)
+router.get('/orderTrack',userSession,userBlock,userController.orderDetails)
 //orderSuccessPage
-router.get('/orderSuccess/:orderId',userController.userSession,userController.userBlock,userController.orderSuccesPage)
+router.get('/orderSuccess/:orderId',userSession,userBlock,userController.orderSuccesPage)
 
 
 //logout

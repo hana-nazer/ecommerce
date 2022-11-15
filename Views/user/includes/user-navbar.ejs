@@ -1,6 +1,5 @@
 <!-- main header -->
 <header class="main-header">
-
     <div class="header-lower">
         <div class="auto-container">
             <div class="outer-box">
@@ -17,29 +16,6 @@
                         <div class="collapse navbar-collapse show clearfix" id="navbarSupportedContent">
                             <ul class="navigation clearfix">
                                 <li class=""><a href="/">Home</a></li>
-                                <li class="dropdown"><a href="#">Category</a>
-                                    <ul>
-                                        <li><a href="about.html">Men</a></li>
-                                        <li><a href="service.html">Women</a></li>
-                                        <li><a href="team.html">Kids</a></li>
-
-                                    </ul>
-                                </li>
-                                <li class="dropdown"><a href="index.html">Shop</a>
-                                    <div class="megamenu">
-                                        <div class="row clearfix">
-                                            <div class="col-lg-4 column">
-                                                <ul>
-                                                    <!-- <li><h4>Other Shop Page</h4></li> -->
-                                                    <li><a href="cart.html">Cart Page</a></li>
-                                                    <li><a href="checkout.html">Wishlist</a></li>
-                                                    <li><a href="checkout.html">Checkout Page</a></li>
-                                                    <!-- <li><a href="my-account.html">My Account</a></li> -->
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
                                 <li class="dropdown"><a href="#">
                                         <% if(userData){ %>
                                             <%= userData.userName %>
@@ -55,19 +31,11 @@
                                                 <% } %>
                                     </ul>
                                 </li>
-                                <!-- <li><a href="contact.html">Contact</a></li> -->
-                                <!-- <li class=""><a href="index.html">About us</a></li> -->
-
                             </ul>
                         </div>
                     </nav>
                 </div>
                 <ul class="menu-right-content clearfix">
-                    <!-- <li>
-                        <div class="search-btn">
-                            <button type="button" class="search-toggler"><i class="flaticon-search"></i></button>
-                        </div>
-                    </li> -->
                     <li>
                         <% if (userData) {%>
                             <a href="/userInfo"><i class="flaticon-user"></i></a>
@@ -94,7 +62,6 @@
                 </div>
                 <div class="menu-area pull-right">
                     <nav class="main-menu clearfix">
-                        <!--Keep This Empty / Menu will come through Javascript-->
                     </nav>
                 </div>
             </div>

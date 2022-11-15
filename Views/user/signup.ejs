@@ -35,8 +35,7 @@
 
 
                             <!-----------------------------signup------------------------------>
-                            <form action="/signup" id="form" form method="post" class="default-form"
-                                novalidate="novalidate" >
+                            <form action="/signup" id="form" form method="post" class="default-form">
                                 <div class="form-group">
                                     <label>Your name</label>
                                     <input type="text" name="name" id="username">
@@ -77,8 +76,7 @@
 
 
                                 <div class="form-group">
-                                    <button type="submit" class="theme-btn-two"
-                                        onclick="fieldvalidation();validate_password()">Sign Up<i
+                                    <button type="submit" class="theme-btn-two">Sign Up<i
                                             class="flaticon-right-1"></i></button>
                                 </div>
                             </form>
@@ -93,6 +91,50 @@
             </div>
         </section>
         <script>
+             const form = document.getElementById('form')
+             form.addEventListener('submit', (e) =>{
+            console.log("hiiiii");
+            const username = document.getElementById('username')
+            const email = document.getElementById('email')
+            const mobile = document.getElementById('mobile')
+            const password = document.getElementById('password')
+            const password2 = document.getElementById('password2')
+                                    
+            const userNameErr = document.getElementById('userNameErr')
+            const emailErr = document.getElementById('emailErr')
+            const phoneErr = document.getElementById('phoneErr')
+            const passwordErr = document.getElementById('passwordErr')
+            const comPassErr = document.getElementById('comPassErr')
+
+
+
+            userNameErr.innerHTML = ''
+            emailErr.innerHTML = ''
+            phoneErr.innerHTML = ''
+            passwordErr.innerHTML = ''
+            comPassErr.innerHTML = ''
+
+
+            if (username.value == '' || username.value == null) {
+                e.preventDefault()
+                userNameErr.innerHTML = 'Enter name'
+            } else if (email.value == '' || email.value == null) {
+                e.preventDefault()
+                emailErr.innerHTML = 'Give email'
+            }
+            else if (mobile.value == '' || mobile.value == null) {
+                e.preventDefault()
+                phoneErr.innerHTML = 'Give mobile number'
+            }
+            else if (password.value == '' || password.value == null) {
+                e.preventDefault()
+                passwordErr.innerHTML = 'enter password'
+            }
+            else if (comPassErr.value == '' || comPassErr.value == null||comPassErr.value!=password.value) {
+                e.preventDefault()
+                comPassErr.innerHTML = 'enter confirm password'
+            }
+        })
             function validate_password() {
 
                 var pass = document.getElementById('password').value;
@@ -113,19 +155,19 @@
             }
 
             function fieldvalidation() {
-                if (document.getElementById('password').value == "") {
+                if (document.getElementById('password').value == ""||document.getElementById('password').value == null) {
                     document.getElementById('passwordErr').innerHTML = "required"
                 }
-                if (document.getElementById('password2').value == "") {
+                else if (document.getElementById('password2').value == ""||document.getElementById('password2').value == null) {
                     document.getElementById('comPassErr').innerHTML = "required"
                 }
-                if (document.getElementById('username').value == "") {
+                else if (document.getElementById('username').value == ""||document.getElementById('username').value == null) {
                     document.getElementById('userNameErr').innerHTML = "required"
                 }
-                if (document.getElementById('email').value == "") {
+                else if (document.getElementById('email').value == ""||document.getElementById('email').value == null) {
                     document.getElementById('emailErr').innerHTML = 'required'
                 }
-                if (document.getElementById('mobile').value == "") {
+                else if (document.getElementById('mobile').value == ""||document.getElementById('mobile').value == null) {
                     document.getElementById('phoneErr').innerHTML = 'required'
                 }
 

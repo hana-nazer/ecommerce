@@ -32,8 +32,12 @@
                               <tr>
                                 <th scope="col">No:</th>
                                 <th scope="col">orderId</th>
+                                <th scope="col">Date</th>
+
                                 <th scope="col">order Status</th>
                                 <th scope="col">Payment Status</th>
+                                <th scope="col">Discount %</th>
+                                <th scope="col">Total</th>
                                 <th scope="col">Details</th>
                               
 
@@ -51,10 +55,19 @@
                                     
                                   </td>
                                   <td>
+                                    <%=order.date%>
+                                    </td>
+                                  <td>
                                     <%=order.orderStatus%>
                                   </td>
                                   <td>
                                     <%=order.paymentStatus%>
+                                  </td>
+                                  <td>
+                                    <%=order.discountAmount%>
+                                  </td>
+                                  <td>
+                                    <%=order.totalAmount%>
                                   </td>
                                   <td>
                                     <a href="/admin/orderDetails/<%=order._id%>" class="btn  btn-primary">Details</a>

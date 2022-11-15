@@ -24,7 +24,7 @@ const userSchema = new Schema({
     },
     coupon:{
         type:Array,
-        unique:true
+        default:undefined
     }
 })
 

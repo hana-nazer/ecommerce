@@ -12,6 +12,9 @@ const sessionAdmin = require('../middleware/admin-session')
 //homepage
 router.get('/', sessionAdmin, adminController.getAdmin)
 
+//sales report
+router.get('/report', sessionAdmin, adminController.report)
+
 //admin login(get)
 router.get('/admin-login', adminController.getAdminLogin)
 
@@ -45,19 +48,19 @@ router.get('/categoryList/:category', sessionAdmin, adminController.categoryList
 
 
 //category
-router.get('/category',sessionAdmin, adminController.getCategory)
+router.get('/category', sessionAdmin, adminController.getCategory)
 
 //edit-product
-router.get('/edit-product/:id',sessionAdmin, adminController.editProduct)
+router.get('/edit-product/:id', sessionAdmin, adminController.editProduct)
 
 //post edit
-router.post('/edit-product/:id',sessionAdmin, upload.array("productImage", 2), adminController.postEditProduct)
+router.post('/edit-product/:id', sessionAdmin, upload.array("productImage", 2), adminController.postEditProduct)
 
 //delete product
-router.post('/delete-product/:id',sessionAdmin, adminController.deleteProduct)
+router.post('/delete-product/:id', sessionAdmin, adminController.deleteProduct)
 
 //block user
-router.get('/blockUser/:id',sessionAdmin, adminController.blockUser)
+router.get('/blockUser/:id', sessionAdmin, adminController.blockUser)
 
 //unblock user
 router.get('/unBlockUser/:id', sessionAdmin, adminController.unBlock)
@@ -82,16 +85,6 @@ router.post('/hideUnhideBanner/:id', sessionAdmin, adminController.bannerHideUnh
 router.get('/viewOrder', sessionAdmin, adminController.viewOrder)
 //orderDetails
 router.get('/orderDetails/:id', sessionAdmin, adminController.viewOrderDetails)
-//pending orders
-router.get('/pendingOrders', sessionAdmin, adminController.viewPendingOrders)
-//Approved
-router.get('/approvedOrders', sessionAdmin, adminController.viewApprovedOrders)
-//dispatched
-router.get('/dispatchedOrders', sessionAdmin, adminController.viewDispatchedOrders)
-//delieverd
-router.get('/deliveredOrders', sessionAdmin, adminController.viewDeliveredOrders)
-//cancelled
-router.get('/cancelledOrders', sessionAdmin, adminController.viewCancelledOrders)
 
 
 //order status
@@ -99,14 +92,15 @@ router.get('/approveOrder/:id', sessionAdmin, adminController.approveOrders)
 router.get('/dispatchedOrder/:id', sessionAdmin, adminController.dispatchedOrders)
 router.get('/deliveredOrder/:id', sessionAdmin, adminController.deliveredOrders)
 router.get('/cancelOrder/:id', sessionAdmin, adminController.cancelledOrders)
+router.get('/failedOrder/:id', sessionAdmin, adminController.failedOrders)
 
 //coupon
-router.get('/coupon',sessionAdmin,adminController.viewCoupons)
-router.get('/addCoupon',sessionAdmin,adminController.AddCoupons)
-router.post('/addcoupon',sessionAdmin,adminController.postAddCoupon)
-router.get('/deleteCoupon/:id',sessionAdmin,adminController.deleteCoupon)
-router.get('/editCoupon/:id',sessionAdmin,adminController.getEditCoupon)
-router.post('/editCoupon/:id',sessionAdmin,adminController.postEditCoupon)
+router.get('/coupon', sessionAdmin, adminController.viewCoupons)
+router.get('/addCoupon', sessionAdmin, adminController.AddCoupons)
+router.post('/addcoupon', sessionAdmin, adminController.postAddCoupon)
+router.get('/deleteCoupon/:id', sessionAdmin, adminController.deleteCoupon)
+router.get('/editCoupon/:id', sessionAdmin, adminController.getEditCoupon)
+router.post('/editCoupon/:id', sessionAdmin, adminController.postEditCoupon)
 
 
 //logout

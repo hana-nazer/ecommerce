@@ -1,11 +1,29 @@
 <%- include('./includes/user-header')%>
     <%- include('./includes/user-navbar')%>
-       <div class="container justify-content-center mt-4" >
-        <div class="p-6">
-            <h1>Your wishList is empty!</h1><br><br>
-            <a href="/" class="btn btn-primary cart-btn-transform m-3" data-abc="true">continue
-                shopping</a>
-        </div>
-       </div>
+    
       
+
+        <div class="container mt-4 pt-5 d-flex justify-content-center">
+            <div class="container-fluid  mt-100 pt-5">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            
+                            <div class="card-body cart">
+                                <div class="col-sm-12 empty-cart-cls text-center">
+                                    <img src="/productImages/empty-wishlist.png" width="130" height="130"
+                                        class="img-fluid mb-4 mr-3">
+                                    <h3><strong>Your Cart is Empty</strong></h3>
+                                    <h4>Add something to make me happy :)</h4>
+                                    <a href="/" class="btn btn-primary cart-btn-transform m-3" data-abc="true">continue
+                                        shopping</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       
             <%- include('./includes/script')%>

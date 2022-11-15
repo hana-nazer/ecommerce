@@ -84,9 +84,39 @@
                                             <%=user.discountAmount%>
                                         </p>
                                     </div>
+                                    <div class="text-left">
+
+                                        <span class="font-weight-bold">order Status: <% if(user.paymentStatus=="failed"){%>
+                                            <span class="font-weight-bold">
+                                                cancelled-Incomplete payment<%}else if(user.orderStatus=="pending"){%>
+                                                   <span>your order is in pending.Will be approving soon</span> <%}
+                                                   else if(user.orderStatus=="Delivered"){%>
+                                                    <%=user.orderStatus%>
+                                                    <%}else if(user.orderStatus=="Cancelled"){%>
+                                                        your order is <%=user.orderStatus%>
+                                                        <%}
+                                                else{%> 
+                                                   Your order has been <%=user.orderStatus%>
+                                                    <%}%>
+                                            </span>
+                                            </span>
+                                        
+                                    </div>
+                                    <div class="text-right">
+                                       
+                                    </div>
 
 
                                 </div>
+                                
+
+                                 
+                                    
+
+
+                                
+                            
+
                                 <%})%>
 
                         </div>
