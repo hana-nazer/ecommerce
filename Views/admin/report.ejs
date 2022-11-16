@@ -21,47 +21,57 @@
             <div class="main-panel">
               <div class="content-wrapper">
                 <div class="row">
-                  <div class="">
+                  <div class="col-lg-12">
                     <div class="card">
                       <div class="card-body">
-                        <h4 class="card-title">Products</h4>
+                        <h4 class="card-title">Sales Report
+                          <div class="float-right" id="pdf">
+                            <a href="" class="m-2" onclick="printDiv('pdf','title')">Print</a>
+                          </div>
+                        </h4>
 
-                        <div class="">
-                          <table class="table table-bordered">
-                            <thead>
+                        <!-- <div class=""> -->
+                        <table class="table table-bordered" id="salesData">
+                          <thead>
+                            <tr>
+                              <th scope="col">No:</th>
+                              <th scope="col">Date</th>
+                              <th scope="col">No:of Orders</th>
+                              <th scope="col">Income Generated</th>
+                              <th scope="col">profit</th>
+
+
+
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <% incomeGenerated.forEach(function(generate,index){ %>
+
                               <tr>
-                                <th scope="col">No:</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">No:of Orders</th>
-                                <th scope="col">Total purchase Amount</th>
-                                <th scope="col">no:of selled products</th>
-                                <th scope="col">profit</th>
-                               
+                                <th scope="row">
+                                  <%=index+1%>
+                                </th>
 
+                                <td>
 
+                                  <%=generate._id%>
+                                </td>
+                                <td>
+                                  <%=generate.myCount%>
+                                </td>
+                                <td>
+                                  <%=generate.sales%>
+                                </td>
+                                <td>
+                                  <%=parseInt(generate.sales*5 /100)%>
+                                </td>
                               </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                  <th scope="row">1</th>
-                                  <td>huaesdf</td>
-                                  <td>
-                                    oiii
-                                  </td>
-                                  <td>
-                                    hello
-                                  </td>
-                                  <td>
-                                    hola
-                                  </td>
-                                  <td>
-                                    oops
-                                  </td>
-                                  
-                                </tr>
-                            </tbody>
-                          </table>
-                        </div>
+                              <%})%>
+
+                          </tbody>
+                        </table>
+
+                        <!-- </div> -->
                       </div>
                     </div>
                   </div>
@@ -77,5 +87,27 @@
         <!-- page-body-wrapper ends -->
     </div>
     <!-- container-scroller -->
-  
+    <script>
+      var doc = new jsPDF();
+
+
+      function printDiv(divId,
+        title) {
+
+        let mywindow = window.open('', 'PRINT', 'height=650,width=900,top=100,left=150');
+
+        mywindow.document.write(`<html><head><title>${title}</title>`);
+        mywindow.document.write('</head><body >');
+        mywindow.document.write(document.getElementById(divId).innerHTML);
+        mywindow.document.write('</body></html>');
+
+        mywindow.document.close(); // necessary for IE >= 10
+        mywindow.focus(); // necessary for IE >= 10*/
+
+        mywindow.print();
+        mywindow.close();
+
+        return true;
+      }
+    </script>
     <%- include('./includes/script')%>

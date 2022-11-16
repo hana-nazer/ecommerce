@@ -1,3 +1,4 @@
+const userModel = require('../model/user-model')
 module.exports = async (req, res, next) => {
     try {
         let userData = req.session.userData

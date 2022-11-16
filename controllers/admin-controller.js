@@ -7,45 +7,29 @@ const categoryModel = require('../model/category-model')
 const bannerModel = require('../model/banner-model')
 const orderModel = require('../model/order-model')
 const couponModel = require('../model/coupon-model')
+const { count } = require('../model/admin-model')
 // const otpGenerator = require('otp-generator')
 // let couponCode = otpGenerator.generate(4, { upperCaseAlphabets: false, specialChars: false });
 
 let categoryError;
 module.exports = {
-    //-------------session middlware-----//
-    // sessionAdmin: (req, res, next) => {
-    //     if (req.session.admin) {
-    //         next()
-    //     }
-    //     else {
-    //         res.redirect('/admin/admin-login')
-    //     }
-    // },
 
 
     //---------admin home---------//
     getAdmin: async (req, res) => {
         try {
-            let totalUsers= await userModel.estimatedDocumentCount();
+            let totalUsers = await userModel.estimatedDocumentCount();
             let totalOrders = await orderModel.estimatedDocumentCount();
             let totalProducts = await productSchema.estimatedDocumentCount();
-            let orderIncome = await orderModel.find({paymentStatus:"completed"})
-            let cancelledOrder = await orderModel.find({orderStatus:"Cancelled"}).count();
-            let pendingOrder = await orderModel.find({orderStatus:"pending"}).count();
-            let deliveredOrder = await orderModel.find({orderStatus:"Delivered"}).count();
-
-            console.log("hiiii");
-            console.log(cancelledOrder,pendingOrder,deliveredOrder);
-
+            let orderIncome = await orderModel.find({ paymentStatus: "completed" })
+            let cancelledOrder = await orderModel.find({ orderStatus: "Cancelled" }).count();
+            let pendingOrder = await orderModel.find({ orderStatus: "pending" }).count();
+            let deliveredOrder = await orderModel.find({ orderStatus: "Delivered" }).count();
             let date = new Date().toJSON().slice(0, 10)
-            // console.log(orderIncome);
-            // console.log("--------");
-        
-            let sum=0
+            let sum = 0
             for (let i = 0; i < orderIncome.length; i++) {
-                sum=sum+orderIncome[i].totalAmount
+                sum = sum + orderIncome[i].totalAmount
             }
-
             let incomeGenerated = await orderModel.aggregate([
 
                 // First Stage
@@ -55,7 +39,7 @@ module.exports = {
                 // Second Stage
                 {
                     $group: {
-                        _id:   "$date"  ,
+                        _id: "$date",
                         sales: { $sum: "$totalAmount" },
                     }
                 },
@@ -67,22 +51,18 @@ module.exports = {
                     $limit: 7
                 }
             ])
-            let orderDate = incomeGenerated._id
-            let sales = incomeGenerated.sales
-            console.log(incomeGenerated);
             const newArr = incomeGenerated.map(elements)
             function elements(item) {
                 return item.sales;
-              }
-              console.log(newArr);
+            }
+            console.log(newArr);
 
-              const newdate = incomeGenerated.map(dateOrder)
-              function dateOrder(item) {
-                  return item._id;
-                }
-                console.log(newdate);
-              
-            res.render('admin/admin',{totalUsers,totalOrders,totalProducts,sum,date,cancelledOrder,pendingOrder,deliveredOrder,newArr,newdate})
+            const newdate = incomeGenerated.map(dateOrder)
+            function dateOrder(item) {
+                return item._id;
+            }
+
+            res.render('admin/admin', { totalUsers, totalOrders, totalProducts, sum, date, cancelledOrder, pendingOrder, deliveredOrder, newArr, newdate })
 
         }
         catch (err) {
@@ -136,9 +116,40 @@ module.exports = {
     },
 
     //-------report----------//
-    report: (req, res) => {
+    report: async(req, res) => {
         try {
-                res.render('admin/report')
+            let salesData = await orderModel.aggregate([
+
+                // First Stage
+                {
+                    $match: { "date": { $ne: null } }
+                },
+                // {
+                //    count:{$count:"$_id"} 
+                // },
+                // Second Stage
+                {
+                    $group: {
+                        _id: "$date",
+                        sales: { $sum: "$totalAmount" },
+                        myCount: { $sum: 1 }
+                    }
+                },
+                {
+                     $project: { _id: 1, sales:1,myCount:1} 
+                },
+                // Third Stage
+                {
+                    $sort: { _id: 1 }
+                },
+                {
+                    $limit: 7
+                }
+            ])
+            console.log("hiii");
+            // console.log(incomeGenerate);
+            let incomeGenerated= salesData.reverse()
+            res.render('admin/report',{incomeGenerated})
         } catch (error) {
             console.log(error);
         }
@@ -564,7 +575,7 @@ module.exports = {
         try {
             orderId = req.params.id
             let order = await orderModel.findById({ _id: orderId }).populate('order.productId').exec()
-          
+
             let products = order.order
             console.log(products);
             res.render('admin/orderDetails', { order, products })
@@ -660,12 +671,12 @@ module.exports = {
         }
     },
 
-    
-   
-   
-   
 
-   
+
+
+
+
+
 
     //--------------coupon management---------//
     viewCoupons: async (req, res) => {

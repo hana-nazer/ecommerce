@@ -30,30 +30,6 @@ let couponErr;
 
 
 module.exports = {
-    //----------session ------//
-    // userSession: (req, res, next) => {
-    //     if (req.session.userData) {
-    //         next()
-    //     }
-    //     else {
-    //         res.render('user/login', { userData: false, loginErr: req.session.loginErr })
-    //     }
-    // },
-
-    //-------userBlock checking----//
-    // userBlock: async (req, res, next) => {
-    //     let userData = req.session.userData
-    //     // console.log(userData);
-    //     let user = await userModel.findOne({ _id: userData._id })
-    //     if (user.status === "true") {
-    //         next()
-    //     }
-    //     else {
-    //         req.session.userData = null
-    //         res.redirect('/login')
-    //     }
-    // },
-
     //---------home page--------------//
     getHome: async (req, res) => {
         try {
@@ -62,7 +38,7 @@ module.exports = {
             let banner = await bannerModel.find({ show: true })
             if (userData) {
                 const pageNum = req.query.page
-                const perPage = 3
+                const perPage = 4
                 let docCount;
                 productSchema.find({ active: true }).countDocuments().then((documents) => {
                     docCount = documents
@@ -82,7 +58,7 @@ module.exports = {
 
             } else {
                 const pageNum = req.query.page
-                const perPage = 3
+                const perPage = 4
                 let docCount;
                 productSchema.find({ active: true }).countDocuments().then((documents) => {
                     docCount = documents
@@ -633,7 +609,7 @@ module.exports = {
                 let dis = couponObj.discount
                 let couponId = couponObj.couponId
                 total = products.total
-                orderTotal = (total - ((total * dis) / 100))
+                orderTotal = parseInt(total - ((total * dis) / 100))
                 discountAmount = total - orderTotal
                 let couponFind = await couponModel.findOne({ _id: couponId })
                 let coupon = couponFind._id
@@ -805,10 +781,16 @@ module.exports = {
                         }
                     } else {
                         console.log("cannot find the user");
+                        req.session.couponErr = "Cannot find the user"
+                        let couponErr = req.session.couponErr
+                        res.json({ couponErr })
                     }
                 })
             } else {
                 console.log("invalid Coupon");
+                req.session.couponErr = "Invalid coupon"
+                let couponErr = req.session.couponErr
+                res.json({ couponErr })
             }
         })
     },

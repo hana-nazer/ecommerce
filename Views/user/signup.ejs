@@ -130,10 +130,10 @@
                 e.preventDefault()
                 passwordErr.innerHTML = 'enter password'
             }
-            else if (comPassErr.value == '' || comPassErr.value == null||comPassErr.value!=password.value) {
-                e.preventDefault()
-                comPassErr.innerHTML = 'enter confirm password'
-            }
+            // else if (comPassErr.value == '' || comPassErr.value == null) {
+            //     e.preventDefault()
+            //     comPassErr.innerHTML = 'enter confirm password'
+            // }
         })
             function validate_password() {
 
@@ -154,24 +154,7 @@
                 }
             }
 
-            function fieldvalidation() {
-                if (document.getElementById('password').value == ""||document.getElementById('password').value == null) {
-                    document.getElementById('passwordErr').innerHTML = "required"
-                }
-                else if (document.getElementById('password2').value == ""||document.getElementById('password2').value == null) {
-                    document.getElementById('comPassErr').innerHTML = "required"
-                }
-                else if (document.getElementById('username').value == ""||document.getElementById('username').value == null) {
-                    document.getElementById('userNameErr').innerHTML = "required"
-                }
-                else if (document.getElementById('email').value == ""||document.getElementById('email').value == null) {
-                    document.getElementById('emailErr').innerHTML = 'required'
-                }
-                else if (document.getElementById('mobile').value == ""||document.getElementById('mobile').value == null) {
-                    document.getElementById('phoneErr').innerHTML = 'required'
-                }
-
-            }
+           
         </script>
 
 
