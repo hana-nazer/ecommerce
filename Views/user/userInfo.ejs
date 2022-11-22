@@ -138,7 +138,7 @@
                                     </span>
                                     <div class="d-flex flex-column ms-3">
                                        <h6 class="fw-bold">Home</h6>
-                                       <span>2112, cottonwoon lane, <br>Ground Floor, NY ,20021</span>
+                                       <span><%=userData.address[0].houseName%> <br><%=userData.address[0].city%>, <%=userData.address[0].state%><br> <%=userData.address[0].pincode%></span>
                                     </div>
                                  </div>
                               </div>
@@ -149,21 +149,11 @@
                                     </span>
                                     <div class="d-flex flex-column ms-3">
                                        <h6 class="fw-bold">Office</h6>
-                                       <span class="text-center">3432, Awesome Tail lane, <br>First Floor, NY, 43434</span>
+                                       <span class="text-center"><%=userData.address[1].houseName%> <br><%=userData.address[1].city%>, <%=userData.address[1].state%><br> <%=userData.address[1].pincode%></span>
                                     </div>
                                  </div>
                               </div>
                            </div>
-                           <!-- <div class="p-3 card-child mt-4 py-4">
-                              <div class="d-flex flex-row align-items-center">
-                                 <span class="circle-3">
-                                    <i class="fa fa-plus"></i>
-                                 </span>
-                                 <div class="d-flex flex-column ms-3 mt-1">
-                                    <h6 class="fw-bold text-primary">Add New Address</h6>
-                                 </div>
-                              </div>
-                           </div> -->
                         </div>
                      </div>
                   </div>

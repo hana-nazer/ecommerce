@@ -26,14 +26,16 @@ const userSchema = new Schema({
         type:Array,
         default:undefined
     },
-    address: {
+    address: [{
         name:String,
         houseName:String,
         pincode: Number,
         phoneNumber: Number,
         city: String,
         state: String
-    }
+    }]
+       
+    
 })
 
 module.exports = mongoose.model('User',userSchema)

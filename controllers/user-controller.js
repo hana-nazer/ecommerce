@@ -3,7 +3,7 @@ const userModel = require('../model/user-model')
 const bcrypt = require('bcrypt')
 const productSchema = require('../model/product-model')
 const categoryModel = require('../model/category-model')
-const wishListModel = require('../model/wishList-model')
+const wishListModel = require('../model/wishlist-model')
 const orderModel = require('../model/order-model')
 const cartModel = require('../model/cart-model')
 const bannerModel = require('../model/banner-model')
@@ -288,6 +288,7 @@ module.exports = {
     userInfo: (req, res, next) => {
         try {
             userData = req.session.userData
+            console.log(userData);
             res.render('user/userInfo', { userData })
         } catch (error) {
             console.log(error);
@@ -304,29 +305,23 @@ module.exports = {
         }
     },
 
-    postAddress: (req, res) => {
+    postAddress:async (req, res) => {
         try {
             let address = req.body
             let userId = req.session.userData._id
-            userModel.updateOne(
-                { _id: userId },
-                {
-                    $set: {address: {
-                        name: req.body.name,
-                        houseName: req.body.address,
-                        pincode: req.body.zip,
-                        // phoneNumber: req.body.phone,
-                        city: req.body.town_city,
-                        state: req.body.state,
-                    }},
-                })
-                .then((result, err) => {
-                    if(!err){
-                        res.redirect('/userInfo')
-                    }
-                })
+            let user = await userModel.findOne({_id:userId})
+            user.address.push({
+                name: req.body.name,
+                houseName: req.body.address,
+                pincode: req.body.zip,
+                phoneNumber: req.body.phone,
+                city: req.body.city,
+                state: req.body.state, 
+            })
+            user.save()
+            res.redirect('/userInfo')
 
-
+          
         } catch (error) {
 
         }
