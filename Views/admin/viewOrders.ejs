@@ -65,7 +65,11 @@
                                     <%=order.paymentStatus%>
                                   </td>
                                   <td>
-                                    <%=order.paymentMode%>
+                                    <% if(order.paymentMode=="netbanking"){ %>
+                                      Online Payment
+                                    <% } else{ %>  
+                                      <%=order.paymentMode%>
+                                   <% } %>
                                   </td>
                                   <td>
                                     <%=order.discountAmount%>

@@ -1,7 +1,15 @@
-
 <%- include('./includes/user-header')%>
     <div class="boxed_wrapper">
         <%- include('./includes/user-navbar')%>
+            <!-- Preloader -->
+            <div class="loader-wrap">
+                <div class="preloader">
+                    <div class="preloader-close">Preloader Close</div>
+                </div>
+                <div class="layer layer-one"><span class="overlay"></span></div>
+                <div class="layer layer-two"><span class="overlay"></span></div>
+                <div class="layer layer-three"><span class="overlay"></span></div>
+            </div>
             <section class="banner-style-one">
                 <div class="pattern-layer" style="background-image: url(/bannerImages/<%=banner[0].image[0]%>);"></div>
                 <div class="banner-carousel owl-theme owl-carousel">
@@ -45,10 +53,55 @@
                                                     src="/productImages/<%=product.image[0]%>"
                                                     style="height: 380px;width:7000px;" alt="Image not found"></a>
                                             <ul class="info-list clearfix">
-                                                <li><a href="/wishList/<%=product._id%>">
-                                                        <i class="flaticon-heart"></i>
-                                                    </a></li>
-                                                <li><a onclick="addToCart('<%=product._id%>')">Add to cart</a></li>
+                                                <li>
+                                                    <% if(userData){ %> 
+                                                        
+                                                        <% let flag= false%>
+                                                        <% if(wishListItems){%>
+                                                           
+                                                            <% for(let i=0;i< wishListItems.wishListProducts.length ;i++){%>
+                                                            
+                                                                 <%if(wishListItems.wishListProducts[i].products._id !== product._id){%>
+                                                                <%console.log(product._id)%>
+                                                               
+
+                                                                        <% flag = true%>
+                                                                        
+                                                                  <%}%>  
+                                                            <%}%>
+                                                            <%if(flag== true){%>
+                                                                <a href="/wishList/<%=product._id%>">
+                                                                    <i class=" fa-solid fa-heart" style="color: red;"></i>
+                                                                </a>
+                                                              <%}                                
+                                                              else{%>
+  
+                                                                  <a href="/wishList/<%=product._id%>">
+                                                                      <i class="flaticon-heart"></i>
+                                                                  </a>
+                                                                  <%}%>
+                                                           
+                                                            <%}%>
+
+                                                             <%}  else{ %>
+                                                                    <a href="/login">
+                                                                        <i class="flaticon-heart"></i>
+                                                                    </a>
+                                                                    <% } %>
+                                                    
+                                                            <!-- if product already in wishlist heart should be red -->
+                                
+
+
+                                                </li>
+                                                <li>
+                                                    <% if(userData){ %>
+                                                        <a onclick="addToCart('<%=product._id%>')">Add to cart</a>
+                                                        <% }else{ %>
+                                                            <a href="/login">Add to cart</a>
+                                                            <% } %>
+
+                                                </li>
                                             </ul>
                                         </figure>
                                         <div class="lower-content">
@@ -66,21 +119,21 @@
                     </div>
                 </div>
                 <!-- <nav aria-label="..."> -->
-                    <div class="container d-flex justify-content-center">
-                        <ul class="pagination pagination-sm">
-                            <%for (let i=1;i<=pages;i++){%>
-                                <%if(i==currentPage){%>
-                                    <li class="page-item"><a class="page-link active" href="/?page=<%=i%>">
+                <div class="container d-flex justify-content-center">
+                    <ul class="pagination pagination-sm">
+                        <%for (let i=1;i<=pages;i++){%>
+                            <%if(i==currentPage){%>
+                                <li class="page-item"><a class="page-link active" href="/?page=<%=i%>">
+                                        <%=i%>
+                                    </a></li>
+                                <%} else{%>
+                                    <li class="page-item"><a class="page-link " href="/?page=<%=i%>">
                                             <%=i%>
                                         </a></li>
-                                    <%} else{%>
-                                        <li class="page-item"><a class="page-link " href="/?page=<%=i%>">
-                                                <%=i%>
-                                            </a></li>
+                                    <%}%>
                                         <%}%>
-                                            <%}%>
-                        </ul>
-                    </div>
+                    </ul>
+                </div>
                 <!-- </nav> -->
             </section>
             <!-- shop-section end -->

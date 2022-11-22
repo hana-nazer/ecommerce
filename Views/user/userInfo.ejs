@@ -63,13 +63,21 @@
    </style>
    <%- include('./includes/user-navbar')%>
 
-
+      <!-- Preloader -->
+      <div class="loader-wrap">
+         <div class="preloader">
+            <div class="preloader-close">Preloader Close</div>
+         </div>
+         <div class="layer layer-one"><span class="overlay"></span></div>
+         <div class="layer layer-two"><span class="overlay"></span></div>
+         <div class="layer layer-three"><span class="overlay"></span></div>
+      </div>
 
       <div class="container mt-4 border">
          <div class="btn btn-dark d-flex justify-content-center align-center mt-4">Profile</div>
          <div class="main-body mt-4">
             <div class="row gutters-sm">
-               
+
                <div class="col-md-4 mb-3">
                   <div class="card">
                      <div class="card-body">
@@ -81,6 +89,7 @@
                                  <%= userData.userName %>
                               </h4>
                               <a class="btn btn-dark text-white" href="/orderTrack">My Orders</a>
+                              <a class="btn btn-dark text-white" href="/address">Add Address</a>
                            </div>
                         </div>
                      </div>
@@ -119,11 +128,49 @@
                            </div>
                         </div>
                         <hr>
+                        <div class="card p-3 py-3 mt-3 card-1 text-center ">
+                           <h4> Address</h4>
+                           <div class="d-flex row">
+                              <div class="p-3 card-child col-6">
+                                 <div class="d-flex flex-row align-items-center">
+                                    <span class="circle">
+                                       <i class="fa fa-home"></i>
+                                    </span>
+                                    <div class="d-flex flex-column ms-3">
+                                       <h6 class="fw-bold">Home</h6>
+                                       <span>2112, cottonwoon lane, <br>Ground Floor, NY ,20021</span>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="p-3 card-child text-center col-6">
+                                 <div class="d-flex flex-row align-items-center">
+                                    <span class="circle-2">
+                                       <i class="fa fa-bank"></i>
+                                    </span>
+                                    <div class="d-flex flex-column ms-3">
+                                       <h6 class="fw-bold">Office</h6>
+                                       <span class="text-center">3432, Awesome Tail lane, <br>First Floor, NY, 43434</span>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <!-- <div class="p-3 card-child mt-4 py-4">
+                              <div class="d-flex flex-row align-items-center">
+                                 <span class="circle-3">
+                                    <i class="fa fa-plus"></i>
+                                 </span>
+                                 <div class="d-flex flex-column ms-3 mt-1">
+                                    <h6 class="fw-bold text-primary">Add New Address</h6>
+                                 </div>
+                              </div>
+                           </div> -->
+                        </div>
                      </div>
                   </div>
                </div>
             </div>
          </div>
+      </div>
       </div>
       <div class="container mt-4 d-flex justify-content-center">
          <div class="justify-content-center"><a href="/" class="btn btn-dark">Back to homepage</a></div>

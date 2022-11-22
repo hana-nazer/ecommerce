@@ -39,12 +39,12 @@
 
 <body>
     <%- include('./includes/user-navbar')%>
+  
 
-        <!-- <div class="conatiner"> -->
-        <!-- <div class="row"> -->
+       
 
         <!-- product-details -->
-        <section class="product-details product-details-1">
+ <section class="product-details product-details-1">
             <div class="auto-container">
                 <div class="product-details-content">
                     <div class="row clearfix">
@@ -90,7 +90,7 @@
                                     <div class="btn-box"><a onclick="addToCart('<%=product._id%>')" class="theme-btn-two">Add to
                                             cart</a></div>
                                     <ul class="info clearfix">
-                                        <li><a href="product-details.html"><i class="flaticon-heart"></i></a></li>
+                                        <li><a href="/wishList/<%=product._id%>"><i class="flaticon-heart"></i></a></li>
                                         <!-- <li><a href="product-details.html"><i class="flaticon-search"></i></a></li> -->
                                     </ul>
                                 </div>
@@ -130,12 +130,25 @@
                                             <img src="/productImages/<%=relatedProducts.image[0]%>"
                                                 style="height:350px;width:300px" alt="Image not found">
                                             <ul class="info-list clearfix">
-                                                <li><a href="index.html"><i class="flaticon-heart"></i></a></li>
-                                                <li><a onclick="addToCart('<%=product._id%>')">Add to cart</a></li>
+                                               
+                                                <li> <% if(userData){ %>
+                                                    <a href="/wishList/<%=relatedProducts._id%>"><i class="flaticon-heart"></i></a><% }else{ %>
+                                                        <a href="/login">
+                                                            <i class="flaticon-heart"></i>
+                                                        </a>
+                                                        <% } %> 
+                                                </li>
+                                                
+                                                  
 
-                                                <li><a href="assets/images/resource/shop/shop-1.jpg"
-                                                        class="lightbox-image" data-fancybox="gallery"><i
-                                                            class="flaticon-search"></i></a></li>
+                                                <li> <% if(userData){ %>
+                                                    <a onclick="addToCart('<%=relatedProducts._id%>')">Add to cart</a>
+                                                    <% }else{ %>
+                                                        <a href="/login">Add to cart</a>
+                                                        <% } %> 
+                                                </li>
+
+                                               
                                             </ul>
                                         </figure>
                                         <div class="lower-content">

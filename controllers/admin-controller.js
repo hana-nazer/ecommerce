@@ -16,7 +16,7 @@ module.exports = {
 
 
     //---------admin home---------//
-    getAdmin: async (req, res) => {
+    getAdmin: async (req, res,next) => {
         try {
             let totalUsers = await userModel.estimatedDocumentCount();
             let totalOrders = await orderModel.estimatedDocumentCount();
@@ -28,7 +28,7 @@ module.exports = {
             let date = new Date().toJSON().slice(0, 10)
             let sum = 0
             for (let i = 0; i < orderIncome.length; i++) {
-                sum = sum + orderIncome[i].totalAmount
+                sum = parseInt(sum + orderIncome[i].totalAmount) 
             }
             let incomeGenerated = await orderModel.aggregate([
 
@@ -65,14 +65,15 @@ module.exports = {
             res.render('admin/admin', { totalUsers, totalOrders, totalProducts, sum, date, cancelledOrder, pendingOrder, deliveredOrder, newArr, newdate })
 
         }
-        catch (err) {
-            console.log(err);
+        catch (error) {
+            console.log(error);
+            next(error)
         }
     },
 
 
     //----------------------admin login(get)-----------/
-    getAdminLogin: (req, res) => {
+    getAdminLogin: (req, res,next) => {
         try {
             if (req.session.admin) {
                 res.redirect('/admin/')
@@ -82,14 +83,15 @@ module.exports = {
                 // adminloginErr = null
             }
         }
-        catch (err) {
+        catch (error) {
             console.log(err);
+            next(error)
         }
     },
 
 
     // ----------------- admin signin--------------//
-    postLogin: (req, res) => {
+    postLogin: (req, res,next) => {
         try {
             adminModel.findOne({ email: req.body.email }).then((admin) => {
                 if (admin) {
@@ -109,14 +111,15 @@ module.exports = {
                 }
             })
         }
-        catch (err) {
-            console.log(err);
+        catch (error) {
+            console.log(error);
+            next(error)
         }
 
     },
 
     //-------report----------//
-    report: async(req, res) => {
+    report: async(req, res,next) => {
         try {
             let salesData = await orderModel.aggregate([
 
@@ -152,11 +155,12 @@ module.exports = {
             res.render('admin/report',{incomeGenerated})
         } catch (error) {
             console.log(error);
+            next(error)
         }
     },
 
     // --------------------user list---------------//
-    getUserList: (req, res) => {
+    getUserList: (req, res,next) => {
         try {
             userModel.find().then((data) => {
                 res.render('admin/user_manage', { data })
@@ -164,11 +168,12 @@ module.exports = {
         }
         catch (error) {
             console.log(error);
+            next(error)
         }
     },
 
     //-----------product list----------------//
-    getProductList: (req, res) => {
+    getProductList: (req, res,next) => {
         try {
             productSchema.find({}, function (err, product) {
                 if (err) {
@@ -181,18 +186,20 @@ module.exports = {
         }
         catch (error) {
             console.log(error);
+            next(error)
         }
     },
 
 
     //--------------add-product--------------//
-    addProduct: async (req, res) => {
+    addProduct: async (req, res,next) => {
         try {
             let category = await categoryModel.find()
             res.render('admin/add-product', { category, message: req.flash('error') })
         }
         catch (error) {
             console.log(error);
+            next(error)
         }
     },
 
@@ -200,7 +207,7 @@ module.exports = {
 
     //-------------post add product---------------//
     //-------------to get added products---------//
-    product: (req, res) => {
+    product: (req, res,next) => {
         try {
             if (req.files.length == 0) {
                 productId = req.params.id
@@ -228,12 +235,13 @@ module.exports = {
         }
         catch (error) {
             console.log(error);
+            next(error)
         }
     },
 
 
     // ----------edit product---------//
-    editProduct: async (req, res) => {
+    editProduct: async (req, res,next) => {
         try {
             let productId = await productSchema.findOne({ _id: req.params.id })
             let category = await categoryModel.find()
@@ -242,12 +250,13 @@ module.exports = {
         }
         catch (error) {
             console.log(error);
+            next(error)
         }
     },
 
 
     //-------------post edit--------//
-    postEditProduct: async (req, res) => {
+    postEditProduct: async (req, res,next) => {
         try {
             if (req.files.length == 0) {
                 productId = req.params.id
@@ -280,12 +289,13 @@ module.exports = {
         }
         catch (error) {
             console.log(error);
+            next(error)
         }
     },
 
 
     //------delete product---------//
-    deleteProduct: (req, res) => {
+    deleteProduct: (req, res,next) => {
         try {
             let productId = req.params.id
             productSchema.findOne({ _id: productId }).then((data) => {
@@ -301,18 +311,21 @@ module.exports = {
                             res.json({ status: false })
                         })
                 }
-            }).catch((err) => {
-                console.log(err);
+            }).catch((error) => {
+                console.log(error);
+                next(error)
+                
             })
         }
         catch (error) {
             console.log(error);
+            next(error)
         }
     },
 
 
     //-----Add category------//
-    addCategory: (req, res) => {
+    addCategory: (req, res,next) => {
         try {
             const caseCategory = req.body.category.toUpperCase()
             categoryModel.find({ category: caseCategory }, (err, data) => {
@@ -324,8 +337,9 @@ module.exports = {
                         .then(answer => {
                             res.redirect('/admin/category')
                         })
-                        .catch(err => {
-                            console.log(err)
+                        .catch(error => {
+                            console.log(error)
+                            next(error)
                         })
                 }
                 else {
@@ -337,12 +351,13 @@ module.exports = {
         }
         catch (error) {
             console.log(error);
+            next(error)
         }
     },
 
 
     //------------categoryList-------//
-    getCategory: (req, res) => {
+    getCategory: (req, res,next) => {
         try {
             categoryModel.find({}, function (err, answer) {
                 if (answer) {
@@ -356,12 +371,13 @@ module.exports = {
         }
         catch (error) {
             console.log(error);
+            next(error)
         }
     },
 
 
     //-----------single category---//
-    categoryList: async (req, res) => {
+    categoryList: async (req, res,next) => {
         try {
             if (req.params.category) {
                 categoryChoosen = req.params.category
@@ -374,13 +390,14 @@ module.exports = {
             }
         } catch (error) {
             console.log(error);
+            next(error)
 
         }
     },
 
 
     //---------delete category------------//
-    deleteCategory: async (req, res) => {
+    deleteCategory: async (req, res,next) => {
         try {
             const categoryId = req.params.id
             const categoryList = await categoryModel.findById(categoryId)
@@ -394,15 +411,16 @@ module.exports = {
                 res.json({ status: false })
             }
         }
-        catch (err) {
-            console.log(err);
+        catch (error) {
+            console.log(error);
+            next(error)
         }
     },
 
 
 
     //------------------blockUser------------//
-    blockUser: async (req, res) => {
+    blockUser: async (req, res,next) => {
         try {
             let userId = req.params.id
             await userModel.updateOne({ _id: userId }, {
@@ -413,12 +431,13 @@ module.exports = {
             res.redirect('/admin/user-option')
         }
         catch (error) {
-            console.lo(error)
+            console.log(error)
+            next(error)
         }
     },
 
     //--------------unblock----------------//
-    unBlock: async (req, res) => {
+    unBlock: async (req, res,next) => {
         try {
             let userId = req.params.id
             await userModel.updateOne({ _id: userId }, {
@@ -430,11 +449,12 @@ module.exports = {
         }
         catch (error) {
             console.log(error);
+            next(error)
         }
     },
 
     //---Banner page---//
-    getBannerList: (req, res) => {
+    getBannerList: (req, res,next) => {
         try {
             bannerModel.find({}, function (err, banner) {
                 if (err) {
@@ -447,20 +467,22 @@ module.exports = {
         }
         catch (error) {
             console.log(error);
+            next(error)
         }
     },
 
     //Add banner----//
-    addBanner: async (req, res) => {
+    addBanner: async (req, res,next) => {
         try {
             res.render('admin/addBanner', { bannerMessage: req.flash('error') })
         }
         catch (error) {
             console.log(error);
+            next(error)
         }
     },
     //add banner post---//
-    postAddBanner: async (req, res) => {
+    postAddBanner: async (req, res,next) => {
         try {
             if (req.files.length === 0) {
                 req.flash("error", 'Insert banner image')
@@ -483,12 +505,13 @@ module.exports = {
         }
         catch (error) {
             console.log(error);
+            next(error)
         }
     },
 
 
     //----edit banner---//
-    editBanner: async (req, res) => {
+    editBanner: async (req, res,next) => {
         try {
             let bannerId = await bannerModel.findOne({ _id: req.params.id })
 
@@ -496,11 +519,12 @@ module.exports = {
         }
         catch (error) {
             console.log(error);
+            next(error)
         }
     },
 
     //----postEdit banner---//
-    postEditBanner: async (req, res) => {
+    postEditBanner: async (req, res,next) => {
         try {
             if (req.files.length === 0) {
                 req.flash("error", 'Insert banner image')
@@ -527,11 +551,12 @@ module.exports = {
         }
         catch (error) {
             console.log(error);
+            next(error)
         }
     },
 
 
-    bannerHideUnhide: (req, res) => {
+    bannerHideUnhide: (req, res,next) => {
         try {
             let bannerId = req.params.id
             bannerModel.findOne({ _id: bannerId }).then((data) => {
@@ -547,18 +572,20 @@ module.exports = {
                             res.json({ status: false })
                         })
                 }
-            }).catch((err) => {
-                console.log(err);
+            }).catch((error) => {
+                console.log(error);
+                next(error)
             })
         }
         catch (error) {
             console.log(error);
+            next(error)
         }
     },
 
 
     //--------order Management----------//
-    viewOrder: (req, res) => {
+    viewOrder: (req, res,next) => {
         try {
             orderModel.find().then((orderDetails) => {
                 let orders = orderDetails.reverse()
@@ -566,12 +593,12 @@ module.exports = {
 
             })
         } catch (error) {
-
+              next(error)
         }
     },
 
 
-    viewOrderDetails: async (req, res) => {
+    viewOrderDetails: async (req, res,next) => {
         try {
             orderId = req.params.id
             let order = await orderModel.findById({ _id: orderId }).populate('order.productId').exec()
@@ -580,12 +607,12 @@ module.exports = {
             console.log(products);
             res.render('admin/orderDetails', { order, products })
         } catch (error) {
-
+next(error)
         }
 
     },
 
-    approveOrders: async (req, res) => {
+    approveOrders: async (req, res,next) => {
         try {
             let orderId = req.params.id
             console.log("orderId is ertyuijhgfd");
@@ -597,10 +624,11 @@ module.exports = {
             })
         } catch (error) {
             console.log(error);
+            next(error)
         }
     },
 
-    dispatchedOrders: async (req, res) => {
+    dispatchedOrders: async (req, res,next) => {
         try {
             let orderId = req.params.id
             console.log("orderId is ertyuijhgfd");
@@ -612,10 +640,11 @@ module.exports = {
             })
         } catch (error) {
             console.log(error);
+            next(error)
         }
     },
 
-    deliveredOrders: async (req, res) => {
+    deliveredOrders: async (req, res,next) => {
         try {
             let orderId = req.params.id
             console.log("orderId is ertyuijhgfd");
@@ -630,10 +659,11 @@ module.exports = {
             })
         } catch (error) {
             console.log(error);
+            next(error)
         }
     },
 
-    cancelledOrders: async (req, res) => {
+    cancelledOrders: async (req, res,next) => {
         try {
             let orderId = req.params.id
             console.log("orderId is ertyuijhgfd");
@@ -648,10 +678,11 @@ module.exports = {
             })
         } catch (error) {
             console.log(error);
+            next(error)
         }
     },
 
-    failedOrders: async (req, res) => {
+    failedOrders: async (req, res,next) => {
         try {
             let orderId = req.params.id
             console.log("orderId is ertyuijhgfd");
@@ -668,6 +699,7 @@ module.exports = {
             })
         } catch (error) {
             console.log(error);
+            next(error)
         }
     },
 
@@ -679,7 +711,7 @@ module.exports = {
 
 
     //--------------coupon management---------//
-    viewCoupons: async (req, res) => {
+    viewCoupons: async (req, res,next) => {
         try {
             couponModel.find().then((coupons) => {
                 console.log(coupons);
@@ -687,18 +719,20 @@ module.exports = {
             })
         } catch (error) {
             console.log(error);
+            next(error)
         }
     },
 
-    AddCoupons: (req, res) => {
+    AddCoupons: (req, res,next) => {
         try {
             res.render('admin/addCoupon')
         } catch (error) {
             console.log(error);
+            next(error)
         }
     },
 
-    postAddCoupon: (req, res) => {
+    postAddCoupon: (req, res,next) => {
         try {
             // console.log(req.body);
             // console.log(req.body.expDate);
@@ -713,17 +747,22 @@ module.exports = {
             coupon.save();
             res.redirect('/admin/coupon')
         } catch (error) {
-
+      next(error)
         }
     },
 
-    getEditCoupon: async (req, res) => {
-        let editId = req.params.id
-        let editCoupon = await couponModel.findOne({ _id: editId })
-        res.render('admin/editCoupon', { editCoupon })
+    getEditCoupon: async (req, res,next) => {
+        try{
+            let editId = req.params.id
+            let editCoupon = await couponModel.findOne({ _id: editId })
+            res.render('admin/editCoupon', { editCoupon })
+        }catch(error){
+            next(error)
+        }
+        
     },
 
-    postEditCoupon: async (req, res) => {
+    postEditCoupon: async (req, res,next) => {
         try {
             let couponId = req.params.id
             await couponModel.updateOne({ _id: couponId }, {
@@ -736,17 +775,22 @@ module.exports = {
             })
             res.redirect('/admin/coupon')
         } catch (error) {
-
+next(error)
         }
     },
 
 
 
-    deleteCoupon: (req, res) => {
-        let couponId = req.params.id
-        couponModel.findByIdAndRemove({ _id: couponId }).then((data) => {
-            res.redirect('/admin/coupon')
-        })
+    deleteCoupon: (req, res,next) => {
+        try{
+            let couponId = req.params.id
+            couponModel.findByIdAndRemove({ _id: couponId }).then((data) => {
+                res.redirect('/admin/coupon')
+            })
+        }catch(error){
+            next(error)
+        }
+      
     },
 
     //-----------------logout-------------------//

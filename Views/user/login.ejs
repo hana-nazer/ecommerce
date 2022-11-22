@@ -1,6 +1,14 @@
 <%- include('./includes/user-header')%>
     <%- include('./includes/user-navbar')%>
-
+  <!-- Preloader -->
+  <div class="loader-wrap">
+    <div class="preloader">
+      <div class="preloader-close">Preloader Close</div>
+    </div>
+    <div class="layer layer-one"><span class="overlay"></span></div>
+    <div class="layer layer-two"><span class="overlay"></span></div>
+    <div class="layer layer-three"><span class="overlay"></span></div>
+  </div>
 
         <!-- page-title -->
         <section class="page-title centred">
@@ -42,7 +50,13 @@
                                             <label>Password</label>
                                             <input type="password" name="password" id="password" >
                                         </div>
-                                       
+                                        <div class="form-group">
+                                            <div class="custom-controls-stacked">
+                                                <label class="custom-control material-checkbox">
+                                                </label>
+                                            </div>
+                                            <a href="/forgotPassword" class="recover-password text-decoration-none">Forgot password</a>
+                                        </div>
                                         <div class="form-group">
                                             <button type="submit" class="theme-btn-two">Log In<i
                                                     class="flaticon-right-1"></i></button>
@@ -57,31 +71,5 @@
                 </div>
         </section>
         <%- include('./includes/user-footer')%>
-        <script>
-            const form = document.getElementById('form')
-            form.addEventListener('submit', (e) =>{
-           console.log("hiiiii");
-           const email = document.getElementById('email')
-           const password = document.getElementById('password')
-                                   
-           const emailErr = document.getElementById('emailErr')
-           const passwordErr = document.getElementById('passwordErr')
-
-
-
-           emailErr.innerHTML = ''
-           passwordErr.innerHTML = ''
-
-
-           if (password.value == '' || password.value == null) {
-               e.preventDefault()
-               userNameErr.innerHTML = 'Enter name'
-           } else if (email.value == '' || email.value == null) {
-               e.preventDefault()
-               emailErr.innerHTML = 'Give email'
-           }
-           
-       })
-          
-       </script>
+       
             <%- include('./includes/script')%>

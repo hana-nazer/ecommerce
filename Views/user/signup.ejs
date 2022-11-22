@@ -1,6 +1,14 @@
 <%- include('./includes/user-header')%>
     <%- include('./includes/user-navbar')%>
-
+   <!-- Preloader -->
+   <div class="loader-wrap">
+    <div class="preloader">
+      <div class="preloader-close">Preloader Close</div>
+    </div>
+    <div class="layer layer-one"><span class="overlay"></span></div>
+    <div class="layer layer-two"><span class="overlay"></span></div>
+    <div class="layer layer-three"><span class="overlay"></span></div>
+  </div>
 
         <!-- page-title -->
         <section class="page-title centred">
@@ -105,7 +113,7 @@
             const phoneErr = document.getElementById('phoneErr')
             const passwordErr = document.getElementById('passwordErr')
             const comPassErr = document.getElementById('comPassErr')
-
+             const p =document.getElementById('password').value
 
 
             userNameErr.innerHTML = ''
@@ -122,7 +130,7 @@
                 e.preventDefault()
                 emailErr.innerHTML = 'Give email'
             }
-            else if (mobile.value == '' || mobile.value == null) {
+            else if (mobile.value == '' || mobile.value == null||isNaN(mobile.value)) {
                 e.preventDefault()
                 phoneErr.innerHTML = 'Give mobile number'
             }
@@ -130,29 +138,56 @@
                 e.preventDefault()
                 passwordErr.innerHTML = 'enter password'
             }
-            // else if (comPassErr.value == '' || comPassErr.value == null) {
-            //     e.preventDefault()
-            //     comPassErr.innerHTML = 'enter confirm password'
-            // }
-        })
-            function validate_password() {
-
-                var pass = document.getElementById('password').value;
-                var confirm_pass = document.getElementById('password2').value;
-                if (pass != confirm_pass) {
-                    document.getElementById('wrong_pass_alert').style.color = 'red';
-                    document.getElementById('wrong_pass_alert').innerHTML
-                        = '☒ Use same password';
-                    document.getElementById('create').disabled = true;
-                    document.getElementById('create').style.opacity = (0.4);
-                } else {
-                    document.getElementById('wrong_pass_alert').style.color = 'green';
-                    document.getElementById('wrong_pass_alert').innerHTML =
-                        '🗹 Password Matched';
-                    document.getElementById('create').disabled = false;
-                    document.getElementById('create').style.opacity = (1);
-                }
+            else if (password2.value == '' || password2.value == null) {
+                e.preventDefault()
+                comPassErr.innerHTML = 'enter confirm password'
+            
+            }else if(p.length<8){
+                e.preventDefault()
+                comPassErr.innerHTML = 'enter atleast 8 characters'
             }
+            else if(p.length>12){
+                e.preventDefault()
+                comPassErr.innerHTML = 'Password length must not exceed 15 characters'
+            }else if(p.search(/[0-9]/) == -1){
+                e.preventDefault()
+                comPassErr.innerHTML = 'atleast contain one number'
+            }
+            else if(p.search(/[a-z]/) == -1){
+                e.preventDefault()
+                comPassErr.innerHTML = 'atleast contain small letter'
+            }
+            else if(p.search(/[A-Z]/) == -1){
+                e.preventDefault()
+                comPassErr.innerHTML = 'contain uppercase '
+            }
+            else if(p.search(/[!\@\#\$\%\^\&|*]/) == -1){
+                e.preventDefault()
+                comPassErr.innerHTML = 'must contain a special character'
+            }
+            else if(password2.value!=password.value){
+                e.preventDefault()
+                comPassErr.innerHTML = ' passwords are not matching'
+            }
+        })
+            // function validate_password() {
+
+            //     var pass = document.getElementById('password').value;
+            //     var confirm_pass = document.getElementById('password2').value;
+            //     if (pass != confirm_pass) {
+            //         document.getElementById('wrong_pass_alert').style.color = 'red';
+            //         document.getElementById('wrong_pass_alert').innerHTML
+            //             = '☒ Use same password';
+            //         document.getElementById('create').disabled = true;
+            //         document.getElementById('create').style.opacity = (0.4);
+            //     } else {
+            //         document.getElementById('wrong_pass_alert').style.color = 'green';
+            //         document.getElementById('wrong_pass_alert').innerHTML =
+            //             '🗹 Password Matched';
+            //         document.getElementById('create').disabled = false;
+            //         document.getElementById('create').style.opacity = (1);
+            //     }
+            // }
 
            
         </script>

@@ -1,0 +1,79 @@
+<%- include('./includes/user-header')%>
+    <style>
+        .title-style {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-weight: 700;
+            font-size: 20px;
+            color: hsl(52, 0%, 98%);
+        }
+
+        .title-quote {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-weight: 400;
+            color: hsl(52, 0%, 98%);
+        }
+    </style>
+    <%- include('./includes/user-navbar')%>
+
+        <div class="container py-5">
+            <div class="row d-flex justify-content-center align-items-center">
+                <div class="col">
+                    <form action="/address" method="post">
+                    <div class="card my-4 shadow-3">
+                        <div class="row g-0">
+                            <div class="col-xl-12">
+                                <div class="card-body p-md-5 text-black">
+                                    <h3 class="mb-4 text-uppercase"> Add Address</h3>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-4">
+                                            <div class="form-outline">
+                                                <input type="text" id="name" name="name" class="form-control form-control-lg" />
+                                                <label class="form-label" for="name">First name</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-4">
+                                            <div class="form-outline">
+                                                <input type="text" id="phone" name="phone" class="form-control form-control-lg" />
+                                                <label class="form-label" for="phone">Phone</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-outline mb-4">
+                                        <input type="text" id="address" name="phone" class="form-control form-control-lg" />
+                                        <label class="form-label" for="address">Address</label>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-4">
+                                            <div class="form-outline mb-4">
+                                                <input type="text" id="state" name="state" class="form-control form-control-lg" />
+                                                <label class="form-label" for="state">state</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-4">
+                                            <div class="form-outline mb-4">
+                                                <input type="text" id="city" name="city" class="form-control form-control-lg" />
+                                                <label class="form-label" for="city">City</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-outline mb-4">
+                                                <input type="text" id="zip" name="zip" class="form-control form-control-lg" />
+                                                <label class="form-label" for="zip">Zip</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-center pt-3">
+                                        <button type="submit" class="btn btn-dark btn-lg ms-2">Add</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <%- include('./includes/script')%>

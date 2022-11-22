@@ -16,6 +16,10 @@ const wishListSchema = new Schema({
         name:String,
         price:Number
     }],
+    index :{
+        type:Number,
+        default:0
+    }
     
     
     

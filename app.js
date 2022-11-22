@@ -7,10 +7,13 @@ const session = require('express-session')
 const cookieParser = require('cookie-parser');
 const nocache = require('nocache')
 const flash = require('connect-flash');
+const jwt = require('jsonwebtoken')
+
 
 // sweetAlert
 const Swal = require('sweetalert2')
 
+require('dotenv').config()
 
 
 //view engine setup
@@ -38,13 +41,23 @@ app.use(session({
 }))
 app.use(flash())
 
+
 app.use('/', userRouter)
 app.use('/admin', adminRouter)
 
 
-app.listen(3000, () => {
+app.listen(process.env.portNum, () => {
     console.log("server connected");
 })
+// error handling
+app.use((req, res, next) => {
+    res.render('error/404error', { status: '404' });
+  });
+
+  app.use((error, req, res, next) => {
+    console.log(error);
+    res.render('error/error500', { status: '500' });
+  });
 module.exports = app;
 
 

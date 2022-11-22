@@ -109,7 +109,7 @@
             err1.innerHTML = 'Choose category'
           )
         }
-        else if (quantity.value == '' || quantity.value == null || quantity == NaN) {
+        else if (quantity.value == '' || quantity.value == null || isNaN(quantity.value)) {
           e.preventDefault(
             errMsg2.innerHTML = 'Enter quantity'
           )

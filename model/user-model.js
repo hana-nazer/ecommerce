@@ -25,6 +25,14 @@ const userSchema = new Schema({
     coupon:{
         type:Array,
         default:undefined
+    },
+    address: {
+        name:String,
+        houseName:String,
+        pincode: Number,
+        phoneNumber: Number,
+        city: String,
+        state: String
     }
 })
 

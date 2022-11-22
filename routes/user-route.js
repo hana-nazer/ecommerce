@@ -29,8 +29,18 @@ router.get('/login',userController.getLogin)
 //login page post
 router.post('/login',userController.postLogin)
 
+//forgotPassword
+router.get('/forgotPassword',userController.forgotPassword)
+router.post('/forgotPassword',userController.postForgotPassword)
+router.get('/resetPassword',userController.resetPassword)
+router.post('/resetPassword',userController.postResetPassword)
+
 //user_info
 router.get('/userInfo',userSession,userBlock,userController.userInfo)
+
+//address
+router.get('/address',userSession,userBlock,userController.getAddress)
+router.post('/address',userSession,userBlock,userController.postAddress)
 
 //productview
 router.get('/productView/:id/:category',userController.productView)
