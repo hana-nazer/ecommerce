@@ -79,7 +79,7 @@ router.get('/removeWishList/:id',userSession,userBlock,userController.removeWish
 // router.get('/totalBill',userController.)
 
 //get and post Checkout
-router.route('/checkout')
+router.route('/check-out')
 .get (userSession,userBlock,userController.getCheckOut)
 .post(userSession,userBlock,userController.postCheckOut)
 
