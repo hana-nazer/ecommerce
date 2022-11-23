@@ -54,45 +54,15 @@
                                                     style="height: 380px;width:7000px;" alt="Image not found"></a>
                                             <ul class="info-list clearfix">
                                                 <li>
-                                                    <% if(userData){ %> 
-                                                        
-                                                        <% let flag= false%>
-                                                        <% if(wishListItems){%>
-                                                           
-                                                            <% for(let i=0;i< wishListItems.wishListProducts.length ;i++){%>
-                                                            
-                                                                 <%if(wishListItems.wishListProducts[i].products._id !== product._id){%>
-                                                                <%console.log(product._id)%>
-                                                               
-
-                                                                        <% flag = true%>
-                                                                        
-                                                                  <%}%>  
-                                                            <%}%>
-                                                            <%if(flag== true){%>
-                                                                <a href="/wishList/<%=product._id%>">
-                                                                    <i class=" fa-solid fa-heart" style="color: red;"></i>
-                                                                </a>
-                                                              <%}                                
-                                                              else{%>
-  
-                                                                  <a href="/wishList/<%=product._id%>">
-                                                                      <i class="flaticon-heart"></i>
-                                                                  </a>
-                                                                  <%}%>
-                                                           
-                                                            <%}%>
-
-                                                             <%}  else{ %>
-                                                                    <a href="/login">
-                                                                        <i class="flaticon-heart"></i>
-                                                                    </a>
-                                                                    <% } %>
-                                                    
-                                                            <!-- if product already in wishlist heart should be red -->
-                                
-
-
+                                                    <% if(userData){ %>
+                                                        <a href="/wishList/<%=product._id%>">
+                                                            <i class="flaticon-heart"></i>
+                                                        </a>
+                                                        <%} else{ %>
+                                                            <a href="/login">
+                                                                <i class="flaticon-heart"></i>
+                                                            </a>
+                                                            <% } %>
                                                 </li>
                                                 <li>
                                                     <% if(userData){ %>

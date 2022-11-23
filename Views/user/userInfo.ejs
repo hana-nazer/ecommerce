@@ -88,8 +88,14 @@
                               <h4>
                                  <%= userData.userName %>
                               </h4>
+                              <%if(address.length < 2){%>
                               <a class="btn btn-dark text-white" href="/orderTrack">My Orders</a>
+                              
                               <a class="btn btn-dark text-white" href="/address">Add Address</a>
+                              <%}else{%>
+                              <a class="btn btn-dark text-white" href="/orderTrack">My Orders</a>
+
+                              <%}%>
                            </div>
                         </div>
                      </div>
@@ -129,30 +135,29 @@
                         </div>
                         <hr>
                         <div class="card p-3 py-3 mt-3 card-1 text-center ">
-                           <h4> Address</h4>
+                           <!-- <h4> Address</h4> -->
                            <div class="d-flex row">
+                              <%if(address){%>
+                               <% for(let i=0; i < address.length ;i++){%>
+
                               <div class="p-3 card-child col-6">
                                  <div class="d-flex flex-row align-items-center">
                                     <span class="circle">
                                        <i class="fa fa-home"></i>
                                     </span>
                                     <div class="d-flex flex-column ms-3">
-                                       <h6 class="fw-bold">Home</h6>
-                                       <span><%=userData.address[0].houseName%> <br><%=userData.address[0].city%>, <%=userData.address[0].state%><br> <%=userData.address[0].pincode%></span>
+                                       <h6 class="fw-bold">Address&nbsp;<%=i+1%></h6>
+                                       <span><%=address[i].houseName%> <br><%=address[i].city%>, <%=address[i].state%><br> <%=address[i].pincode%></span>
+                                       <span><a href="/editAddress/<%=address[i]._id%>">Edit</a> &nbsp;<a href="/deleteAddress/<%=address[i]._id%>">Delete</a></span>
+                                       
                                     </div>
                                  </div>
                               </div>
-                              <div class="p-3 card-child text-center col-6">
-                                 <div class="d-flex flex-row align-items-center">
-                                    <span class="circle-2">
-                                       <i class="fa fa-bank"></i>
-                                    </span>
-                                    <div class="d-flex flex-column ms-3">
-                                       <h6 class="fw-bold">Office</h6>
-                                       <span class="text-center"><%=userData.address[1].houseName%> <br><%=userData.address[1].city%>, <%=userData.address[1].state%><br> <%=userData.address[1].pincode%></span>
-                                    </div>
-                                 </div>
-                              </div>
+                              <%}%>
+                              <%}%>
+
+
+
                            </div>
                         </div>
                      </div>

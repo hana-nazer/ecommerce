@@ -5,6 +5,7 @@ const productSchema = require('../model/product-model')
 const categoryModel = require('../model/category-model')
 const wishListModel = require('../model/wishlist-model')
 const orderModel = require('../model/order-model')
+const addressModel = require('../model/address-model')
 const cartModel = require('../model/cart-model')
 const bannerModel = require('../model/banner-model')
 const couponModel = require('../model/coupon-model')
@@ -210,12 +211,14 @@ module.exports = {
                         if (data) {
                             req.session.userData = user
                             req.session.loggedIn = true
+                            // console.log("hii");
+                            // console.log(req.session);
                             res.redirect('/')
 
                         }
                         else {
                             req.flash('error', 'invalid password')
-                            console.log("login failed");
+                            // console.log("login failed");
                             res.redirect('/login')
                         }
                     })
@@ -226,7 +229,7 @@ module.exports = {
 
             } else {
                 req.flash('error', 'Invalid email')
-                console.log("login failed");
+                // console.log("login failed");
                 res.redirect('/login')
             }
         } catch (error) {
@@ -236,97 +239,169 @@ module.exports = {
     },
 
     //---------forgot password------//
-    forgotPassword: (req, res, next) => {
-        try {
-            let userData = req.session.userData
+    // forgotPassword: (req, res, next) => {
+    //     try {
+    //         let userData = req.session.userData
 
-            res.render('user/forgotPassword', { userData })
-        } catch (error) {
-            console.log(error);
-            next(error)
-        }
-    },
+    //         res.render('user/forgotPassword', { userData })
+    //     } catch (error) {
+    //         console.log(error);
+    //         next(error)
+    //     }
+    // },
 
-    postForgotPassword: async (req, res, next) => {
-        try {
-            let userData = req.session.userData
-            const email = req.body.email
-            console.log(email);
-            let user = await userModel.findOne({ userEmail: email })
-            if (user) {
-                console.log("hii");
-                console.log(user);
-                const secret = JWT_SECRET + user.password
-                const payload = {
-                    email: user.userEmail,
-                    id: user._id
-                }
-                // const token = jwt.sign(payload,secret,{expiresIn :'15m'})
-                const token = jwt.sign(payload, secret, { expireInMinutes: 15 })
-                const link = `http://localhost:3000/resetPassword/${user._id}/${token}`
-                console.log(link);
-            } else {
-                console.log("user not found");
-            }
-            res.send('password reset link has been sent to your email')
-            // res.render('user/forgotPassword',{userData})
-        } catch (error) {
-            console.log(error);
-            next(error)
-        }
-    },
+    // postForgotPassword: async (req, res, next) => {
+    //     try {
+    //         let userData = req.session.userData
+    //         const email = req.body.email
+    //         // console.log(email);
+    //         let user = await userModel.findOne({ userEmail: email })
+    //         if (user) {
+                // console.log("hii");
+                // console.log(user);
+    //             const secret = JWT_SECRET + user.password
+    //             const payload = {
+    //                 email: user.userEmail,
+    //                 id: user._id
+    //             }
+    //             // const token = jwt.sign(payload,secret,{expiresIn :'15m'})
+    //             const token = jwt.sign(payload, secret, { expireInMinutes: 15 })
+    //             const link = `http://localhost:3000/resetPassword/${user._id}/${token}`
+    //             // console.log(link);
+    //         } else {
+    //             // console.log("user not found");
+    //         }
+    //         res.send('password reset link has been sent to your email')
+    //         // res.render('user/forgotPassword',{userData})
+    //     } catch (error) {
+    //         console.log(error);
+    //         next(error)
+    //     }
+    // },
 
-    resetPassword: (req, res, next) => {
+    // resetPassword: (req, res, next) => {
 
-    },
+    // },
 
-    postResetPassword: (req, res, next) => {
+    // postResetPassword: (req, res, next) => {
 
-    },
+    // },
 
     //  ----------------------user info ----------------------//
-    userInfo: (req, res, next) => {
+    userInfo: async (req, res) => {
         try {
+            let userId = req.session.userData._id
+            let user = await userModel.findOne({ _id: userId })
             userData = req.session.userData
-            console.log(userData);
-            res.render('user/userInfo', { userData })
+            let address = await addressModel.find({userId:userId})
+            if (address) {
+                res.render('user/userInfo', { userData,address})
+            } else {
+                let address= null
+                res.render('user/userInfo', { userData,address})
+
+            }
         } catch (error) {
             console.log(error);
-            next(error)
+            // next(error)
         }
     },
 
     // address
     getAddress: (req, res) => {
         try {
-            res.render('user/address')
+            let userData = req.session.userData
+            res.render('user/address',{userData})
         } catch (error) {
 
         }
     },
 
-    postAddress:async (req, res) => {
+    postAddress: async (req, res) => {
         try {
-            let address = req.body
-            let userId = req.session.userData._id
-            let user = await userModel.findOne({_id:userId})
-            user.address.push({
-                name: req.body.name,
-                houseName: req.body.address,
-                pincode: req.body.zip,
-                phoneNumber: req.body.phone,
-                city: req.body.city,
-                state: req.body.state, 
-            })
-            user.save()
-            res.redirect('/userInfo')
+            userId=req.session.userData._id
+            const { name, address, zip, phone, city, state } = req.body
+            const newAddress = new addressModel
+                ({ 
+                    userId:userId,
+                    name: name,
+                    houseName: address,
+                    pincode: zip,
+                    phoneNumber: phone,
+                    city: city,
+                    state: state,
+                })
+            newAddress.save()
+                .then(() => {
+                      res.redirect('/userInfo')
+                })
 
-          
+            // console.log(req.body);
+            // const {name,address,zip,phone,city,state} =req.body
+            // let userId = req.session.userData._id
+            // let user = await userModel.findOne({ _id: userId })
+            // user.address.push({
+            //     name: name,
+            //     houseName: address,
+            //     pincode: zip,
+            //     phoneNumber: phone,
+            //     city: city,
+            //     state: state,
+            // })
+            // user.save()
+            // let user2 = await userModel.findOne({ _id: userId })
+            // req.session.userData=user2
+            // res.redirect('/userInfo')
+
+
         } catch (error) {
 
         }
     },
 
+    editAddress: async (req,res)=>{
+        try {
+            let addressId = req.params.id
+            
+      let userData = req.session.userData
+      let address = await addressModel.findOne({_id:addressId})
+            res.render('user/editAddress',{userData,address})
+        } catch (error) {
+             console.log(error);
+        }
+    },
+
+    postEditAddress: async(req,res)=>{
+       try{
+        let addressId = req.params.id
+        console.log("hii");
+        console.log(addressId);
+        const{name,phone,houseName,state,city,zip}=req.body
+        await addressModel.updateOne({ _id: addressId }, {
+            name: name,
+            phoneNumber:phone,
+              houseName:houseName,
+              state:state,
+              city:city,
+              pincode:zip
+        })
+        res.redirect('/userInfo')
+       }catch(error){
+
+       }
+    },
+
+    deleteAddress: (req, res,next) => {
+        try{
+            let addressId = req.params.id
+            addressModel.findByIdAndRemove({ _id:addressId}).then((data) => {
+                res.redirect('/userInfo')
+            })
+        }catch(error){
+            next(error)
+        }
+      
+    },
 
     //---------SIngle Product View------------//
     productView: (req, res, next) => {
@@ -461,14 +536,17 @@ module.exports = {
                 proId = req.params.id
                 let quantity = 1
                 const findProduct = await productSchema.findById(proId)
+                console.log("jiiii");
+                console.log(findProduct);
                 let price = findProduct.price
                 let stock = findProduct.quantity
                 let name = findProduct.name
                 if (stock >= quantity) {
                     findProduct.quantity -= quantity
                     cartUser = userData._id
-                    let cart = await cartModel.findOne({ cartUser })
+                    let cart = await cartModel.findOne({ userId: cartUser })
                     if (cart) {
+                        console.log(cart);
                         let itemIndex = cart.cartProducts.findIndex(p => p.productId == proId)
                         if (itemIndex > -1) {
                             let productItem = cart.cartProducts[itemIndex]
@@ -479,7 +557,6 @@ module.exports = {
                                 quantity,
                                 name,
                                 price,
-
                             })
                         }
                         cart.total = cart.cartProducts.reduce((acc, curr) => {
@@ -488,6 +565,7 @@ module.exports = {
                         await cart.save()
                     }
                     else {
+                        console.log("else");
                         const total = quantity * price
                         const newCart = new cartModel({
                             userId: cartUser,
@@ -702,13 +780,17 @@ module.exports = {
                 cartArray.push(cartProducts)
             }
             let showCoupon = await couponModel.find()
-            let order = await orderModel.find({ userId: userData._id }).sort({ date: -1 }).limit(1).populate('order.productId').exec()
-
-            if (order) {
-                res.render('user/userCheckOut', { userData, cartArray, cart, showCoupon, order })
+            let address = await addressModel.find({ userId: userData._id })
+             console.log(address);
+            if (address) {
+                console.log("address");
+                console.log(userData._id);
+                res.render('user/userCheckOut', { userData, cartArray, cart, showCoupon, address })
                 req.session.couponErr = null
             } else {
-                res.render('user/userCheckOut', { userData, cartArray, cart, showCoupon, })
+                console.log("hyyy");
+                let address = null
+                res.render('user/userCheckOut', { userData, cartArray, cart, showCoupon,address})
                 req.session.couponErr = null
             }
 

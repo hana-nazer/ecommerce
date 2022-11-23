@@ -6,7 +6,8 @@ const adminController = require('../controllers/admin-controller');
 var router = express.Router();
 const userController = require('../controllers/user-controller')
 const userSession = require('../middleware/user-session')
-const userBlock = require('../middleware/user-block')
+const userBlock = require('../middleware/user-block');
+
 
 
 
@@ -30,17 +31,20 @@ router.get('/login',userController.getLogin)
 router.post('/login',userController.postLogin)
 
 //forgotPassword
-router.get('/forgotPassword',userController.forgotPassword)
-router.post('/forgotPassword',userController.postForgotPassword)
-router.get('/resetPassword',userController.resetPassword)
-router.post('/resetPassword',userController.postResetPassword)
+// router.get('/forgotPassword',userController.forgotPassword)
+// router.post('/forgotPassword',userController.postForgotPassword)
+// router.get('/resetPassword',userController.resetPassword)
+// router.post('/resetPassword',userController.postResetPassword)
 
 //user_info
-router.get('/userInfo',userSession,userBlock,userController.userInfo)
+router.get('/userInfo',userSession,userController.userInfo)
 
 //address
-router.get('/address',userSession,userBlock,userController.getAddress)
-router.post('/address',userSession,userBlock,userController.postAddress)
+router.get('/address',userSession,userController.getAddress)
+router.post('/address',userSession,userController.postAddress)
+router.get('/editAddress/:id',userController.editAddress)
+router.post('/editAddress/:id',userController.postEditAddress)
+router.get('/deleteAddress/:id',userController.deleteAddress)
 
 //productview
 router.get('/productView/:id/:category',userController.productView)
