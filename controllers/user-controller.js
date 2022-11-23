@@ -770,12 +770,12 @@ module.exports = {
             if (address) {
                 console.log("address");
                 console.log(userData._id);
-                res.render('user/userCheckOut', { userData, cartArray, cart, showCoupon, address })
+                res.render('user/check-out', { userData, cartArray, cart, showCoupon, address })
                 req.session.couponErr = null
             } else {
                 console.log("hyyy");
                 let address = null
-                res.render('user/userCheckOut', { userData, cartArray, cart, showCoupon,address})
+                res.render('user/check-out', { userData, cartArray, cart, showCoupon,address})
                 req.session.couponErr = null
             }
 
