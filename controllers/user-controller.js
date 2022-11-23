@@ -336,23 +336,7 @@ module.exports = {
                       res.redirect('/user-info')
                 })
 
-            // console.log(req.body);
-            // const {name,address,zip,phone,city,state} =req.body
-            // let userId = req.session.userData._id
-            // let user = await userModel.findOne({ _id: userId })
-            // user.address.push({
-            //     name: name,
-            //     houseName: address,
-            //     pincode: zip,
-            //     phoneNumber: phone,
-            //     city: city,
-            //     state: state,
-            // })
-            // user.save()
-            // let user2 = await userModel.findOne({ _id: userId })
-            // req.session.userData=user2
-            // res.redirect('/userInfo')
-
+        
 
         } catch (error) {
           next(error)
