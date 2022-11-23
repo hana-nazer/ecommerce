@@ -37,7 +37,7 @@ router.post('/login',userController.postLogin)
 // router.post('/resetPassword',userController.postResetPassword)
 
 //user_info
-router.get('/user-info',userSession,userController.userInfo)
+router.get('/user-info',userSession,userController.user_in)
 
 //address
 router.get('/address',userSession,userController.getAddress)

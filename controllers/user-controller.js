@@ -288,7 +288,7 @@ module.exports = {
     // },
 
     //  ----------------------user info ----------------------//
-    userInfo: async (req, res,next) => {
+    user_in: async (req, res,next) => {
         try {
             let userId = req.session.userData._id
             let user = await userModel.findOne({ _id: userId })
