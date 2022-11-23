@@ -25,7 +25,7 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingThree">
                                
-                                    <%console.log("hii")%>
+                                    
                                 <button class="accordion-button collapsed text-bold " type="button"
                                     data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false"
                                     aria-controls="collapseThree">
@@ -282,7 +282,7 @@
             <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
             <script>
                 function address(index) {
-                    console.log("hii");
+                    
                     // console.log(document.getElementById('name1').textContent);
                     document.getElementById('name').value = document.getElementById('name'+index).textContent
                     document.getElementById('address').value = document.getElementById('houseName1'+index).textContent
@@ -315,7 +315,7 @@
                             if (response.couponObj) {
                                 coupon = response.couponObj
 
-                                console.log("hiiii");
+                                
                                 console.log(coupon);
                                 let userCouponCart = document.getElementById('couponTotal')
                                 let totalbill = document.getElementById('totalprice').innerText
@@ -387,16 +387,16 @@
 
                     }
                     else {
-                        console.log("hello");
+                       
                         $.ajax(
                             {
-                                url: '/checkout',
+                                url: '/check-out',
                                 method: 'post',
                                 data: $('#checkoutform').serialize(),
                                 success: (response) => {
                                     if (response.codSuccess, response.orderId) {
                                         orderId = response.orderId
-                                        console.log("hiii")
+                                        
                                         console.log(orderId)
                                         swal.fire({
                                             icon: 'success',
@@ -426,9 +426,7 @@
                                 "image": "https://example.com/your_logo",
                                 "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
                                 "handler": function (response) {
-                                    alert(response.razorpay_payment_id);
-                                    alert(response.razorpay_order_id);
-                                    alert(response.razorpay_signature)
+                                   
 
                                     verifyPayment(response, order)
                                 },

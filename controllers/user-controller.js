@@ -359,8 +359,7 @@ module.exports = {
     postEditAddress: async(req,res,next)=>{
        try{
         let addressId = req.params.id
-        console.log("hii");
-        console.log(addressId);
+    
         const{name,phone,houseName,state,city,zip}=req.body
         await addressModel.updateOne({ _id: addressId }, {
             name: name,
@@ -766,14 +765,11 @@ module.exports = {
             }
             let showCoupon = await couponModel.find()
             let address = await addressModel.find({ userId: userData._id })
-             console.log(address);
             if (address) {
-                console.log("address");
-                console.log(userData._id);
+               
                 res.render('user/check-out', { userData, cartArray, cart, showCoupon, address })
                 req.session.couponErr = null
             } else {
-                console.log("hyyy");
                 let address = null
                 res.render('user/check-out', { userData, cartArray, cart, showCoupon,address})
                 req.session.couponErr = null
@@ -787,6 +783,7 @@ module.exports = {
 
     postCheckOut: async (req, res, next) => {
         try {
+            console.log("postt");
             let userData = req.session.userData
             let userId = userData._id
             let date = new Date().toJSON().slice(0, 10)
@@ -818,7 +815,7 @@ module.exports = {
                 orderProducts.price = products.cartProducts[i].price
                 orderArray.push(orderProducts)
             }
-            console.log(req.body.name);
+            console.log(req.body.paymentMethod);
             if (req.body.paymentMethod === "cod") {
                 console.log("cod");
                 const newOrder = new orderModel
@@ -876,7 +873,7 @@ module.exports = {
                     receipt: "" + req.session.orderId
                 };
                 instance.orders.create(options, function (err, order) {
-                    console.log("hii");
+                    console.log("hii xxxx");
                     console.log(order);
                     res.json(order)
                 });
@@ -925,14 +922,12 @@ module.exports = {
     applyCoupon: async (req, res, next) => {
         try {
             let couponCode = req.body
-            console.log(couponCode);
             let userData = req.session.userData
             let userId = userData._id
             let user = await cartModel.findOne({ userId: userId })
             let totalAmount = user.total
             couponModel.find({ couponCode: couponCode.couponCode }).then((coupons) => {
-                console.log("hiii");
-                console.log(coupons);
+               
                 if (coupons.length != 0) {
                     userModel.findOne({ _id: userId }).then((data) => {
                         if (data) {
