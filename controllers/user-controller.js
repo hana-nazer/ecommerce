@@ -288,22 +288,22 @@ module.exports = {
     // },
 
     //  ----------------------user info ----------------------//
-    userInfo: async (req, res) => {
+    userInfo: async (req, res,next) => {
         try {
             let userId = req.session.userData._id
             let user = await userModel.findOne({ _id: userId })
             userData = req.session.userData
             let address = await addressModel.find({userId:userId})
             if (address) {
-                res.render('user/userInfo', { userData,address})
+                res.render('user/user-info', { userData,address})
             } else {
                 let address= null
-                res.render('user/userInfo', { userData,address})
+                res.render('user/user-info', { userData,address})
 
             }
         } catch (error) {
             console.log(error);
-            // next(error)
+            next(error)
         }
     },
 
@@ -317,7 +317,7 @@ module.exports = {
         }
     },
 
-    postAddress: async (req, res) => {
+    postAddress: async (req, res,next) => {
         try {
             userId=req.session.userData._id
             const { name, address, zip, phone, city, state } = req.body
@@ -333,7 +333,7 @@ module.exports = {
                 })
             newAddress.save()
                 .then(() => {
-                      res.redirect('/userInfo')
+                      res.redirect('/user-info')
                 })
 
             // console.log(req.body);
@@ -355,11 +355,11 @@ module.exports = {
 
 
         } catch (error) {
-
+          next(error)
         }
     },
 
-    editAddress: async (req,res)=>{
+    editAddress: async (req,res,next)=>{
         try {
             let addressId = req.params.id
             
@@ -368,10 +368,11 @@ module.exports = {
             res.render('user/editAddress',{userData,address})
         } catch (error) {
              console.log(error);
+             next(error)
         }
     },
 
-    postEditAddress: async(req,res)=>{
+    postEditAddress: async(req,res,next)=>{
        try{
         let addressId = req.params.id
         console.log("hii");
@@ -385,9 +386,9 @@ module.exports = {
               city:city,
               pincode:zip
         })
-        res.redirect('/userInfo')
+        res.redirect('/user-info')
        }catch(error){
-
+         next(error)
        }
     },
 
@@ -395,7 +396,7 @@ module.exports = {
         try{
             let addressId = req.params.id
             addressModel.findByIdAndRemove({ _id:addressId}).then((data) => {
-                res.redirect('/userInfo')
+                res.redirect('/user-info')
             })
         }catch(error){
             next(error)
